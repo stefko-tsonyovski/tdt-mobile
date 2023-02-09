@@ -14,8 +14,8 @@ export const colors = {
     success: "#138000",
   },
   bg: {
-    primary: "#FFFFFF",
-    secondary: "#F1F1F1",
+    primary: "#02563C",
+    secondary: "#D76316",
   },
   text: {
     primary: "#262626",
@@ -24,5 +24,6 @@ export const colors = {
     inverse: "#FFFFFF",
     error: "#D0421B",
     success: "#138000",
+    shadow: "rgba(0, 0, 0, 0.75)",
   },
 };
