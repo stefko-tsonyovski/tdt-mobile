@@ -5,6 +5,10 @@ import { useContext } from "react";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { View } from "react-native";
 import { Text } from "../../../../components/typography/text.component";
+import { DashboardHeader, DashboardTitleContainer } from "./dashboard.styles";
+import { Spacer } from "../../../../components/spacer/spacer.component";
+import { PointsCircle } from "./points-circle/points-circle.component";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 export const Dashboard = () => {
   const { user } = useContext(AuthenticationContext);
@@ -24,19 +28,54 @@ export const Dashboard = () => {
       {isLoadingTeam || isLoadingBracket || isLoadingPrediction ? (
         ""
       ) : (
-        <View style={{ display: "flex", flexDirection: "row" }}>
-          <Text style={{ textAlign: "left" }} variant="body">
-            DASHBOARD
-          </Text>
-          <Text style={{ textAlign: "right" }} variant="body">
-            TOTAL:{" "}
-            {(
-              Number(teamPoints) +
-              Number(bracketPoints) +
-              Number(predictionPoints)
-            ).toFixed(0)}
-          </Text>
-        </View>
+        <>
+          <DashboardHeader>
+            <DashboardTitleContainer>
+              <Text variant="body">DASHBOARD</Text>
+            </DashboardTitleContainer>
+            <View>
+              <Text variant="body">
+                TOTAL:{" "}
+                {(
+                  Number(teamPoints) +
+                  Number(bracketPoints) +
+                  Number(predictionPoints)
+                ).toFixed(0)}
+              </Text>
+            </View>
+          </DashboardHeader>
+          <Spacer position="top" size="large">
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <View>
+                <PointsCircle
+                  color={colors.bg.secondary}
+                  text="TEAM"
+                  points={Number(teamPoints)}
+                />
+              </View>
+              <Spacer position="left" size="xxl">
+                <PointsCircle
+                  color={colors.ui.predict}
+                  text="PREDICT"
+                  points={Number(predictionPoints)}
+                />
+              </Spacer>
+              <Spacer position="left" size="xxl">
+                <PointsCircle
+                  color={colors.bg.primary}
+                  text="BRACKET"
+                  points={Number(bracketPoints)}
+                />
+              </Spacer>
+            </View>
+          </Spacer>
+        </>
       )}
     </>
   );
