@@ -13,6 +13,8 @@ export const colors = {
     error: "#D0421B",
     success: "#138000",
     predict: "#4F7082",
+    activeTennisBall: "#DDC821",
+    unactiveTennisBall: "#FFE0B3",
   },
   bg: {
     primary: "#02563C",

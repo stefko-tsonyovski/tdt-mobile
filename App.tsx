@@ -10,6 +10,7 @@ import { theme } from "./src/infrastructure/theme";
 import { Navigation } from "./src/infrastructure/navigation";
 import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { Provider as PaperProvider } from "react-native-paper";
 import Toast from "react-native-toast-message";
 
 const firebaseConfig = {
@@ -43,7 +44,9 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <AuthenticationContextProvider>
-          <Navigation />
+          <PaperProvider>
+            <Navigation />
+          </PaperProvider>
         </AuthenticationContextProvider>
       </ThemeProvider>
       <StatusBar style="auto" />

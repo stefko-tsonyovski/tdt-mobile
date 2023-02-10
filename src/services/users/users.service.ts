@@ -1,6 +1,10 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient, useQuery } from "react-query";
 import axios, { AxiosError } from "axios";
 import { BASE_URL } from "../../utils/constants";
+
+export type GetTradesByUserViewModel = {
+  trades: number;
+};
 
 export type CreateUserDto = {
   firstName: string;
@@ -9,6 +13,12 @@ export type CreateUserDto = {
 };
 
 // React Query hooks
+
+export function useTradesByUser(email: string) {
+  return useQuery(["team", "substitutions", email], () =>
+    getTradesByUser(email)
+  );
+}
 
 export function useCreateUser() {
   const queryClient = useQueryClient();
@@ -30,6 +40,13 @@ export function useCreateUser() {
 }
 
 // API methods
+
+export const getTradesByUser = async (email: string) => {
+  const response = await axios.get<GetTradesByUserViewModel>(
+    `${BASE_URL}/users/trades?email=${email}`
+  );
+  return response.data;
+};
 
 export const createUser = async (dto: CreateUserDto) => {
   await axios.post(`${BASE_URL}/auth/register`, dto);

@@ -11,3 +11,7 @@ export const PredictBracketContainer = styled(View)`
   justify-content: center;
   padding: 20px;
 `;
+
+export const FantasyGameScreenContainer = styled(View)`
+  padding: 10px;
+`;

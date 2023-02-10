@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { GamesScreen } from "../../features/games/screens/games.screen";
 import { SettingsScreen } from "../../features/settings/screens/settings.screen";
 import { colors } from "../theme/colors";
+import { GamesNavigator } from "./games.navigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,7 +14,11 @@ export const AppNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           if (route.name === "Games") {
             return (
-              <Ionicons name="game-controller" size={size} color={color} />
+              <Ionicons
+                name="ios-game-controller-outline"
+                size={size}
+                color={color}
+              />
             );
           } else if (route.name === "Settings") {
             return <Ionicons name="settings" size={size} color={color} />;
@@ -27,7 +32,7 @@ export const AppNavigator = () => {
         },
       })}
     >
-      <Tab.Screen name="Games" component={GamesScreen} />
+      <Tab.Screen name="Games" component={GamesNavigator} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
