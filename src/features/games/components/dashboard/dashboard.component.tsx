@@ -5,7 +5,11 @@ import { useContext } from "react";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { View } from "react-native";
 import { Text } from "../../../../components/typography/text.component";
-import { DashboardHeader, DashboardTitleContainer } from "./dashboard.styles";
+import {
+  DashboardHeader,
+  DashboardTitleContainer,
+  PointsContainer,
+} from "./dashboard.styles";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { PointsCircle } from "./points-circle/points-circle.component";
 import { colors } from "../../../../infrastructure/theme/colors";
@@ -45,13 +49,7 @@ export const Dashboard = () => {
             </View>
           </DashboardHeader>
           <Spacer position="top" size="large">
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+            <PointsContainer>
               <View>
                 <PointsCircle
                   color={colors.bg.secondary}
@@ -73,7 +71,7 @@ export const Dashboard = () => {
                   points={Number(bracketPoints)}
                 />
               </Spacer>
-            </View>
+            </PointsContainer>
           </Spacer>
         </>
       )}

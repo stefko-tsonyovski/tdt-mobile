@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Text, View } from "react-native";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
@@ -11,11 +11,19 @@ import {
 } from "../components/games.styles";
 import { PredictGameCard } from "../components/predict-game-card/predict-game-card.component";
 
-export const GamesScreen = () => {
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { GamesRootStackParamList } from "../../../infrastructure/navigation/games.navigator";
+
+export type GamesScreenProps = NativeStackScreenProps<
+  GamesRootStackParamList,
+  "GamesMain"
+>;
+
+export const GamesScreen: FC<GamesScreenProps> = ({ navigation, route }) => {
   return (
     <SafeArea>
       <GamesContainer>
-        <FantasyGameCard />
+        <FantasyGameCard navigation={navigation} route={route} />
         <Spacer position="top" size="large">
           <PredictBracketContainer>
             <PredictGameCard />

@@ -9,3 +9,9 @@ export const DashboardHeader = styled(View)`
 export const DashboardTitleContainer = styled(View)`
   flex-grow: 1;
 `;
+
+export const PointsContainer = styled(View)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
