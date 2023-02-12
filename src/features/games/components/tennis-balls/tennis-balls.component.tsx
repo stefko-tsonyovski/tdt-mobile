@@ -29,17 +29,24 @@ export const TennisBalls = () => {
         <>
           <CurrentWeekTitle variant="body">YOUR TENNIS BALLS:</CurrentWeekTitle>
           <Spacer position="top" size="large">
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
               {countOfTennisBalls.map((item) => {
                 return userWeek && Number(userWeek?.userWeek?.balls) >= item ? (
                   <IconButton
-                    size={15}
+                    size={35}
                     key={item}
                     color={colors.ui.activeTennisBall}
                     icon="tennis-ball"
                   />
                 ) : (
                   <IconButton
+                    size={35}
                     key={item}
                     color={colors.ui.unactiveTennisBall}
                     icon="tennis-ball"
