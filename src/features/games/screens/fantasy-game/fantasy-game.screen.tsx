@@ -1,6 +1,9 @@
 import { ScrollView } from "react-native";
+import { Divider } from "react-native-paper";
+import { HorizontalDivider } from "../../../../components/horizontal-divider/horizontal-divider.styles";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { SafeArea } from "../../../../components/utility/safe-area.component";
+import { ActionsContainer } from "../../components/actions-container/actions-container.component";
 import { Countdown } from "../../components/countdown/countdown.component";
 import { CurrentWeek } from "../../components/current-week/current-week.component";
 import { BalanceTradesContainer } from "../../components/fantasy-game-card/balance-trades-container/balance-trades-container.component";
@@ -14,7 +17,7 @@ export const FantasyGameScreen = () => {
     <SafeArea>
       <FantasyGameScreenContainer>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Spacer position="top" size="xl">
+          <Spacer position="top" size="small">
             <WeeksMenu />
           </Spacer>
 
@@ -27,6 +30,10 @@ export const FantasyGameScreen = () => {
           </Spacer>
 
           <Spacer position="top" size="xl">
+            <HorizontalDivider />
+          </Spacer>
+
+          <Spacer position="top" size="large">
             <CurrentWeek />
           </Spacer>
 
@@ -35,7 +42,23 @@ export const FantasyGameScreen = () => {
           </Spacer>
 
           <Spacer position="top" size="xl">
+            <HorizontalDivider />
+          </Spacer>
+
+          <Spacer position="top" size="xl">
             <TennisBalls />
+          </Spacer>
+
+          <Spacer position="top" size="xl">
+            <HorizontalDivider />
+          </Spacer>
+
+          <Spacer position="top" size="xl">
+            <ActionsContainer />
+          </Spacer>
+
+          <Spacer position="top" size="xl">
+            <HorizontalDivider />
           </Spacer>
         </ScrollView>
       </FantasyGameScreenContainer>

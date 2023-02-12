@@ -12,7 +12,8 @@ export const CurrentWeek = () => {
         <Text variant="body">Loading...</Text>
       ) : (
         <CurrentWeekTitle variant="body">
-          CURRENT WEEK: {currentWeek?.week.name}
+          CURRENT WEEK:{" "}
+          {currentWeek?.week ? currentWeek.week.name : "NO DATA AVAILABLE!"}
         </CurrentWeekTitle>
       )}
     </>

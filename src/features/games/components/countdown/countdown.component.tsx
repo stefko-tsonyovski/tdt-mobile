@@ -20,13 +20,19 @@ export const Countdown = () => {
         <Text variant="body">Loading...</Text>
       ) : (
         <>
-          <Spacer position="bottom" size="large">
-            <View>
-              <CurrentWeekTitle variant="body">
-                REMAINING TIME:
-              </CurrentWeekTitle>
-            </View>
-          </Spacer>
+          {Number(countdownTime?.countdownDays) >= 0 ||
+          Number(countdownTime?.countdownHours) >= 0 ||
+          Number(countdownTime?.countdownMinutes) >= 0 ? (
+            <Spacer position="bottom" size="large">
+              <View>
+                <CurrentWeekTitle variant="body">
+                  REMAINING TIME:
+                </CurrentWeekTitle>
+              </View>
+            </Spacer>
+          ) : (
+            ""
+          )}
           <View style={{ flexDirection: "row", justifyContent: "center" }}>
             {Number(countdownTime?.countdownDays) >= 0 ||
             Number(countdownTime?.countdownHours) >= 0 ||

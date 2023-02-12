@@ -7,3 +7,10 @@ export const VerticalDivider = styled(Divider)`
   margin: 0 10px;
   height: 15px;
 `;
+
+export const PlayersVerticalDivider = styled(Divider)`
+  width: 2px;
+  background-color: ${(props) => props.theme.colors.text.shadow};
+  margin: 0 10px;
+  height: 80px;
+`;
