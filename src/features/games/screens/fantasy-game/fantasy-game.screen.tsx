@@ -10,6 +10,7 @@ import { BalanceTradesContainer } from "../../components/fantasy-game-card/balan
 import { PointsContainer } from "../../components/fantasy-game-card/points-container/points-container.component";
 import { FantasyGameScreenContainer } from "../../components/games.styles";
 import { WeeksMenu } from "../../components/menu/menu.component";
+import { TeamPlayerCardList } from "../../components/team-player-card-list/team-player-card-list.component";
 import { TennisBalls } from "../../components/tennis-balls/tennis-balls.component";
 
 export const FantasyGameScreen = () => {
@@ -55,6 +56,14 @@ export const FantasyGameScreen = () => {
 
           <Spacer position="top" size="xl">
             <ActionsContainer />
+          </Spacer>
+
+          <Spacer position="top" size="xl">
+            <HorizontalDivider />
+          </Spacer>
+
+          <Spacer position="top" size="xl">
+            <TeamPlayerCardList />
           </Spacer>
 
           <Spacer position="top" size="xl">

@@ -2,6 +2,11 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import axios, { AxiosError } from "axios";
 import { BASE_URL } from "../../utils/constants";
 import { Item } from "../../utils/atoms";
+import { showToast } from "../../utils/notifications";
+
+export type ErrorResponse = {
+  msg: string;
+};
 
 export type Player = {
   _id: string;
@@ -17,6 +22,11 @@ export type Player = {
   isBought: boolean;
 };
 
+export type PlayerInTeam = {
+  pointsWon: number;
+  balls: number;
+} & Player;
+
 export type GetTeamPointsViewModel = {
   points: number;
 };
@@ -24,6 +34,10 @@ export type GetTeamPointsViewModel = {
 export type GetAllPlayersViewModel = {
   players: Player[];
   totalItems: number;
+};
+
+export type GetAllPlayersInTeamViewModel = {
+  players: PlayerInTeam[];
 };
 
 export type FilterPlayersInTeamObject = {
@@ -37,6 +51,12 @@ export type FilterPlayersObject = {
   itemsPerPage: number;
   email: string;
 } & FilterPlayersInTeamObject;
+
+export type AddPlayerToTeamInputModel = {
+  weekId: string;
+  playerId: number;
+  email: string;
+};
 
 // React Query hooks
 
@@ -58,6 +78,57 @@ export function useFilteredPlayers(
   );
 }
 
+export function usePlayersInTeam(
+  filters: FilterPlayersInTeamObject,
+  email: string
+) {
+  return useQuery(["team", filters, email], () =>
+    getAllPlayersInTeam(filters, email)
+  );
+}
+
+export function useAddPlayerToTeam() {
+  const queryClient = useQueryClient();
+
+  return useMutation(addPlayerToTeam, {
+    onMutate: () => {
+      console.log("useAddPlayerToTeam: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "New player was added!");
+      console.log("New player was added!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
+export function useDeletePlayerFromTeam() {
+  const queryClient = useQueryClient();
+
+  return useMutation(deletePlayerFromTeam, {
+    onMutate: () => {
+      console.log("useDeletePlayerFromTeam: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "A player was removed!");
+      console.log("A player was removed!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
 // API methods
 
 export const getTotalPoints = async (email: string) => {
@@ -77,4 +148,33 @@ export const getAllFilteredPlayers = async (filters: FilterPlayersObject) => {
   const result = response.data;
 
   return result;
+};
+
+export const getAllPlayersInTeam = async (
+  filters: FilterPlayersInTeamObject,
+  email: string
+) => {
+  const response = await axios.post<GetAllPlayersInTeamViewModel>(
+    `${BASE_URL}/players/team?email=${email}`,
+    {
+      ...filters,
+    }
+  );
+  const result = response.data;
+
+  return result;
+};
+
+export const addPlayerToTeam = async (
+  inputModel: AddPlayerToTeamInputModel
+) => {
+  return await axios.post(`${BASE_URL}/players/add`, inputModel);
+};
+
+export const deletePlayerFromTeam = async (
+  inputModel: AddPlayerToTeamInputModel
+) => {
+  return await axios.delete(
+    `${BASE_URL}/players/team?weekId=${inputModel.weekId}&playerId=${inputModel.playerId}&email=${inputModel.email}`
+  );
 };
