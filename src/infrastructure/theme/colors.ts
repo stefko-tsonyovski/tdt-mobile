@@ -15,6 +15,8 @@ export const colors = {
     predict: "#4F7082",
     activeTennisBall: "#DDC821",
     unactiveTennisBall: "#FFE0B3",
+    card: "#BAC0BE",
+    addPlayer: "#525454",
   },
   bg: {
     primary: "#02563C",

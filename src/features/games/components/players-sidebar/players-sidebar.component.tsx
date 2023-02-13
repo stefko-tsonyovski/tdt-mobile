@@ -13,7 +13,9 @@ import { Text } from "../../../../components/typography/text.component";
 import { colors } from "../../../../infrastructure/theme/colors";
 import {
   Player,
+  PlayerInTeam,
   useFilteredPlayers,
+  usePlayersInTeam,
 } from "../../../../services/players/players.service";
 import {
   PLAYERS_INITIAL_PAGE,
@@ -24,8 +26,8 @@ import { SearchPlayer } from "../../search-player/search-player.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { useContext, useRef, useState } from "react";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
-import { PlayersVerticalDivider } from "../../../../components/vertical-divider/vertical-divider.styles";
 import { useEffect } from "react";
+import { PlayersSidebarCard } from "../players-sidebar-card/players-sidebar-card.component";
 
 export const PlayersSidebar = () => {
   const flatListRef = useRef<FlatList>(null);
@@ -55,6 +57,9 @@ export const PlayersSidebar = () => {
       },
       fetchPlayers
     );
+
+  const { data: playersInTeamData, isLoading: isLoadingPlayersInTeam } =
+    usePlayersInTeam({ selected }, user.email);
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -116,7 +121,7 @@ export const PlayersSidebar = () => {
             <Dialog.Content>
               <SearchPlayer />
               <Spacer position="top" size="large">
-                {isLoadingFiltered || isLoadingNew ? (
+                {isLoadingFiltered || isLoadingNew || isLoadingPlayersInTeam ? (
                   <Text variant="body">Loading...</Text>
                 ) : players.length > 0 ? (
                   <FlatList
@@ -131,50 +136,12 @@ export const PlayersSidebar = () => {
                     keyExtractor={(item, index) => {
                       return item._id + index;
                     }}
-                    renderItem={({ item, index }) => {
+                    renderItem={({ item }) => {
                       return (
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: PLAYER_ITEM_HEIGHT,
-                            backgroundColor: "#fff",
-                            marginTop: 5,
-                          }}
-                        >
-                          <Spacer position="left" size="large">
-                            <View
-                              style={{
-                                flexGrow: 1,
-                                justifyContent: "center",
-                              }}
-                            >
-                              <Avatar.Image
-                                size={50}
-                                source={{ uri: item.imageUrl }}
-                              />
-                            </View>
-                          </Spacer>
-                          <View style={{ flexGrow: 1, alignItems: "center" }}>
-                            <Text variant="body">{item.name}</Text>
-                            <Text variant="body">ATP {item.ranking}</Text>
-                          </View>
-                          <PlayersVerticalDivider />
-                          <View
-                            style={{
-                              flexGrow: 1,
-                              alignItems: "center",
-                            }}
-                          >
-                            <Text variant="body">{item.price / 1000000}M</Text>
-                            <IconButton
-                              size={30}
-                              icon="plus-circle-outline"
-                              color={colors.bg.secondary}
-                            />
-                          </View>
-                        </View>
+                        <PlayersSidebarCard
+                          item={item}
+                          players={playersInTeamData?.players as PlayerInTeam[]}
+                        />
                       );
                     }}
                   />
