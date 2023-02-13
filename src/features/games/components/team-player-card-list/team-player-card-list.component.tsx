@@ -38,12 +38,20 @@ export const TeamPlayerCardList = () => {
       >
         {countOfCards.map((item) => {
           return Number(playersData?.players.length) >= item ? (
-            <View key={playersData?.players[item - 1].id}>
-              <TeamPlayerCard
-                player={playersData?.players[item - 1] as PlayerInTeam}
-                index={item}
-              />
-            </View>
+            <Spacer
+              key={playersData?.players[item - 1].id}
+              position="right"
+              size="large"
+            >
+              <Spacer position="top" size="large">
+                <View>
+                  <TeamPlayerCard
+                    player={playersData?.players[item - 1] as PlayerInTeam}
+                    index={item}
+                  />
+                </View>
+              </Spacer>
+            </Spacer>
           ) : (
             <Spacer key={item} position="right" size="large">
               <Spacer position="top" size="large">
