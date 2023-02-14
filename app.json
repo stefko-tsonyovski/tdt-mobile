@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ScaleInterview",
-    "slug": "ScaleInterview",
+    "name": "TennisDreamTeam",
+    "slug": "TennisDreamTeam",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.stefkonoisyboy.TennisDreamTeam"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cae3193c-efb0-4b3e-94ed-7a0db52e90bf"
+      }
     }
   }
 }
