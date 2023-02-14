@@ -129,6 +129,48 @@ export function useDeletePlayerFromTeam() {
   });
 }
 
+export function useAddBallToPlayer() {
+  const queryClient = useQueryClient();
+
+  return useMutation(addBallToPlayer, {
+    onMutate: () => {
+      console.log("useAddBallToPlayer: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "New ball was added to player!");
+      console.log("New ball was added to player!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
+export function useDeleteBallFromPlayer() {
+  const queryClient = useQueryClient();
+
+  return useMutation(deleteBallFromPlayer, {
+    onMutate: () => {
+      console.log("useDeleteBallFromPlayer: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "A ball was removed from player!");
+      console.log("A ball was removed from player!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
 // API methods
 
 export const getTotalPoints = async (email: string) => {
@@ -177,4 +219,16 @@ export const deletePlayerFromTeam = async (
   return await axios.delete(
     `${BASE_URL}/players/team?weekId=${inputModel.weekId}&playerId=${inputModel.playerId}&email=${inputModel.email}`
   );
+};
+
+export const addBallToPlayer = async (
+  inputModel: AddPlayerToTeamInputModel
+) => {
+  return await axios.patch(`${BASE_URL}/players/addBall`, inputModel);
+};
+
+export const deleteBallFromPlayer = async (
+  inputModel: AddPlayerToTeamInputModel
+) => {
+  return await axios.patch(`${BASE_URL}/players/deleteBall`, inputModel);
 };

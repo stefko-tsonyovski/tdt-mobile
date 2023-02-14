@@ -9,6 +9,7 @@ import { Spacer } from "../../../../components/spacer/spacer.component";
 import { View } from "react-native";
 import { IconButton } from "react-native-paper";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { TennisBallsContainer } from "./tennis-balls.styles";
 
 const countOfTennisBalls = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -29,13 +30,7 @@ export const TennisBalls = () => {
         <>
           <CurrentWeekTitle variant="body">YOUR TENNIS BALLS:</CurrentWeekTitle>
           <Spacer position="top" size="large">
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                flexWrap: "wrap",
-              }}
-            >
+            <TennisBallsContainer>
               {countOfTennisBalls.map((item) => {
                 return userWeek && Number(userWeek?.userWeek?.balls) >= item ? (
                   <IconButton
@@ -53,7 +48,7 @@ export const TennisBalls = () => {
                   />
                 );
               })}
-            </View>
+            </TennisBallsContainer>
           </Spacer>
         </>
       )}

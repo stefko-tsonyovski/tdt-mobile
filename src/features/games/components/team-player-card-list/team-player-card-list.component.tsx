@@ -11,6 +11,7 @@ import {
 import { selectedWeekAtom } from "../../../../utils/atoms";
 import { AddPlayerCard } from "../add-player-card/add-player-card.component";
 import { TeamPlayerCard } from "../team-player-card/team-player-card.component";
+import { TeamPlayerCardListContainer } from "./team-player-card-list.styles";
 
 const countOfCards = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -29,13 +30,7 @@ export const TeamPlayerCardList = () => {
 
   return (
     <Spacer position="left" size="large">
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
+      <TeamPlayerCardListContainer>
         {countOfCards.map((item) => {
           return Number(playersData?.players.length) >= item ? (
             <Spacer
@@ -62,7 +57,7 @@ export const TeamPlayerCardList = () => {
             </Spacer>
           );
         })}
-      </View>
+      </TeamPlayerCardListContainer>
     </Spacer>
   );
 };
