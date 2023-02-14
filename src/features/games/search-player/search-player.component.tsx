@@ -32,7 +32,7 @@ export const SearchPlayer = () => {
   return (
     <>
       <Searchbar
-        placeholder="Click the search icon to search..."
+        placeholder="Click the input and press the search icon to filter the players..."
         onChangeText={onChangeSearch}
         onSubmitEditing={handleSearch}
         value={searchQuery}
