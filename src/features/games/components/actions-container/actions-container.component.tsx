@@ -3,6 +3,7 @@ import { Button } from "react-native-paper";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { PlayersSidebar } from "../players-sidebar/players-sidebar.component";
+import { SubstitutionList } from "../substitution-list/substitution-list.component";
 
 export const ActionsContainer = () => {
   return (
@@ -14,9 +15,7 @@ export const ActionsContainer = () => {
         <PlayersSidebar />
       </Spacer>
       <Spacer position="top" size="large">
-        <Button mode="contained" color={colors.bg.secondary}>
-          View all substitutions
-        </Button>
+        <SubstitutionList />
       </Spacer>
       <Spacer position="top" size="large">
         <Button mode="contained" color={colors.bg.secondary}>

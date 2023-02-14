@@ -5,10 +5,13 @@ import { Spacer } from "../../../../components/spacer/spacer.component";
 import { PlayersVerticalDivider } from "../../../../components/vertical-divider/vertical-divider.styles";
 import { colors } from "../../../../infrastructure/theme/colors";
 import {
+  PerformSubstitutionInputModel,
   Player,
   PlayerInTeam,
   useAddPlayerToTeam,
   useDeletePlayerFromTeam,
+  usePerformSubstitution,
+  usePlayersInTeam,
 } from "../../../../services/players/players.service";
 import { PLAYER_ITEM_HEIGHT } from "../../../../utils/constants";
 import { Text } from "../../../../components/typography/text.component";
@@ -16,42 +19,39 @@ import {
   CardContainer,
   PlayerGeneralInfoContainer,
   PlayerImageContainer,
-} from "./players-sidebar-card.styles";
+} from "../players-sidebar-card/players-sidebar-card.styles";
 import { useAtom } from "jotai";
 import { selectedWeekAtom } from "../../../../utils/atoms";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
+import { ExchangePlayer } from "../exchange-player/exchange-player.component";
 
 export type PlayersSidebarCardProps = {
   item: Player;
   players: PlayerInTeam[];
-  substitutions: PlayerInTeam[];
 };
 
-export const PlayersSidebarCard: FC<PlayersSidebarCardProps> = ({
+export const SubstitutionCard: FC<PlayersSidebarCardProps> = ({
   item,
   players,
-  substitutions,
 }) => {
   const { user } = useContext(AuthenticationContext);
   const [selected] = useAtom(selectedWeekAtom);
 
-  const { mutate: addPlayerToTeam } = useAddPlayerToTeam();
-  const { mutate: deletePlayerFromTeam } = useDeletePlayerFromTeam();
+  const { data: playersInTeamData } = usePlayersInTeam(
+    {
+      selected,
+    },
+    user.email
+  );
 
-  const isPlayerBought = () => {
-    return (
-      players.some((p) => p.id === item.id) ||
-      substitutions.some((p) => p.id === item.id)
-    );
-  };
+  const { mutate: deletePlayerFromTeam, isLoading: isLoadingDelete } =
+    useDeletePlayerFromTeam();
+  const { mutate: performSubstitution } = usePerformSubstitution();
 
-  const addPlayer = () => {
-    const inputModel = {
-      weekId: selected.value,
-      playerId: item.id,
-      email: user.email,
-    };
-    addPlayerToTeam(inputModel);
+  const performSubstitutionHandler = (
+    inputModel: PerformSubstitutionInputModel
+  ) => {
+    performSubstitution(inputModel);
   };
 
   const deletePlayer = () => {
@@ -72,26 +72,24 @@ export const PlayersSidebarCard: FC<PlayersSidebarCardProps> = ({
       </Spacer>
       <PlayerGeneralInfoContainer>
         <Text variant="body">{item.name}</Text>
-        <Text variant="body">ATP {item.ranking}</Text>
+        <Text variant="body">
+          ATP {item.ranking} - {item.price / 1000000}M
+        </Text>
       </PlayerGeneralInfoContainer>
       <PlayersVerticalDivider />
       <PlayerGeneralInfoContainer>
-        <Text variant="body">{item.price / 1000000}M</Text>
-        {isPlayerBought() ? (
-          <IconButton
-            onPress={deletePlayer}
-            size={30}
-            icon="minus-circle-outline"
-            color={colors.ui.addPlayer}
-          />
-        ) : (
-          <IconButton
-            onPress={addPlayer}
-            size={30}
-            icon="plus-circle-outline"
-            color={colors.bg.secondary}
-          />
-        )}
+        <ExchangePlayer
+          handler={performSubstitutionHandler}
+          playersInTeam={playersInTeamData?.players as PlayerInTeam[]}
+          substitutionId={item.id}
+          substitutionName={item.name}
+        />
+        <IconButton
+          onPress={deletePlayer}
+          size={30}
+          icon="minus-circle-outline"
+          color={colors.ui.addPlayer}
+        />
       </PlayerGeneralInfoContainer>
     </CardContainer>
   );
