@@ -16,6 +16,7 @@ import {
   PlayerInTeam,
   useFilteredPlayers,
   usePlayersInTeam,
+  useSubstitutions,
 } from "../../../../services/players/players.service";
 import {
   PLAYERS_INITIAL_PAGE,
@@ -60,6 +61,13 @@ export const PlayersSidebar = () => {
 
   const { data: playersInTeamData, isLoading: isLoadingPlayersInTeam } =
     usePlayersInTeam({ selected }, user.email);
+  const { data: substitutionsData, isLoading: isLoadingSubstitutions } =
+    useSubstitutions(
+      {
+        selected,
+      },
+      user.email
+    );
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -121,7 +129,10 @@ export const PlayersSidebar = () => {
             <Dialog.Content>
               <SearchPlayer />
               <Spacer position="top" size="large">
-                {isLoadingFiltered || isLoadingNew || isLoadingPlayersInTeam ? (
+                {isLoadingFiltered ||
+                isLoadingNew ||
+                isLoadingPlayersInTeam ||
+                isLoadingSubstitutions ? (
                   <Text variant="body">Loading...</Text>
                 ) : players.length > 0 ? (
                   <FlatList
@@ -141,6 +152,9 @@ export const PlayersSidebar = () => {
                         <PlayersSidebarCard
                           item={item}
                           players={playersInTeamData?.players as PlayerInTeam[]}
+                          substitutions={
+                            substitutionsData?.players as PlayerInTeam[]
+                          }
                         />
                       );
                     }}

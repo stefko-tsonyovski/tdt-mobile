@@ -58,6 +58,13 @@ export type AddPlayerToTeamInputModel = {
   email: string;
 };
 
+export type PerformSubstitutionInputModel = {
+  substitutionId: number;
+  starterId: number;
+  weekId: string;
+  email: string;
+};
+
 // React Query hooks
 
 export function useGetTotal(email: string) {
@@ -84,6 +91,15 @@ export function usePlayersInTeam(
 ) {
   return useQuery(["team", filters, email], () =>
     getAllPlayersInTeam(filters, email)
+  );
+}
+
+export function useSubstitutions(
+  filters: FilterPlayersInTeamObject,
+  email: string
+) {
+  return useQuery(["team", "substitutions", filters, email], () =>
+    getAllSubstitutions(filters, email)
   );
 }
 
@@ -171,6 +187,27 @@ export function useDeleteBallFromPlayer() {
   });
 }
 
+export function usePerformSubstitution() {
+  const queryClient = useQueryClient();
+
+  return useMutation(performSubstitution, {
+    onMutate: () => {
+      console.log("usePerformSubstitution: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "Players were successfully exchanged!");
+      console.log("Players were successfully exchanged!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
 // API methods
 
 export const getTotalPoints = async (email: string) => {
@@ -207,6 +244,21 @@ export const getAllPlayersInTeam = async (
   return result;
 };
 
+export const getAllSubstitutions = async (
+  filters: FilterPlayersInTeamObject,
+  email: string
+) => {
+  const response = await axios.post<GetAllPlayersViewModel>(
+    `${BASE_URL}/players/substitutions?email=${email}`,
+    {
+      ...filters,
+    }
+  );
+  const result = response.data;
+
+  return result;
+};
+
 export const addPlayerToTeam = async (
   inputModel: AddPlayerToTeamInputModel
 ) => {
@@ -231,4 +283,10 @@ export const deleteBallFromPlayer = async (
   inputModel: AddPlayerToTeamInputModel
 ) => {
   return await axios.patch(`${BASE_URL}/players/deleteBall`, inputModel);
+};
+
+export const performSubstitution = async (
+  inputModel: PerformSubstitutionInputModel
+) => {
+  await axios.patch(`${BASE_URL}/players/substitutions`, inputModel);
 };

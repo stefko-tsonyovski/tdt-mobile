@@ -20,3 +20,4 @@ export const playerSearchTermAtom = atom("");
 export const fetchPlayersAtom = atom(true);
 export const playersCurrentPageAtom = atom(PLAYERS_INITIAL_PAGE);
 export const isPlayersSidebarOpenAtom = atom(false);
+export const isSubstitutionsSidebarOpenAtom = atom(false);
