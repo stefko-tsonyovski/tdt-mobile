@@ -1,9 +1,11 @@
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { GamesScreen } from "../../features/games/screens/games.screen";
 import { SettingsScreen } from "../../features/settings/screens/settings.screen";
 import { colors } from "../theme/colors";
 import { GamesNavigator } from "./games.navigator";
+import { TournamentsNavigator } from "./tournaments.navigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +24,8 @@ export const AppNavigator = () => {
             );
           } else if (route.name === "Settings") {
             return <Ionicons name="settings" size={size} color={color} />;
+          } else if (route.name === "Tournaments") {
+            return <Ionicons name="home-outline" size={size} color={color} />;
           }
         },
         tabBarActiveTintColor: colors.bg.secondary,
@@ -33,6 +37,7 @@ export const AppNavigator = () => {
       })}
     >
       <Tab.Screen name="Games" component={GamesNavigator} />
+      <Tab.Screen name="Tournaments" component={TournamentsNavigator} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );

@@ -30,7 +30,7 @@ export function useAllTournaments() {
 };
 
 export function useAllTournamentsByDate(date: string) {
-    return useQuery(["tournaments", () =>  getAllTournamentsByDate(date)]);
+    return useQuery(["tournaments", date], () => getAllTournamentsByDate(date));
 };
 
 // API Methods
