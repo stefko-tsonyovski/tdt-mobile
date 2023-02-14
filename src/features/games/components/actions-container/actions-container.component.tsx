@@ -2,15 +2,15 @@ import { View } from "react-native";
 import { Button } from "react-native-paper";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { CalculateTotal } from "../calculate-total/calculate-total.component";
+import { CalculateWeekly } from "../calculate-weekly/calculate-weekly.component";
 import { PlayersSidebar } from "../players-sidebar/players-sidebar.component";
 import { SubstitutionList } from "../substitution-list/substitution-list.component";
 
 export const ActionsContainer = () => {
   return (
     <View>
-      <Button mode="contained" color={colors.bg.secondary}>
-        Update weekly
-      </Button>
+      <CalculateWeekly />
       <Spacer position="top" size="large">
         <PlayersSidebar />
       </Spacer>
@@ -18,9 +18,7 @@ export const ActionsContainer = () => {
         <SubstitutionList />
       </Spacer>
       <Spacer position="top" size="large">
-        <Button mode="contained" color={colors.bg.secondary}>
-          Update total
-        </Button>
+        <CalculateTotal />
       </Spacer>
     </View>
   );

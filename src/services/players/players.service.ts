@@ -65,6 +65,11 @@ export type PerformSubstitutionInputModel = {
   email: string;
 };
 
+export type CalculateWeeklyInputModel = {
+  weekId: string;
+  email: string;
+};
+
 // React Query hooks
 
 export function useGetTotal(email: string) {
@@ -208,6 +213,48 @@ export function usePerformSubstitution() {
   });
 }
 
+export function useCalculateWeekly() {
+  const queryClient = useQueryClient();
+
+  return useMutation(calculateWeeklyPoints, {
+    onMutate: () => {
+      console.log("useCalculateWeekly: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "Points were updated!");
+      console.log("Points were updated!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
+export function useCalculateTotal() {
+  const queryClient = useQueryClient();
+
+  return useMutation(calculateTotalPoints, {
+    onMutate: () => {
+      console.log("useCalculateTotal: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "Total points were updated!");
+      console.log("Total points were updated!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
 // API methods
 
 export const getTotalPoints = async (email: string) => {
@@ -289,4 +336,16 @@ export const performSubstitution = async (
   inputModel: PerformSubstitutionInputModel
 ) => {
   await axios.patch(`${BASE_URL}/players/substitutions`, inputModel);
+};
+
+export const calculateWeeklyPoints = async (
+  inputModel: CalculateWeeklyInputModel
+) => {
+  return await axios.patch(`${BASE_URL}/players/calculateWeekly`, {
+    ...inputModel,
+  });
+};
+
+export const calculateTotalPoints = async (email: string) => {
+  return await axios.patch(`${BASE_URL}/players/calculateTotal?email=${email}`);
 };
