@@ -28,7 +28,7 @@ export const GamesScreen: FC<GamesScreenProps> = ({ navigation, route }) => {
           <PredictBracketContainer>
             <PredictGameCard />
             <Spacer position="left" size="large">
-              <BracketGameCard />
+              <BracketGameCard navigation={navigation} route={route} />
             </Spacer>
           </PredictBracketContainer>
         </Spacer>

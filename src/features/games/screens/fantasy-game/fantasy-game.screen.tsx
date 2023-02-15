@@ -15,62 +15,60 @@ import { TennisBalls } from "../../components/tennis-balls/tennis-balls.componen
 
 export const FantasyGameScreen = () => {
   return (
-    <SafeArea>
-      <FantasyGameScreenContainer>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Spacer position="top" size="small">
-            <WeeksMenu />
-          </Spacer>
+    <FantasyGameScreenContainer>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Spacer position="top" size="small">
+          <WeeksMenu />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <PointsContainer />
-          </Spacer>
+        <Spacer position="top" size="xl">
+          <PointsContainer />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <BalanceTradesContainer />
-          </Spacer>
+        <Spacer position="top" size="xl">
+          <BalanceTradesContainer />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <HorizontalDivider />
-          </Spacer>
+        <Spacer position="top" size="xl">
+          <HorizontalDivider />
+        </Spacer>
 
-          <Spacer position="top" size="large">
-            <CurrentWeek />
-          </Spacer>
+        <Spacer position="top" size="large">
+          <CurrentWeek />
+        </Spacer>
 
-          <Spacer position="top" size="large">
-            <Countdown />
-          </Spacer>
+        <Spacer position="top" size="large">
+          <Countdown />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <HorizontalDivider />
-          </Spacer>
+        <Spacer position="top" size="xl">
+          <HorizontalDivider />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <TennisBalls />
-          </Spacer>
+        <Spacer position="top" size="xl">
+          <TennisBalls />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <HorizontalDivider />
-          </Spacer>
+        <Spacer position="top" size="xl">
+          <HorizontalDivider />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <ActionsContainer />
-          </Spacer>
+        <Spacer position="top" size="xl">
+          <ActionsContainer />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <HorizontalDivider />
-          </Spacer>
+        <Spacer position="top" size="xl">
+          <HorizontalDivider />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <TeamPlayerCardList />
-          </Spacer>
+        <Spacer position="top" size="xl">
+          <TeamPlayerCardList />
+        </Spacer>
 
-          <Spacer position="top" size="xl">
-            <HorizontalDivider />
-          </Spacer>
-        </ScrollView>
-      </FantasyGameScreenContainer>
-    </SafeArea>
+        <Spacer position="top" size="xl">
+          <HorizontalDivider />
+        </Spacer>
+      </ScrollView>
+    </FantasyGameScreenContainer>
   );
 };
