@@ -16,6 +16,7 @@ import {
   PlayerInTeam,
   useFilteredPlayers,
   usePlayersInTeam,
+  useSubstitutions,
 } from "../../../../services/players/players.service";
 import {
   PLAYERS_INITIAL_PAGE,
@@ -60,6 +61,13 @@ export const PlayersSidebar = () => {
 
   const { data: playersInTeamData, isLoading: isLoadingPlayersInTeam } =
     usePlayersInTeam({ selected }, user.email);
+  const { data: substitutionsData, isLoading: isLoadingSubstitutions } =
+    useSubstitutions(
+      {
+        selected,
+      },
+      user.email
+    );
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -80,26 +88,26 @@ export const PlayersSidebar = () => {
     index,
   });
 
-  useEffect(() => {
-    let allPlayers = [
-      ...players,
-      ...((filteredPlayers?.players.filter(
-        (fp) => !players.some((p) => p._id === fp._id)
-      ) || []) as Player[]),
-    ];
+  // useEffect(() => {
+  //   let allPlayers = [
+  //     ...players,
+  //     ...((filteredPlayers?.players.filter(
+  //       (fp) => !players.some((p) => p._id === fp._id)
+  //     ) || []) as Player[]),
+  //   ];
 
-    if ((playerSearchTerm || checked) && fetchPlayers) {
-      allPlayers = filteredPlayers?.players as Player[];
-    }
+  //   if ((playerSearchTerm || checked) && fetchPlayers) {
+  //     allPlayers = filteredPlayers?.players as Player[];
+  //   }
 
-    setPlayers(allPlayers);
-    setTimeout(() => {
-      flatListRef.current?.scrollToIndex({
-        animated: false,
-        index: allPlayers.length - 1,
-      });
-    }, 400);
-  }, [filteredPlayers]);
+  //   setPlayers(allPlayers);
+  //   setTimeout(() => {
+  //     flatListRef.current?.scrollToIndex({
+  //       animated: false,
+  //       index: allPlayers.length - 1,
+  //     });
+  //   }, 400);
+  // }, [filteredPlayers]);
 
   return (
     <>
@@ -121,18 +129,16 @@ export const PlayersSidebar = () => {
             <Dialog.Content>
               <SearchPlayer />
               <Spacer position="top" size="large">
-                {isLoadingFiltered || isLoadingNew || isLoadingPlayersInTeam ? (
+                {isLoadingFiltered ||
+                isLoadingNew ||
+                isLoadingPlayersInTeam ||
+                isLoadingSubstitutions ? (
                   <Text variant="body">Loading...</Text>
-                ) : players.length > 0 ? (
+                ) : Number(filteredPlayers?.players.length) > 0 ? (
                   <FlatList
                     ref={flatListRef}
                     style={{ height: 100 }}
-                    data={players.sort(
-                      (a: Player, b: Player) => a.ranking - b.ranking
-                    )}
-                    onEndReached={handleNextPage}
-                    onEndReachedThreshold={0}
-                    getItemLayout={getItemLayout}
+                    data={filteredPlayers?.players as Player[]}
                     keyExtractor={(item, index) => {
                       return item._id + index;
                     }}
@@ -141,6 +147,9 @@ export const PlayersSidebar = () => {
                         <PlayersSidebarCard
                           item={item}
                           players={playersInTeamData?.players as PlayerInTeam[]}
+                          substitutions={
+                            substitutionsData?.players as PlayerInTeam[]
+                          }
                         />
                       );
                     }}

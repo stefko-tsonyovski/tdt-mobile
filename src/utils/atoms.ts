@@ -21,3 +21,6 @@ export const fetchPlayersAtom = atom(true);
 export const playersCurrentPageAtom = atom(PLAYERS_INITIAL_PAGE);
 export const isPlayersSidebarOpenAtom = atom(false);
 export const selectedDateAtom = atom(Date.now().toString());
+export const isSubstitutionsSidebarOpenAtom = atom(false);
+export const bracketsCurrentPageAtom = atom(PLAYERS_INITIAL_PAGE);
+export const selectedRoundId = atom("63a43db0416fe2a5d31c9a31");

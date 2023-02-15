@@ -12,12 +12,20 @@ export type CreateUserDto = {
   email: string;
 };
 
+export type User = {
+  _id: string;
+} & CreateUserDto;
+
 // React Query hooks
 
 export function useTradesByUser(email: string) {
   return useQuery(["team", "substitutions", email], () =>
     getTradesByUser(email)
   );
+}
+
+export function useUserByEmail(email: string) {
+  return useQuery(["users", email], () => getUserByEmail(email));
 }
 
 export function useCreateUser() {
@@ -45,6 +53,11 @@ export const getTradesByUser = async (email: string) => {
   const response = await axios.get<GetTradesByUserViewModel>(
     `${BASE_URL}/users/trades?email=${email}`
   );
+  return response.data;
+};
+
+export const getUserByEmail = async (email: string) => {
+  const response = await axios.get<User>(`${BASE_URL}/users/byEmail/${email}`);
   return response.data;
 };
 

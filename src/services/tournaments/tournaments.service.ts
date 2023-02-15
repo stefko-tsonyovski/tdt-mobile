@@ -33,6 +33,12 @@ export function useAllTournamentsByDate(date: string, email: string) {
     return useQuery(["tournaments", date], () => getAllTournamentsByDate(date, email));
 };
 
+export function useTournamentsByWeek(weekId: string) {
+  return useQuery(["tournamentsByWeek", weekId], () =>
+    getAllTournamentsByWeek(weekId)
+  );
+}
+
 // API Methods
 
 const getAllTournaments = async () => {
@@ -47,4 +53,13 @@ const getAllTournamentsByDate = async (date: string, email: string) => {
     const result = response.data;
 
     return result;
+};
+
+export const getAllTournamentsByWeek = async (weekId: string) => {
+  const response = await axios.get<GetAllTournamentsViewModel>(
+    `${BASE_URL}/tournaments/byWeek?weekId=${weekId}`
+  );
+  const result = response.data;
+
+  return result;
 };

@@ -58,6 +58,18 @@ export type AddPlayerToTeamInputModel = {
   email: string;
 };
 
+export type PerformSubstitutionInputModel = {
+  substitutionId: number;
+  starterId: number;
+  weekId: string;
+  email: string;
+};
+
+export type CalculateWeeklyInputModel = {
+  weekId: string;
+  email: string;
+};
+
 // React Query hooks
 
 export function useGetTotal(email: string) {
@@ -84,6 +96,15 @@ export function usePlayersInTeam(
 ) {
   return useQuery(["team", filters, email], () =>
     getAllPlayersInTeam(filters, email)
+  );
+}
+
+export function useSubstitutions(
+  filters: FilterPlayersInTeamObject,
+  email: string
+) {
+  return useQuery(["team", "substitutions", filters, email], () =>
+    getAllSubstitutions(filters, email)
   );
 }
 
@@ -118,6 +139,111 @@ export function useDeletePlayerFromTeam() {
     onSuccess: () => {
       showToast("success", "A player was removed!");
       console.log("A player was removed!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
+export function useAddBallToPlayer() {
+  const queryClient = useQueryClient();
+
+  return useMutation(addBallToPlayer, {
+    onMutate: () => {
+      console.log("useAddBallToPlayer: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "New ball was added to player!");
+      console.log("New ball was added to player!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
+export function useDeleteBallFromPlayer() {
+  const queryClient = useQueryClient();
+
+  return useMutation(deleteBallFromPlayer, {
+    onMutate: () => {
+      console.log("useDeleteBallFromPlayer: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "A ball was removed from player!");
+      console.log("A ball was removed from player!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
+export function usePerformSubstitution() {
+  const queryClient = useQueryClient();
+
+  return useMutation(performSubstitution, {
+    onMutate: () => {
+      console.log("usePerformSubstitution: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "Players were successfully exchanged!");
+      console.log("Players were successfully exchanged!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
+export function useCalculateWeekly() {
+  const queryClient = useQueryClient();
+
+  return useMutation(calculateWeeklyPoints, {
+    onMutate: () => {
+      console.log("useCalculateWeekly: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "Points were updated!");
+      console.log("Points were updated!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["team"]);
+    },
+  });
+}
+
+export function useCalculateTotal() {
+  const queryClient = useQueryClient();
+
+  return useMutation(calculateTotalPoints, {
+    onMutate: () => {
+      console.log("useCalculateTotal: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "Total points were updated!");
+      console.log("Total points were updated!");
     },
     onError: (error: AxiosError) => {
       showToast("error", (error.response?.data as ErrorResponse).msg);
@@ -165,6 +291,21 @@ export const getAllPlayersInTeam = async (
   return result;
 };
 
+export const getAllSubstitutions = async (
+  filters: FilterPlayersInTeamObject,
+  email: string
+) => {
+  const response = await axios.post<GetAllPlayersViewModel>(
+    `${BASE_URL}/players/substitutions?email=${email}`,
+    {
+      ...filters,
+    }
+  );
+  const result = response.data;
+
+  return result;
+};
+
 export const addPlayerToTeam = async (
   inputModel: AddPlayerToTeamInputModel
 ) => {
@@ -177,4 +318,34 @@ export const deletePlayerFromTeam = async (
   return await axios.delete(
     `${BASE_URL}/players/team?weekId=${inputModel.weekId}&playerId=${inputModel.playerId}&email=${inputModel.email}`
   );
+};
+
+export const addBallToPlayer = async (
+  inputModel: AddPlayerToTeamInputModel
+) => {
+  return await axios.patch(`${BASE_URL}/players/addBall`, inputModel);
+};
+
+export const deleteBallFromPlayer = async (
+  inputModel: AddPlayerToTeamInputModel
+) => {
+  return await axios.patch(`${BASE_URL}/players/deleteBall`, inputModel);
+};
+
+export const performSubstitution = async (
+  inputModel: PerformSubstitutionInputModel
+) => {
+  await axios.patch(`${BASE_URL}/players/substitutions`, inputModel);
+};
+
+export const calculateWeeklyPoints = async (
+  inputModel: CalculateWeeklyInputModel
+) => {
+  return await axios.patch(`${BASE_URL}/players/calculateWeekly`, {
+    ...inputModel,
+  });
+};
+
+export const calculateTotalPoints = async (email: string) => {
+  return await axios.patch(`${BASE_URL}/players/calculateTotal?email=${email}`);
 };

@@ -4,13 +4,23 @@ import { PlayButton } from "../../../../components/buttons/play-button/play-butt
 import { CardFooter } from "../../../../components/card-footer/card-footer.styles";
 import { styles } from "../../../../utils/styles";
 import {
+  FullWidthPressable,
   GameDescription,
   GameTitle,
   TextContainer,
 } from "../fantasy-game-card/fantasy-game-card.styles";
 import { BracketGameCardContainer } from "./bracket-game-card.styles";
 
-export const BracketGameCard = () => {
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { GamesRootStackParamList } from "../../../../infrastructure/navigation/games.navigator";
+import React, { FC } from "react";
+
+export type GamesScreenProps = NativeStackScreenProps<
+  GamesRootStackParamList,
+  "GamesMain"
+>;
+
+export const BracketGameCard: FC<GamesScreenProps> = ({ navigation }) => {
   return (
     <BracketGameCardContainer>
       <Card.Cover
@@ -19,7 +29,9 @@ export const BracketGameCard = () => {
         }}
       />
       <CardFooter>
-        <PlayButton />
+        <FullWidthPressable onPress={() => navigation.navigate("BracketGame")}>
+          <PlayButton />
+        </FullWidthPressable>
       </CardFooter>
       <TextContainer>
         <View>

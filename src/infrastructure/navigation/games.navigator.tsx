@@ -2,10 +2,12 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { GamesScreen } from "../../features/games/screens/games.screen";
 import { FantasyGameScreen } from "../../features/games/screens/fantasy-game/fantasy-game.screen";
+import { BracketGameScreen } from "../../features/games/screens/bracket-game/bracket-game.screen";
 
 export type GamesRootStackParamList = {
   GamesMain: undefined;
   FantasyGame: undefined;
+  BracketGame: undefined;
 };
 
 const Stack = createStackNavigator<GamesRootStackParamList>();
@@ -13,10 +15,23 @@ const Stack = createStackNavigator<GamesRootStackParamList>();
 export const GamesNavigator = () => (
   <Stack.Navigator
     screenOptions={{
-      headerShown: false,
+      cardStyle: { backgroundColor: "#FFF" },
     }}
   >
-    <Stack.Screen name="GamesMain" component={GamesScreen} />
-    <Stack.Screen name="FantasyGame" component={FantasyGameScreen} />
+    <Stack.Screen
+      options={({}) => ({ headerShown: false })}
+      name="GamesMain"
+      component={GamesScreen}
+    />
+    <Stack.Screen
+      options={({}) => ({ title: "Team" })}
+      name="FantasyGame"
+      component={FantasyGameScreen}
+    />
+    <Stack.Screen
+      options={({}) => ({ title: "Bracket" })}
+      name="BracketGame"
+      component={BracketGameScreen}
+    />
   </Stack.Navigator>
 );

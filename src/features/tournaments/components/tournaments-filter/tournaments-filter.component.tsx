@@ -1,5 +1,5 @@
+import { useState } from "react";
 import { useAtom } from "jotai";
-import React, { useState } from "react";
 import { Button } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { selectedDateAtom } from "../../../../utils/atoms";
