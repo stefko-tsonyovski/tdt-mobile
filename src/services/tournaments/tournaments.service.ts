@@ -29,8 +29,8 @@ export function useAllTournaments() {
     return useQuery(["tournaments"], getAllTournaments);
 };
 
-export function useAllTournamentsByDate(date: string) {
-    return useQuery(["tournaments", date], () => getAllTournamentsByDate(date));
+export function useAllTournamentsByDate(date: string, email: string) {
+    return useQuery(["tournaments", date], () => getAllTournamentsByDate(date, email));
 };
 
 // API Methods
@@ -42,8 +42,8 @@ const getAllTournaments = async () => {
     return result;
 };
 
-const getAllTournamentsByDate = async (date: string) => {
-    const response = await axios.get<GetAllTournamentsViewModel>(`${BASE_URL}/tournaments/byDate/${date}`)
+const getAllTournamentsByDate = async (date: string, email: string) => {
+    const response = await axios.get<GetAllTournamentsViewModel>(`${BASE_URL}/tournaments/byDate?date=${date}&email=${email}`)
     const result = response.data;
 
     return result;
