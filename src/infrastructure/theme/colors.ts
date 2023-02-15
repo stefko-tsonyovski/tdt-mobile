@@ -17,10 +17,12 @@ export const colors = {
     unactiveTennisBall: "#FFE0B3",
     card: "#BAC0BE",
     addPlayer: "#525454",
+    arrow: "#616161",
   },
   bg: {
     primary: "#02563C",
     secondary: "#D76316",
+    bracket: "#D3D3D3",
   },
   text: {
     primary: "#262626",
