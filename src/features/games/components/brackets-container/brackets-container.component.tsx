@@ -15,7 +15,7 @@ import {
   PLAYERS_INITIAL_PAGE,
 } from "../../../../utils/constants";
 import { colors } from "../../../../infrastructure/theme/colors";
-import { BracketPagination } from "../brackets-card/brackets-container.styles";
+import { BracketPagination } from "./brackets-container.styles";
 
 export type BracketsContainerProps = {
   brackets: Bracket[];
