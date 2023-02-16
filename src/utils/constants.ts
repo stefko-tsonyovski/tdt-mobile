@@ -7,3 +7,5 @@ export const PLAYERS_ITEMS_PER_PAGE = 8;
 export const PLAYER_ITEM_HEIGHT = 100;
 
 export const BRACKETS_ITEMS_PER_PAGE = 2;
+
+export const INITIAL_TOURNAMENT_INDEX = 0;
