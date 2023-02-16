@@ -1,11 +1,25 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { View } from "react-native";
 import { IconButton } from "react-native-paper";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { Bracket } from "../../../../services/brackets/brackets.service";
-import { Pick } from "../../../../services/picks/picks.service";
+import {
+  CreatePickInputModel,
+  Pick,
+  useCreatePick,
+  useVerifyPick,
+} from "../../../../services/picks/picks.service";
+import {
+  BracketCardContainer,
+  BracketName,
+  BracketPlayersContainer,
+  PlayerContainer,
+  PlayerText,
+  VerifyContainer,
+} from "../brackets-container/brackets-card.styles";
 
 export type BracketsCardProps = {
   bracket: Bracket;
@@ -13,45 +27,30 @@ export type BracketsCardProps = {
 };
 
 export const BracketsCard: FC<BracketsCardProps> = ({ bracket, picks }) => {
+  const { user } = useContext(AuthenticationContext);
   const { homePlayer, awayPlayer } = bracket;
+
+  const { mutate: createPick } = useCreatePick();
+  const { mutate: verifyPick } = useVerifyPick();
+
+  const handleCreatePick = (inputModel: CreatePickInputModel) => {
+    createPick(inputModel);
+  };
 
   return (
     <>
       <View>
-        <Text style={{ textAlign: "center", fontSize: 20 }} variant="body">
-          {bracket.name}
-        </Text>
-        <View
-          style={{
-            backgroundColor: colors.bg.bracket,
-            flexDirection: "row",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
+        <BracketName variant="body">{bracket.name}</BracketName>
+        <BracketCardContainer>
           <Spacer position="left" size="xxl">
             <View></View>
           </Spacer>
-          <View style={{ flexGrow: 1 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontWeight:
-                    homePlayer && homePlayer.id === bracket.winnerId
-                      ? "bold"
-                      : "normal",
-                }}
-                variant="body"
-              >
+          <BracketPlayersContainer>
+            <PlayerContainer>
+              <PlayerText player={homePlayer} bracket={bracket} variant="body">
                 {homePlayer && homePlayer.name}
                 {homePlayer && `(${homePlayer.ranking})`}
-              </Text>
+              </PlayerText>
               <View>
                 {picks.some((p) => p.bracketId === bracket._id) ? (
                   picks.some((p) => p.playerId === homePlayer.id) ? (
@@ -63,36 +62,23 @@ export const BracketsCard: FC<BracketsCardProps> = ({ bracket, picks }) => {
                   homePlayer && (
                     <IconButton
                       icon="radiobox-blank"
-                      // onClick={() =>
-                      //   handleCreatePick({
-                      //     bracketId: bracket._id,
-                      //     playerId: Number(homePlayer.id),
-                      //   })
-                      // }
+                      onPress={() =>
+                        handleCreatePick({
+                          bracketId: bracket._id,
+                          playerId: Number(homePlayer.id),
+                          email: user.email,
+                        })
+                      }
                     />
                   )
                 )}
               </View>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontWeight:
-                    awayPlayer && awayPlayer.id === bracket.winnerId
-                      ? "bold"
-                      : "normal",
-                }}
-                variant="body"
-              >
+            </PlayerContainer>
+            <PlayerContainer>
+              <PlayerText player={awayPlayer} bracket={bracket} variant="body">
                 {awayPlayer && awayPlayer.name}
                 {awayPlayer && `(${awayPlayer.ranking})`}
-              </Text>
+              </PlayerText>
               {picks.some((p) => p.bracketId === bracket._id) ? (
                 picks.some((p) => p.playerId === awayPlayer.id) ? (
                   <IconButton icon="check" color={colors.bg.primary} />
@@ -103,26 +89,30 @@ export const BracketsCard: FC<BracketsCardProps> = ({ bracket, picks }) => {
                 awayPlayer && (
                   <IconButton
                     icon="radiobox-blank"
-                    // onClick={() =>
-                    //   handleCreatePick({
-                    //     bracketId: bracket._id,
-                    //     playerId: Number(awayPlayer.id),
-                    //   })
-                    // }
+                    onPress={() =>
+                      handleCreatePick({
+                        bracketId: bracket._id,
+                        playerId: Number(awayPlayer.id),
+                        email: user.email,
+                      })
+                    }
                   />
                 )
               )}
-            </View>
-          </View>
-          <View style={{ justifyContent: "center", alignItems: "flex-end" }}>
+            </PlayerContainer>
+          </BracketPlayersContainer>
+          <VerifyContainer>
             {!picks?.find((p) => p.bracketId === bracket._id)?.isVerified && (
               <IconButton
+                onPress={() =>
+                  verifyPick({ bracketId: bracket._id, email: user.email })
+                }
                 icon="alert-circle-check-outline"
                 color={colors.bg.primary}
               />
             )}
-          </View>
-        </View>
+          </VerifyContainer>
+        </BracketCardContainer>
       </View>
     </>
   );

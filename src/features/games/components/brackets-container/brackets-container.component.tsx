@@ -15,6 +15,7 @@ import {
   PLAYERS_INITIAL_PAGE,
 } from "../../../../utils/constants";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { BracketPagination } from "../brackets-card/brackets-container.styles";
 
 export type BracketsContainerProps = {
   brackets: Bracket[];
@@ -58,7 +59,7 @@ export const BracketsContainer: FC<BracketsContainerProps> = ({
           ))}
 
           <Spacer position="top" size="large">
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <BracketPagination>
               <IconButton
                 disabled={page <= PLAYERS_INITIAL_PAGE}
                 icon="rewind"
@@ -73,7 +74,7 @@ export const BracketsContainer: FC<BracketsContainerProps> = ({
                   onPress={handleNext}
                 />
               </Spacer>
-            </View>
+            </BracketPagination>
           </Spacer>
         </View>
       ) : (

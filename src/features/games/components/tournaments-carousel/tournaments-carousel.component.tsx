@@ -13,6 +13,7 @@ import {
 } from "../../../../services/tournaments/tournaments.service";
 import {
   bracketsCurrentPageAtom,
+  currentTournamentAtom,
   selectedRoundId,
   selectedWeekAtom,
 } from "../../../../utils/atoms";
@@ -41,7 +42,7 @@ export const TournamentsCarousel = () => {
   const [roundId] = useAtom(selectedRoundId);
   const [page, setPage] = useAtom(bracketsCurrentPageAtom);
 
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useAtom(currentTournamentAtom);
 
   const { data: tournamentsData, isLoading: isLoadingTournaments } =
     useTournamentsByWeek(selected.value);

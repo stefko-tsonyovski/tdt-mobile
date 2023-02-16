@@ -4,8 +4,9 @@ import { Button, Menu, Divider } from "react-native-paper";
 import { colors } from "../../infrastructure/theme/colors";
 import { useWeeks } from "../../services/weeks/weeks.service";
 import { useAtom } from "jotai";
-import { selectedWeekAtom } from "../../utils/atoms";
+import { currentTournamentAtom, selectedWeekAtom } from "../../utils/atoms";
 import { Text } from "../typography/text.component";
+import { INITIAL_TOURNAMENT_INDEX } from "../../utils/constants";
 
 export const NativeMenu = () => {
   const { data: weeksObject, isLoading: isLoadingWeeks } = useWeeks();
@@ -31,6 +32,8 @@ export const NativeMenu = () => {
         ];
 
   const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekAtom);
+  const [, setCurrent] = useAtom(currentTournamentAtom);
+
   const [visible, setVisible] = useState(false);
 
   const openMenu = () => setVisible(true);
@@ -66,6 +69,7 @@ export const NativeMenu = () => {
                 <Menu.Item
                   onPress={() => {
                     setSelectedWeek(option);
+                    setCurrent(INITIAL_TOURNAMENT_INDEX);
                     closeMenu();
                   }}
                   title={option.text}
