@@ -31,7 +31,6 @@ export const ActiveTab = styled.View`
 export const TabPanelContainer = styled.View`
   flex: 0.8;
   width: 100%;
-  background-color: red;
 `;
 
 export const TabContentContainer = styled(View)`

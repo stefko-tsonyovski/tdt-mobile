@@ -43,26 +43,23 @@ export const TournamentsList: FC<TournamentsListProps> = ({ navigation }) => {
         data?.tournaments?.length > 0 ? (
           data?.tournaments?.map((tournament) => {
             return (
-              <>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("TournamentDetails", {
-                      tournamentId: tournament.id,
-                    })
-                  }
-                >
-                  <TournamentItemCard
-                    key={tournament.id}
-                    tournament={tournament}
-                  />
-                </TouchableOpacity>
-              </>
+              <TouchableOpacity
+                key={tournament.id}
+                onPress={() =>
+                  navigation.navigate("TournamentDetails", {
+                    tournamentId: tournament.id,
+                  })
+                }
+              >
+                <TournamentItemCard tournament={tournament} />
+              </TouchableOpacity>
             );
           })
         ) : (
           <>
             <Divider />
             <Text variant="body">No Matches</Text>
+            <Divider />
           </>
         )
       ) : (
