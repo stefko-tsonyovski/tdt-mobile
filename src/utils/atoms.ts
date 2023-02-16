@@ -25,3 +25,5 @@ export const isSubstitutionsSidebarOpenAtom = atom(false);
 export const bracketsCurrentPageAtom = atom(PLAYERS_INITIAL_PAGE);
 export const selectedRoundId = atom("63a43db0416fe2a5d31c9a31");
 export const currentTournamentAtom = atom(INITIAL_TOURNAMENT_INDEX);
+export const approvedPredictionsCurrentPageAtom = atom(PLAYERS_INITIAL_PAGE);
+export const votePredictionsCurrentPageAtom = atom(PLAYERS_INITIAL_PAGE);

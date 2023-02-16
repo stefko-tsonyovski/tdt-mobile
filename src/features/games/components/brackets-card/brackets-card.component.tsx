@@ -19,7 +19,7 @@ import {
   PlayerContainer,
   PlayerText,
   VerifyContainer,
-} from "../brackets-container/brackets-card.styles";
+} from "./brackets-card.styles";
 
 export type BracketsCardProps = {
   bracket: Bracket;

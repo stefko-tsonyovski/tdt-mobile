@@ -6,12 +6,21 @@ import { Spacer } from "../../../../components/spacer/spacer.component";
 import { styles } from "../../../../utils/styles";
 import { BracketGameCardContainer } from "../bracket-game-card/bracket-game-card.styles";
 import {
+  FullWidthPressable,
   GameDescription,
   GameTitle,
   TextContainer,
 } from "../fantasy-game-card/fantasy-game-card.styles";
 
-export const PredictGameCard = () => {
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { GamesRootStackParamList } from "../../../../infrastructure/navigation/games.navigator";
+import React, { FC } from "react";
+export type GamesScreenProps = NativeStackScreenProps<
+  GamesRootStackParamList,
+  "GamesMain"
+>;
+
+export const PredictGameCard: FC<GamesScreenProps> = ({ navigation }) => {
   return (
     <BracketGameCardContainer>
       <Card.Cover
@@ -20,7 +29,9 @@ export const PredictGameCard = () => {
         }}
       />
       <CardFooter>
-        <PlayButton />
+        <FullWidthPressable onPress={() => navigation.navigate("PredictGame")}>
+          <PlayButton />
+        </FullWidthPressable>
       </CardFooter>
       <TextContainer>
         <Spacer position="left" size="large">

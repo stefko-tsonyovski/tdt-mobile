@@ -14,6 +14,7 @@ export type CreateUserDto = {
 
 export type User = {
   _id: string;
+  role: string;
 } & CreateUserDto;
 
 // React Query hooks
