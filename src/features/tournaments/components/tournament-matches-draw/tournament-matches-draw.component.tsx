@@ -1,15 +1,17 @@
 import { useAtom } from "jotai";
-import React, { FC, useCallback } from "react";
-import { VirtualizedList } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import React, { FC, useCallback, useRef } from "react";
+import { View } from "react-native";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Divider } from "react-native-paper";
 import { Text } from "../../../../components/typography/text.component";
 import {
   Match,
+  MatchDrawViewModel,
   useMatchesByTournamentAndRound,
 } from "../../../../services/matches/matches.service";
 import { selectedRoundId } from "../../../../utils/atoms";
 import { MatchResultCard } from "../../../matches/match-result-card/match-result-card.component";
+import { MatchesRoundFilter } from "../../../matches/matches-round-filter/matches-round-filter.component";
 
 type TournamentMatchesDrawProps = {
   tournamentId: number;
@@ -25,20 +27,26 @@ export const TournamentMatchesDraw: FC<TournamentMatchesDrawProps> = ({
   );
 
   const renderItem = useCallback(
-    ({ item }: { item: Match }) => <MatchResultCard match={item} />,
+    ({ item }: { item: MatchDrawViewModel }) => (
+      <MatchResultCard match={item} />
+    ),
     [data]
   );
 
-  const keyExtractor = useCallback((item: Match) => item.id.toString(), []);
+  const keyExtractor = useCallback(
+    (item: MatchDrawViewModel) => item.id.toString(),
+    [data]
+  );
 
   return (
     <>
       {!isLoading && data ? (
         data?.matches?.length ? (
           <FlatList
+            ListHeaderComponent={<MatchesRoundFilter />}
             data={data.matches}
             keyExtractor={keyExtractor}
-            maxToRenderPerBatch={9}
+            maxToRenderPerBatch={8}
             renderItem={renderItem}
           />
         ) : (

@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import { Pressable, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 import { TournamentMatchesDraw } from "../tournament-matches-draw/tournament-matches-draw.component";
@@ -28,6 +29,8 @@ const tabs = ["DRAW", "RESULTS"];
 const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
+  console.log(index);
+
   return value === index ? (
     <TabPanelContainer>
       {value === index && (
@@ -47,6 +50,7 @@ export const TournamentDetailMenuTabs: FC<TournamentDetailMenuTabsProps> = ({
   const handlePressTab = (index: number) => {
     setCurrentTab(index);
   };
+
   return (
     <TabsContainer>
       <MenuTabsContainer>
