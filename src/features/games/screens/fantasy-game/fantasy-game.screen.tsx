@@ -1,3 +1,4 @@
+import React from "react";
 import { ScrollView } from "react-native";
 import { Divider } from "react-native-paper";
 import { HorizontalDivider } from "../../../../components/horizontal-divider/horizontal-divider.styles";

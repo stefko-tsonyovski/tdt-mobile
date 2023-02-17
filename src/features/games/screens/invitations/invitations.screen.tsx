@@ -1,23 +1,20 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View } from "react-native";
-import { NativeMenu } from "../../../../components/native-menu/native-menu.component";
-import { Spacer } from "../../../../components/spacer/spacer.component";
+import { Text } from "../../../../components/typography/text.component";
 import { VerticalDivider } from "../../../../components/vertical-divider/vertical-divider.styles";
 import { GamesRootStackParamList } from "../../../../infrastructure/navigation/games.navigator";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { FantasyGameScreenContainer } from "../../components/games.styles";
 import {
   ButtonsContainer,
   GrowIconButton,
-  MenuDivider,
-  WeeksMenuContainer,
-} from "./menu.styles";
+} from "../../components/menu/menu.styles";
 
-export const WeeksMenu = () => {
+export const InvitationsScreen = () => {
   const navigation = useNavigation<NavigationProp<GamesRootStackParamList>>();
 
   return (
-    <WeeksMenuContainer>
+    <FantasyGameScreenContainer>
       <ButtonsContainer>
         <GrowIconButton
           onPress={() => navigation.navigate("Leagues")}
@@ -37,15 +34,6 @@ export const WeeksMenu = () => {
           icon="lan-disconnect"
         />
       </ButtonsContainer>
-      <Spacer position="top" size="medium">
-        <MenuDivider />
-      </Spacer>
-      <Spacer position="top" size="medium">
-        <View></View>
-      </Spacer>
-      <Spacer position="bottom" size="medium">
-        <NativeMenu />
-      </Spacer>
-    </WeeksMenuContainer>
+    </FantasyGameScreenContainer>
   );
 };
