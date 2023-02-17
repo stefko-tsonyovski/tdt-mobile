@@ -1,106 +1,67 @@
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 
 import { useAtom } from "jotai";
-import { approvedPredictionsCurrentPageAtom } from "../../../../utils/atoms";
+import { unapprovedPredictionsCurrentPageAtom } from "../../../../utils/atoms";
 import {
   Prediction,
-  useCreateVotePrediction,
+  useApprovePrediction,
+  useDeletePrediction,
 } from "../../../../services/predictions/predictions.service";
-import { Avatar, Button, Card, FAB } from "react-native-paper";
+import { Avatar, Card, FAB } from "react-native-paper";
 import { Text } from "../../../../components/typography/text.component";
 import { colors } from "../../../../infrastructure/theme/colors";
-import { View } from "react-native";
+import { View, Animated } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
-import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
+import { useSwipe } from "../../../../infrastructure/swipe/use-swipe.hook";
 
 export type PredictionCardProps = {
   prediction: Prediction;
   length: number;
 };
 
-export const PredictionCard: FC<PredictionCardProps> = ({
+export const UnapprovedPredictionCard: FC<PredictionCardProps> = ({
   prediction,
   length,
 }) => {
-  const { user } = useContext(AuthenticationContext);
   const [predictionsCurrentPage, setPredictionsCurrentPage] = useAtom(
-    approvedPredictionsCurrentPageAtom
+    unapprovedPredictionsCurrentPageAtom
   );
-  const { mutate: createVotePrediction } = useCreateVotePrediction();
 
-  //   const { mutate: updatePrediction, isLoading: isLoadingUpdate } =
-  //     useUpdatePrediction();
+  const { mutate: approvePrediction } = useApprovePrediction();
+  const { mutate: deletePrediction } = useDeletePrediction();
 
   const handlePrevious = () =>
     setPredictionsCurrentPage(predictionsCurrentPage - 1);
   const handleNext = () =>
     setPredictionsCurrentPage(predictionsCurrentPage + 1);
 
-  const handleVoteCorrect = () => {
-    const inputModel = {
-      _id: prediction._id,
-      answer: "correct",
-      email: user.email,
-    };
+  const handleApprove = () => {
+    if (predictionsCurrentPage > 1) {
+      handlePrevious();
+    } else {
+      setPredictionsCurrentPage(PLAYERS_INITIAL_PAGE);
+    }
 
-    createVotePrediction(inputModel);
+    approvePrediction(prediction._id);
+  };
+  const handleDelete = () => {
+    if (predictionsCurrentPage > 1) {
+      handlePrevious();
+    } else {
+      setPredictionsCurrentPage(PLAYERS_INITIAL_PAGE);
+    }
+
+    deletePrediction(prediction._id);
   };
 
-  const handleVoteWrong = () => {
-    const inputModel = {
-      _id: prediction._id,
-      answer: "wrong",
-      email: user.email,
-    };
+  // const onSwipeLeft = () => console.log("swipe left");
+  // const onSwipeRight = () => console.log("swipe right");
 
-    createVotePrediction(inputModel);
-  };
+  // const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 6);
 
   return (
-    <>
-      {/* <Card
-        sx={{
-          backgroundColor: "#02563C",
-          mt: 2,
-          borderRadius: "15px",
-          boxShadow: "0 0 5px #000",
-        }}
-      >
-        <CardHeader
-          sx={{
-            color: "#FFF",
-            "& span": {
-              color: "#FFF",
-            },
-          }}
-          avatar={
-            <Avatar
-              sx={{
-                backgroundColor: "#D76316",
-              }}
-              aria-label="recipe"
-            >
-              {prediction.creatorFirstName[0] + prediction.creatorLastName[0]}
-            </Avatar>
-          }
-          title="Posted by"
-          subheader={
-            prediction.creatorFirstName + " " + prediction.creatorLastName
-          }
-        />
-        <CardContent>
-          <Typography variant="body2" sx={{ color: "#FFF", fontSize: "15px" }}>
-            {prediction.content}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ color: "#FFF", fontSize: "12px", mt: 3 }}
-          >
-            3 points to play
-          </Typography>
-        </CardContent>
-      </Card> */}
+    <Animated.View>
       <Card style={{ backgroundColor: colors.bg.primary, borderRadius: 10 }}>
         <Card.Content>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -114,21 +75,12 @@ export const PredictionCard: FC<PredictionCardProps> = ({
             <Spacer position="right" size="large">
               <View></View>
             </Spacer>
-            <View style={{ flexGrow: 1 }}>
+            <View>
               <Text style={{ color: colors.text.inverse }} variant="body">
-                Posted by:
+                Posted by
               </Text>
               <Text style={{ color: colors.text.inverse }} variant="body">
                 {prediction.creatorFirstName + prediction.creatorLastName}
-              </Text>
-            </View>
-            <View>
-              <Text style={{ color: colors.text.inverse }} variant="body">
-                Expires in:
-              </Text>
-              <Text style={{ color: colors.text.inverse }} variant="body">
-                {prediction.countdownDays} days : {prediction.countdownHours}{" "}
-                hours : {prediction.countdownMinutes} minutes
               </Text>
             </View>
           </View>
@@ -162,7 +114,7 @@ export const PredictionCard: FC<PredictionCardProps> = ({
           color={colors.ui.error}
           style={{ backgroundColor: colors.text.inverse }}
           icon="alpha-x"
-          onPress={handleVoteWrong}
+          onPress={handleDelete}
         />
         <Spacer position="right" size="large">
           <View></View>
@@ -171,7 +123,7 @@ export const PredictionCard: FC<PredictionCardProps> = ({
           style={{ backgroundColor: colors.text.inverse }}
           icon="check"
           color={colors.bg.primary}
-          onPress={handleVoteCorrect}
+          onPress={handleApprove}
         />
         <Spacer position="right" size="large">
           <View></View>
@@ -183,6 +135,6 @@ export const PredictionCard: FC<PredictionCardProps> = ({
           onPress={handleNext}
         />
       </View>
-    </>
+    </Animated.View>
   );
 };

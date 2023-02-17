@@ -12,6 +12,9 @@ export type Prediction = {
   answer: string;
   creatorFirstName: string;
   creatorLastName: string;
+  countdownDays: number;
+  countdownHours: number;
+  countdownMinutes: number;
 };
 
 export type VotePrediction = {
@@ -54,6 +57,11 @@ export type CreatePredictionInputModel = {
   email: string;
 };
 
+export type UpdatePredictionInputModel = {
+  _id: string;
+  answer: string;
+};
+
 // React Query hooks
 
 export function useGetTotal(email: string) {
@@ -80,6 +88,16 @@ export function useVotedPredictionsByUser(
   return useQuery(
     ["predictions/votedByUser", page, itemsPerPage, email],
     () => getAllVotedPredictionsByUser(page, itemsPerPage, email),
+    {
+      keepPreviousData: true,
+    }
+  );
+}
+
+export function useUnapproved(page: number, itemsPerPage: number) {
+  return useQuery(
+    ["predictions", page, itemsPerPage],
+    () => getAllUnapprovedPredictions(page, itemsPerPage),
     {
       keepPreviousData: true,
     }
@@ -155,6 +173,69 @@ export function useCreatePrediction() {
   });
 }
 
+export function useApprovePrediction() {
+  const queryClient = useQueryClient();
+
+  return useMutation(approvePrediction, {
+    onMutate: () => {
+      console.log("useApprovePrediction: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "Prediction approved successfully!");
+      console.log("Prediction approved successfully!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["predictions"]);
+    },
+  });
+}
+
+export function useDeletePrediction() {
+  const queryClient = useQueryClient();
+
+  return useMutation(deletePrediction, {
+    onMutate: () => {
+      console.log("useDeletePrediction: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "Prediction deleted successfully!");
+      console.log("Prediction deleted successfully!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["predictions"]);
+    },
+  });
+}
+
+export function useUpdatePrediction() {
+  const queryClient = useQueryClient();
+
+  return useMutation(updatePrediction, {
+    onMutate: () => {
+      console.log("useUpdatePrediction: onMutate hook was triggered");
+    },
+    onSuccess: () => {
+      showToast("success", "Prediction updated successfully!");
+      console.log("Prediction updated successfully!");
+    },
+    onError: (error: AxiosError) => {
+      showToast("error", (error.response?.data as ErrorResponse).msg);
+      console.error(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["predictions"]);
+    },
+  });
+}
+
 // API methods
 
 export const getTotalPredictionPoints = async (email: string) => {
@@ -188,6 +269,16 @@ export const getAllVotedPredictionsByUser = async (
   return result;
 };
 
+export const getAllUnapprovedPredictions = async (
+  page: number,
+  itemsPerPage: number
+) => {
+  const response = await axios.get<GetAllUnapprovedPredictionsViewModel>(
+    `${BASE_URL}/predictions/unapproved?page=${page}&itemsPerPage=${itemsPerPage}`
+  );
+  return response.data;
+};
+
 export const createVotePrediction = async (
   inputModel: CreateVotePredictionInputModel
 ) => {
@@ -215,4 +306,18 @@ export const createPrediction = async (
   inputModel: CreatePredictionInputModel
 ) => {
   await axios.post(`${BASE_URL}/predictions`, inputModel);
+};
+
+export const approvePrediction = async (id: string) => {
+  await axios.patch(`${BASE_URL}/predictions/approve/${id}`);
+};
+
+export const deletePrediction = async (id: string) => {
+  await axios.delete(`${BASE_URL}/predictions/${id}`);
+};
+
+export const updatePrediction = async (
+  inputModel: UpdatePredictionInputModel
+) => {
+  await axios.patch(`${BASE_URL}/predictions/${inputModel._id}`, inputModel);
 };

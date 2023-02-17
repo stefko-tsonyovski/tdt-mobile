@@ -1,10 +1,10 @@
 import React, { FC, useContext } from "react";
 
 import { useAtom } from "jotai";
-import { approvedPredictionsCurrentPageAtom } from "../../../../utils/atoms";
+import { predictionsWithoutAnswerCurrentPageAtom } from "../../../../utils/atoms";
 import {
   Prediction,
-  useCreateVotePrediction,
+  useUpdatePrediction,
 } from "../../../../services/predictions/predictions.service";
 import { Avatar, Button, Card, FAB } from "react-native-paper";
 import { Text } from "../../../../components/typography/text.component";
@@ -19,88 +19,43 @@ export type PredictionCardProps = {
   length: number;
 };
 
-export const PredictionCard: FC<PredictionCardProps> = ({
+export const PredictionsWithoutAnswerCard: FC<PredictionCardProps> = ({
   prediction,
   length,
 }) => {
-  const { user } = useContext(AuthenticationContext);
   const [predictionsCurrentPage, setPredictionsCurrentPage] = useAtom(
-    approvedPredictionsCurrentPageAtom
+    predictionsWithoutAnswerCurrentPageAtom
   );
-  const { mutate: createVotePrediction } = useCreateVotePrediction();
 
-  //   const { mutate: updatePrediction, isLoading: isLoadingUpdate } =
-  //     useUpdatePrediction();
+  const { mutate: updatePrediction, isLoading: isLoadingUpdate } =
+    useUpdatePrediction();
 
   const handlePrevious = () =>
     setPredictionsCurrentPage(predictionsCurrentPage - 1);
   const handleNext = () =>
     setPredictionsCurrentPage(predictionsCurrentPage + 1);
 
-  const handleVoteCorrect = () => {
-    const inputModel = {
-      _id: prediction._id,
-      answer: "correct",
-      email: user.email,
-    };
+  const handleCorrectAnswer = () => {
+    if (predictionsCurrentPage > 1) {
+      handlePrevious();
+    } else {
+      setPredictionsCurrentPage(1);
+    }
 
-    createVotePrediction(inputModel);
+    updatePrediction({ _id: prediction._id, answer: "correct" });
   };
+  const handleWrongAnswer = () => {
+    if (predictionsCurrentPage > 1) {
+      handlePrevious();
+    } else {
+      setPredictionsCurrentPage(1);
+    }
 
-  const handleVoteWrong = () => {
-    const inputModel = {
-      _id: prediction._id,
-      answer: "wrong",
-      email: user.email,
-    };
-
-    createVotePrediction(inputModel);
+    updatePrediction({ _id: prediction._id, answer: "wrong" });
   };
 
   return (
     <>
-      {/* <Card
-        sx={{
-          backgroundColor: "#02563C",
-          mt: 2,
-          borderRadius: "15px",
-          boxShadow: "0 0 5px #000",
-        }}
-      >
-        <CardHeader
-          sx={{
-            color: "#FFF",
-            "& span": {
-              color: "#FFF",
-            },
-          }}
-          avatar={
-            <Avatar
-              sx={{
-                backgroundColor: "#D76316",
-              }}
-              aria-label="recipe"
-            >
-              {prediction.creatorFirstName[0] + prediction.creatorLastName[0]}
-            </Avatar>
-          }
-          title="Posted by"
-          subheader={
-            prediction.creatorFirstName + " " + prediction.creatorLastName
-          }
-        />
-        <CardContent>
-          <Typography variant="body2" sx={{ color: "#FFF", fontSize: "15px" }}>
-            {prediction.content}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ color: "#FFF", fontSize: "12px", mt: 3 }}
-          >
-            3 points to play
-          </Typography>
-        </CardContent>
-      </Card> */}
       <Card style={{ backgroundColor: colors.bg.primary, borderRadius: 10 }}>
         <Card.Content>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -114,21 +69,12 @@ export const PredictionCard: FC<PredictionCardProps> = ({
             <Spacer position="right" size="large">
               <View></View>
             </Spacer>
-            <View style={{ flexGrow: 1 }}>
+            <View>
               <Text style={{ color: colors.text.inverse }} variant="body">
-                Posted by:
+                Posted by
               </Text>
               <Text style={{ color: colors.text.inverse }} variant="body">
                 {prediction.creatorFirstName + prediction.creatorLastName}
-              </Text>
-            </View>
-            <View>
-              <Text style={{ color: colors.text.inverse }} variant="body">
-                Expires in:
-              </Text>
-              <Text style={{ color: colors.text.inverse }} variant="body">
-                {prediction.countdownDays} days : {prediction.countdownHours}{" "}
-                hours : {prediction.countdownMinutes} minutes
               </Text>
             </View>
           </View>
@@ -162,7 +108,7 @@ export const PredictionCard: FC<PredictionCardProps> = ({
           color={colors.ui.error}
           style={{ backgroundColor: colors.text.inverse }}
           icon="alpha-x"
-          onPress={handleVoteWrong}
+          onPress={handleWrongAnswer}
         />
         <Spacer position="right" size="large">
           <View></View>
@@ -171,7 +117,7 @@ export const PredictionCard: FC<PredictionCardProps> = ({
           style={{ backgroundColor: colors.text.inverse }}
           icon="check"
           color={colors.bg.primary}
-          onPress={handleVoteCorrect}
+          onPress={handleCorrectAnswer}
         />
         <Spacer position="right" size="large">
           <View></View>

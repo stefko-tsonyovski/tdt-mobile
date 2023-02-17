@@ -1,5 +1,5 @@
 import { Text } from "../../../../components/typography/text.component";
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useState } from "react";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { useUserByEmail } from "../../../../services/users/users.service";
 import { PredictionsToolbar } from "../../components/predictions-toolbar/predictions-toolbar.component";
@@ -10,6 +10,11 @@ import { PredictionsList } from "../../components/predictions-list/predictions-l
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { PredictionsGameRootStackParamList } from "../../../../infrastructure/navigation/predictions-game.navigator";
+import { UnapprovedPredictionsList } from "../../components/unapproved-predictions-list/unapproved-predictions-list.component";
+import { View } from "react-native";
+import { Button } from "react-native-paper";
+import { colors } from "../../../../infrastructure/theme/colors";
+import { PredictionsWithoutAnswerList } from "../../components/predictions-without-asnwer-list/predictions-without-answer-list.component";
 
 export type PredictionsGameScreenProps = NativeStackScreenProps<
   PredictionsGameRootStackParamList,
@@ -24,6 +29,8 @@ export const PredictionsGameScreen: FC<PredictionsGameScreenProps> = ({
   const { data: usersData, isLoading: isLoadingUsers } = useUserByEmail(
     user.email
   );
+
+  const [isUnapproved, setIsUnapproved] = useState(true);
 
   return (
     <FantasyGameScreenContainer>
@@ -42,7 +49,49 @@ export const PredictionsGameScreen: FC<PredictionsGameScreenProps> = ({
           </Spacer>
         </>
       ) : (
-        <Text variant="body">Admin</Text>
+        <>
+          {isUnapproved ? (
+            <>
+              <Button
+                onPress={() => setIsUnapproved(false)}
+                mode="contained"
+                color={colors.bg.primary}
+              >
+                PREDICTIONS WITHOUT ANSWER
+              </Button>
+
+              <Spacer position="top" size="large">
+                <HorizontalDivider />
+              </Spacer>
+
+              <Spacer position="top" size="large">
+                <View></View>
+              </Spacer>
+
+              <UnapprovedPredictionsList />
+            </>
+          ) : (
+            <>
+              <Button
+                onPress={() => setIsUnapproved(true)}
+                mode="contained"
+                color={colors.bg.primary}
+              >
+                UNAPPROVED PREDICTIONS
+              </Button>
+
+              <Spacer position="top" size="large">
+                <HorizontalDivider />
+              </Spacer>
+
+              <Spacer position="top" size="large">
+                <View></View>
+              </Spacer>
+
+              <PredictionsWithoutAnswerList />
+            </>
+          )}
+        </>
       )}
     </FantasyGameScreenContainer>
   );
