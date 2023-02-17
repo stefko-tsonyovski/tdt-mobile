@@ -1,6 +1,6 @@
 import { Card } from "react-native-paper";
 import styled from "styled-components/native";
-import { Text } from "../../../components/typography/text.component";
+import { Text } from "../../../../components/typography/text.component";
 
 export const CardContainer = styled(Card)`
   background-color: #c4c4c4;

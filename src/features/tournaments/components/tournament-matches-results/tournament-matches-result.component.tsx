@@ -1,11 +1,11 @@
 import React, { FC, useCallback } from "react";
 import {
-  MatchDrawViewModel,
+  MatchCardViewModel,
   MatchesByRoundViewModel,
   useMatchesByTournamentGroupByRound,
 } from "../../../../services/matches/matches.service";
 import { Text } from "../../../../components/typography/text.component";
-import { MatchResultCard } from "../../../matches/match-result-card/match-result-card.component";
+import { MatchResultCard } from "../../../matches/components/match-result-card/match-result-card.component";
 import { FlatList } from "react-native-gesture-handler";
 
 type TournamentMatchesResults = {
@@ -18,14 +18,14 @@ export const TournamentMatchesResults: FC<TournamentMatchesResults> = ({
   const { data, isLoading } = useMatchesByTournamentGroupByRound(tournamentId);
 
   const renderItemMatches = useCallback(
-    ({ item }: { item: MatchDrawViewModel }) => (
+    ({ item }: { item: MatchCardViewModel }) => (
       <MatchResultCard match={item} />
     ),
     [data]
   );
 
   const keyExtractorMatches = useCallback(
-    (item: MatchDrawViewModel, index: number) =>
+    (item: MatchCardViewModel, index: number) =>
       item.id.toString() + index.toString(),
     [data]
   );

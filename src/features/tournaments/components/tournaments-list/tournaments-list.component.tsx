@@ -39,8 +39,9 @@ export const TournamentsList: FC<TournamentsListProps> = ({ navigation }) => {
         <TouchableOpacity
           key={item.id}
           onPress={() =>
-            navigation.navigate("TournamentDetails", {
+            navigation.navigate("SingleTournamentMatches", {
               tournamentId: item.id,
+              date: date,
             })
           }
         >

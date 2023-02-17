@@ -6,12 +6,12 @@ import { Divider } from "react-native-paper";
 import { Text } from "../../../../components/typography/text.component";
 import {
   Match,
-  MatchDrawViewModel,
+  MatchCardViewModel,
   useMatchesByTournamentAndRound,
 } from "../../../../services/matches/matches.service";
 import { selectedRoundId } from "../../../../utils/atoms";
-import { MatchResultCard } from "../../../matches/match-result-card/match-result-card.component";
-import { MatchesRoundFilter } from "../../../matches/matches-round-filter/matches-round-filter.component";
+import { MatchResultCard } from "../../../matches/components/match-result-card/match-result-card.component";
+import { MatchesRoundFilter } from "../../../matches/components/matches-round-filter/matches-round-filter.component";
 
 type TournamentMatchesDrawProps = {
   tournamentId: number;
@@ -27,14 +27,14 @@ export const TournamentMatchesDraw: FC<TournamentMatchesDrawProps> = ({
   );
 
   const renderItem = useCallback(
-    ({ item }: { item: MatchDrawViewModel }) => (
+    ({ item }: { item: MatchCardViewModel }) => (
       <MatchResultCard match={item} />
     ),
     [data]
   );
 
   const keyExtractor = useCallback(
-    (item: MatchDrawViewModel) => item.id.toString(),
+    (item: MatchCardViewModel) => item.id.toString(),
     [data]
   );
 
