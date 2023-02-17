@@ -36,8 +36,8 @@ export const AppNavigator = () => {
         },
       })}
     >
-      <Tab.Screen name="Games" component={GamesNavigator} />
       <Tab.Screen name="Tournaments" component={TournamentsNavigator} />
+      <Tab.Screen name="Games" component={GamesNavigator} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
