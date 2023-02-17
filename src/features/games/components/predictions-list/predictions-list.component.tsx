@@ -9,6 +9,7 @@ import { useApproved } from "../../../../services/predictions/predictions.servic
 import { approvedPredictionsCurrentPageAtom } from "../../../../utils/atoms";
 import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
 import { PredictionCard } from "../predictions-card/predictions-card.component";
+import { ListHeading } from "../voted-prediction-list/voted-prediction-list.styles";
 
 export const PredictionsList = () => {
   const { user } = useContext(AuthenticationContext);
@@ -30,18 +31,9 @@ export const PredictionsList = () => {
         <Text variant="body">Loading...</Text>
       ) : (
         <>
-          <Text
-            style={{
-              textAlign: "center",
-              color: colors.bg.primary,
-              fontSize: 20,
-            }}
-            variant="body"
-          >
-            PREDICTIONS
-          </Text>
+          <ListHeading variant="body">PREDICTIONS</ListHeading>
 
-          <Spacer position="top" size="large">
+          <Spacer position="top" size="xl">
             <View></View>
           </Spacer>
 
@@ -56,16 +48,7 @@ export const PredictionsList = () => {
               ))}
             </>
           ) : (
-            <Text
-              style={{
-                textAlign: "center",
-                color: colors.bg.primary,
-                fontSize: 20,
-              }}
-              variant="body"
-            >
-              NO PREDICTIONS!
-            </Text>
+            <ListHeading variant="body">NO PREDICTIONS!</ListHeading>
           )}
         </>
       )}

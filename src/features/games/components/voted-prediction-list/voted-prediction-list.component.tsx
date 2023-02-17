@@ -16,6 +16,7 @@ import {
 import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
 import { PredictionCard } from "../predictions-card/predictions-card.component";
 import { VotedPredictionCard } from "../voted-prediction-card/voted-prediction-card.component";
+import { ListHeading } from "./voted-prediction-list.styles";
 
 export const VotedPredictionsList = () => {
   const { user } = useContext(AuthenticationContext);
@@ -35,18 +36,9 @@ export const VotedPredictionsList = () => {
         <Text variant="body">Loading...</Text>
       ) : (
         <>
-          <Text
-            style={{
-              textAlign: "center",
-              color: colors.bg.primary,
-              fontSize: 20,
-            }}
-            variant="body"
-          >
-            YOUR VOTES
-          </Text>
+          <ListHeading variant="body">YOUR VOTES</ListHeading>
 
-          <Spacer position="top" size="large">
+          <Spacer position="top" size="xl">
             <View></View>
           </Spacer>
 
@@ -61,16 +53,7 @@ export const VotedPredictionsList = () => {
               ))}
             </>
           ) : (
-            <Text
-              style={{
-                textAlign: "center",
-                color: colors.bg.primary,
-                fontSize: 20,
-              }}
-              variant="body"
-            >
-              NO VOTES!
-            </Text>
+            <ListHeading variant="body">NO VOTES!</ListHeading>
           )}
         </>
       )}
