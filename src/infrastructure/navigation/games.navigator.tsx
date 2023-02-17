@@ -39,7 +39,7 @@ export const GamesNavigator = () => (
       component={BracketGameScreen}
     />
     <Stack.Screen
-      options={({}) => ({ title: "Predict" })}
+      options={({}) => ({ headerShown: false })}
       name="PredictGame"
       component={PredictionsGameNavigator}
     />
