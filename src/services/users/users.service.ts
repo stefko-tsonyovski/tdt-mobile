@@ -15,9 +15,23 @@ export type CreateUserDto = {
 export type User = {
   _id: string;
   role: string;
+  position: number;
+  leaguePosition: number;
+  leagueId: string;
+  leagueCreatorId: string;
+  totalPoints: number;
 } & CreateUserDto;
 
+export type GetTop200ViewModel = {
+  users: User[];
+  leagueName: string;
+};
+
 // React Query hooks
+
+export function useTop200() {
+  return useQuery(["users"], getTop200Users);
+}
 
 export function useTradesByUser(email: string) {
   return useQuery(["team", "substitutions", email], () =>
@@ -27,6 +41,12 @@ export function useTradesByUser(email: string) {
 
 export function useUserByEmail(email: string) {
   return useQuery(["users", email], () => getUserByEmail(email));
+}
+
+export function useCurrentUserPosition(email: string) {
+  return useQuery(["leagues", "users", email], () =>
+    getCurrentUserPosition(email)
+  );
 }
 
 export function useCreateUser() {
@@ -50,6 +70,11 @@ export function useCreateUser() {
 
 // API methods
 
+export const getTop200Users = async () => {
+  const response = await axios.get<GetTop200ViewModel>(`${BASE_URL}/users`);
+  return response.data;
+};
+
 export const getTradesByUser = async (email: string) => {
   const response = await axios.get<GetTradesByUserViewModel>(
     `${BASE_URL}/users/trades?email=${email}`
@@ -59,6 +84,13 @@ export const getTradesByUser = async (email: string) => {
 
 export const getUserByEmail = async (email: string) => {
   const response = await axios.get<User>(`${BASE_URL}/users/byEmail/${email}`);
+  return response.data;
+};
+
+export const getCurrentUserPosition = async (email: string) => {
+  const response = await axios.get<User>(
+    `${BASE_URL}/users/showMe?email=${email}`
+  );
   return response.data;
 };
 
