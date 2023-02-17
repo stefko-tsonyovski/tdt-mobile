@@ -26,11 +26,53 @@ export type Match = {
   favoriteId?: string;
 };
 
-export type GetMatches = {
+export type MatchesByRoundViewModel = {
+  round: {
+    _id: string;
+    name: string;
+  };
+  matches: MatchDrawViewModel[];
+};
+
+export type MatchDrawViewModel = {
+  id: number;
+  homeId: number;
+  homePlayer: {
+    name: string;
+    ranking: number;
+  };
+  homeSets: number;
+  awayId: number;
+  awayPlayer: {
+    name: string;
+    ranking: number;
+  };
+  awaySets: number;
+  winnerId: number;
+};
+
+export type GetMatchesViewModel = {
   matches: Match[];
 };
 
+export type GetDrawMatchesViewModel = {
+  matches: MatchDrawViewModel[];
+};
+
+export type GetMatchesGroupedByRoundVieModel = {
+  groupedMatches: MatchesByRoundViewModel[];
+};
+
 // React Query Hooks
+
+export function useMatchesByTournamentAndDate(
+  tournamentId?: number,
+  date?: string
+) {
+  return useQuery([`matches`, tournamentId, date], () =>
+    getMatchesByTournamentAndDate(tournamentId, date)
+  );
+}
 
 export function useMatchesByTournamentAndRound(
   tournamentId: number,
@@ -41,14 +83,40 @@ export function useMatchesByTournamentAndRound(
   );
 }
 
+export function useMatchesByTournamentGroupByRound(tournamentId: number) {
+  return useQuery(["matches/byTournamentGroupedByRound", tournamentId], () =>
+    getMatchesByTournamentGroupByRound(tournamentId)
+  );
+}
+
 // API Methods
+
+const getMatchesByTournamentAndDate = async (
+  tournamentId?: number,
+  date?: string
+) => {
+  const response = await axios.get<GetMatchesViewModel>(
+    `/api/v1/matches/byTournamentAndDate?tournamentId=${tournamentId}&date=${date}`
+  );
+  const result = response.data;
+  return result;
+};
 
 const getMatchesByTournamentAndRound = async (
   tournamentId: number,
   roundId: string
 ) => {
-  const response = await axios.get<GetMatches>(
+  const response = await axios.get<GetDrawMatchesViewModel>(
     `${BASE_URL}/matches/byTournamentAndRound?tournamentId=${tournamentId}&roundId=${roundId}`
+  );
+  const result = response.data;
+
+  return result;
+};
+
+const getMatchesByTournamentGroupByRound = async (tournamentId: number) => {
+  const response = await axios.get<GetMatchesGroupedByRoundVieModel>(
+    `${BASE_URL}/matches/byTournamentGroupByRound?tournamentId=${tournamentId}`
   );
   const result = response.data;
 

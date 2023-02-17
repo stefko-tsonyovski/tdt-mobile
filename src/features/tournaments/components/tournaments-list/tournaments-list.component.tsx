@@ -1,8 +1,8 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useCallback, useContext } from "react";
 import { Text } from "../../../../components/typography/text.component";
-import { Card, Divider } from "react-native-paper";
+import { Divider } from "react-native-paper";
 import {
-  useAllTournaments,
+  Tournament,
   useAllTournamentsByDate,
 } from "../../../../services/tournaments/tournaments.service";
 import { AxiosError } from "axios";
@@ -10,13 +10,9 @@ import { useAtom } from "jotai";
 import { selectedDateAtom } from "../../../../utils/atoms";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { TournamentItemCard } from "../tournament-item-card/tournament-item-card.component";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { StackScreenProps } from "@react-navigation/stack";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from "@react-navigation/native-stack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export type TournamentsListProps = {
   navigation: NativeStackNavigationProp<
@@ -37,24 +33,40 @@ export const TournamentsList: FC<TournamentsListProps> = ({ navigation }) => {
     <Text variant="body">{(error as AxiosError).message}</Text>;
   }
 
+  const renderItem = useCallback(
+    ({ item }: { item: Tournament }) => {
+      return (
+        <TouchableOpacity
+          key={item.id}
+          onPress={() =>
+            navigation.navigate("TournamentDetails", {
+              tournamentId: item.id,
+            })
+          }
+        >
+          <TournamentItemCard tournament={item} />
+        </TouchableOpacity>
+      );
+    },
+    [data]
+  );
+
+  const keyExtractor = useCallback(
+    (item: Tournament, index: number) => item.id.toString(),
+    [data]
+  );
+
   return (
     <>
       {!isLoading && data ? (
         data?.tournaments?.length > 0 ? (
-          data?.tournaments?.map((tournament) => {
-            return (
-              <TouchableOpacity
-                key={tournament.id}
-                onPress={() =>
-                  navigation.navigate("TournamentDetails", {
-                    tournamentId: tournament.id,
-                  })
-                }
-              >
-                <TournamentItemCard tournament={tournament} />
-              </TouchableOpacity>
-            );
-          })
+          <FlatList
+            initialNumToRender={8}
+            maxToRenderPerBatch={16}
+            data={data.tournaments}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+          />
         ) : (
           <>
             <Divider />

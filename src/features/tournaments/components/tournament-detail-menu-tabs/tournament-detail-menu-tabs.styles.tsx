@@ -29,7 +29,7 @@ export const ActiveTab = styled.View`
 `;
 
 export const TabPanelContainer = styled.View`
-  flex: 0.8;
+  flex: 0.9;
   width: 100%;
 `;
 
