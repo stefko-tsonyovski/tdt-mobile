@@ -13,6 +13,7 @@ import { predictionsWithoutAnswerCurrentPageAtom } from "../../../../utils/atoms
 import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
 import { PredictionsWithoutAnswerCard } from "../predictions-without-answer-card/predictions-without-answer-card.component";
 import { UnapprovedPredictionCard } from "../unapproved-predictions-card/unapproved-predictions-card.component";
+import { ListHeading } from "../voted-prediction-list/voted-prediction-list.styles";
 
 export const PredictionsWithoutAnswerList = () => {
   const { user } = useContext(AuthenticationContext);
@@ -34,18 +35,9 @@ export const PredictionsWithoutAnswerList = () => {
         <Text variant="body">Loading...</Text>
       ) : (
         <>
-          <Text
-            style={{
-              textAlign: "center",
-              color: colors.bg.primary,
-              fontSize: 20,
-            }}
-            variant="body"
-          >
-            PREDICTIONS WITHOUT ANSWER
-          </Text>
+          <ListHeading variant="body">PREDICTIONS WITHOUT ANSWER</ListHeading>
 
-          <Spacer position="top" size="large">
+          <Spacer position="top" size="xl">
             <View></View>
           </Spacer>
 
@@ -60,16 +52,9 @@ export const PredictionsWithoutAnswerList = () => {
               ))}
             </>
           ) : (
-            <Text
-              style={{
-                textAlign: "center",
-                color: colors.bg.primary,
-                fontSize: 20,
-              }}
-              variant="body"
-            >
+            <ListHeading variant="body">
               NO PREDICTIONS WITHOUT ANSWER!
-            </Text>
+            </ListHeading>
           )}
         </>
       )}

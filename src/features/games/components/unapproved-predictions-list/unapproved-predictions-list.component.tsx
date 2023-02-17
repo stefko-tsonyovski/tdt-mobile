@@ -8,6 +8,7 @@ import { useUnapproved } from "../../../../services/predictions/predictions.serv
 import { unapprovedPredictionsCurrentPageAtom } from "../../../../utils/atoms";
 import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
 import { UnapprovedPredictionCard } from "../unapproved-predictions-card/unapproved-predictions-card.component";
+import { ListHeading } from "../voted-prediction-list/voted-prediction-list.styles";
 
 export const UnapprovedPredictionsList = () => {
   const [unapprovedPredictionsCurrentPage] = useAtom(
@@ -23,18 +24,9 @@ export const UnapprovedPredictionsList = () => {
         <Text variant="body">Loading...</Text>
       ) : (
         <>
-          <Text
-            style={{
-              textAlign: "center",
-              color: colors.bg.primary,
-              fontSize: 20,
-            }}
-            variant="body"
-          >
-            UNAPPROVED PREDICTIONS
-          </Text>
+          <ListHeading variant="body">UNAPPROVED PREDICTIONS</ListHeading>
 
-          <Spacer position="top" size="large">
+          <Spacer position="top" size="xl">
             <View></View>
           </Spacer>
 
@@ -49,16 +41,7 @@ export const UnapprovedPredictionsList = () => {
               ))}
             </>
           ) : (
-            <Text
-              style={{
-                textAlign: "center",
-                color: colors.bg.primary,
-                fontSize: 20,
-              }}
-              variant="body"
-            >
-              NO UNAPPROVED PREDICTIONS!
-            </Text>
+            <ListHeading variant="body">NO UNAPPROVED PREDICTIONS!</ListHeading>
           )}
         </>
       )}

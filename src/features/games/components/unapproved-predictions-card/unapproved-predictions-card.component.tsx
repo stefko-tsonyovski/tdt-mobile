@@ -10,10 +10,22 @@ import {
 import { Avatar, Card, FAB } from "react-native-paper";
 import { Text } from "../../../../components/typography/text.component";
 import { colors } from "../../../../infrastructure/theme/colors";
-import { View, Animated } from "react-native";
+import { View, Animated, Dimensions } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
-import { useSwipe } from "../../../../infrastructure/swipe/use-swipe.hook";
+import {
+  HandlerStateChangeEvent,
+  PanGestureHandler,
+  PanGestureHandlerEventPayload,
+} from "react-native-gesture-handler";
+import {
+  PredictionCardActionsContainer,
+  PredictionCardAvatarText,
+  PredictionCardContainer,
+  PredictionCardFAB,
+  PredictionCardHeaderContainer,
+  PredictionCardText,
+} from "../voted-prediction-card/voted-prediction-card.styles";
 
 export type PredictionCardProps = {
   prediction: Prediction;
@@ -28,8 +40,69 @@ export const UnapprovedPredictionCard: FC<PredictionCardProps> = ({
     unapprovedPredictionsCurrentPageAtom
   );
 
-  const { mutate: approvePrediction } = useApprovePrediction();
-  const { mutate: deletePrediction } = useDeletePrediction();
+  const { mutate: approvePrediction, isLoading: isLoadingApprove } =
+    useApprovePrediction();
+  const { mutate: deletePrediction, isLoading: isLoadingDelete } =
+    useDeletePrediction();
+
+  const translateX = new Animated.Value(0);
+  const translateY = new Animated.Value(0);
+  const y = new Animated.Value(0);
+  const windowHeight = Dimensions.get("window").height;
+
+  const TopOrBottom = y.interpolate({
+    inputRange: [0, windowHeight / 2 - 1, windowHeight / 2],
+    outputRange: [1, 1, -1],
+    extrapolate: "clamp",
+  });
+
+  const rotate = Animated.multiply(translateX, TopOrBottom).interpolate({
+    inputRange: [-500, 500],
+    outputRange: [`-15deg`, `15deg`],
+    extrapolate: "clamp",
+  });
+
+  const reset = Animated.parallel([
+    Animated.timing(translateX, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: true,
+    }),
+    Animated.timing(translateY, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: true,
+    }),
+  ]);
+
+  const handlePan = Animated.event(
+    [
+      {
+        nativeEvent: {
+          translationX: translateX,
+          translationY: new Animated.Value(0),
+          y,
+        },
+      },
+    ],
+    { useNativeDriver: true }
+  );
+
+  const handlePanStateChange = ({
+    nativeEvent,
+  }: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) => {
+    const { state, translationX } = nativeEvent;
+
+    if (state === 5) {
+      if (translationX > 185) {
+        handleApprove();
+      } else if (translationX < -185) {
+        handleDelete();
+      } else {
+        reset.start();
+      }
+    }
+  };
 
   const handlePrevious = () =>
     setPredictionsCurrentPage(predictionsCurrentPage - 1);
@@ -45,6 +118,7 @@ export const UnapprovedPredictionCard: FC<PredictionCardProps> = ({
 
     approvePrediction(prediction._id);
   };
+
   const handleDelete = () => {
     if (predictionsCurrentPage > 1) {
       handlePrevious();
@@ -61,80 +135,94 @@ export const UnapprovedPredictionCard: FC<PredictionCardProps> = ({
   // const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 6);
 
   return (
-    <Animated.View>
-      <Card style={{ backgroundColor: colors.bg.primary, borderRadius: 10 }}>
-        <Card.Content>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Avatar.Text
-              style={{ backgroundColor: colors.bg.secondary }}
-              size={30}
-              label={
-                prediction.creatorFirstName[0] + prediction.creatorLastName[0]
-              }
+    <>
+      {isLoadingApprove || isLoadingDelete ? (
+        <Text variant="body">Loading...</Text>
+      ) : (
+        <>
+          <PanGestureHandler
+            onHandlerStateChange={handlePanStateChange}
+            onGestureEvent={handlePan}
+          >
+            <Animated.View
+              style={{
+                transform: [{ translateX }, { translateY }, { rotate }],
+              }}
+            >
+              <PredictionCardContainer>
+                <Card.Content>
+                  <PredictionCardHeaderContainer>
+                    <PredictionCardAvatarText
+                      size={30}
+                      label={
+                        prediction.creatorFirstName[0] +
+                        prediction.creatorLastName[0]
+                      }
+                    />
+                    <Spacer position="right" size="large">
+                      <View></View>
+                    </Spacer>
+                    <View>
+                      <PredictionCardText variant="body">
+                        Posted by
+                      </PredictionCardText>
+                      <PredictionCardText variant="body">
+                        {prediction.creatorFirstName +
+                          prediction.creatorLastName}
+                      </PredictionCardText>
+                    </View>
+                  </PredictionCardHeaderContainer>
+                  <Spacer position="top" size="large">
+                    <View></View>
+                  </Spacer>
+                  <PredictionCardText variant="body">
+                    {prediction.content}
+                  </PredictionCardText>
+                  <PredictionCardText variant="body">
+                    3 points to play
+                  </PredictionCardText>
+                </Card.Content>
+              </PredictionCardContainer>
+            </Animated.View>
+          </PanGestureHandler>
+
+          <Spacer position="top" size="large">
+            <View></View>
+          </Spacer>
+
+          <PredictionCardActionsContainer>
+            <PredictionCardFAB
+              disabled={predictionsCurrentPage <= PLAYERS_INITIAL_PAGE}
+              icon="rewind"
+              onPress={handlePrevious}
             />
             <Spacer position="right" size="large">
               <View></View>
             </Spacer>
-            <View>
-              <Text style={{ color: colors.text.inverse }} variant="body">
-                Posted by
-              </Text>
-              <Text style={{ color: colors.text.inverse }} variant="body">
-                {prediction.creatorFirstName + prediction.creatorLastName}
-              </Text>
-            </View>
-          </View>
-          <Spacer position="top" size="large">
-            <View></View>
-          </Spacer>
-          <Text style={{ color: colors.text.inverse }} variant="body">
-            {prediction.content}
-          </Text>
-          <Text style={{ color: colors.text.inverse }} variant="body">
-            3 points to play
-          </Text>
-        </Card.Content>
-      </Card>
-
-      <Spacer position="top" size="large">
-        <View></View>
-      </Spacer>
-
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        <FAB
-          disabled={predictionsCurrentPage <= PLAYERS_INITIAL_PAGE}
-          style={{ backgroundColor: colors.text.inverse }}
-          icon="rewind"
-          onPress={handlePrevious}
-        />
-        <Spacer position="right" size="large">
-          <View></View>
-        </Spacer>
-        <FAB
-          color={colors.ui.error}
-          style={{ backgroundColor: colors.text.inverse }}
-          icon="alpha-x"
-          onPress={handleDelete}
-        />
-        <Spacer position="right" size="large">
-          <View></View>
-        </Spacer>
-        <FAB
-          style={{ backgroundColor: colors.text.inverse }}
-          icon="check"
-          color={colors.bg.primary}
-          onPress={handleApprove}
-        />
-        <Spacer position="right" size="large">
-          <View></View>
-        </Spacer>
-        <FAB
-          disabled={predictionsCurrentPage >= length}
-          style={{ backgroundColor: colors.text.inverse }}
-          icon="fast-forward"
-          onPress={handleNext}
-        />
-      </View>
-    </Animated.View>
+            <PredictionCardFAB
+              color={colors.ui.error}
+              icon="alpha-x"
+              onPress={handleDelete}
+            />
+            <Spacer position="right" size="large">
+              <View></View>
+            </Spacer>
+            <PredictionCardFAB
+              icon="check"
+              color={colors.bg.primary}
+              onPress={handleApprove}
+            />
+            <Spacer position="right" size="large">
+              <View></View>
+            </Spacer>
+            <PredictionCardFAB
+              disabled={predictionsCurrentPage >= length}
+              icon="fast-forward"
+              onPress={handleNext}
+            />
+          </PredictionCardActionsContainer>
+        </>
+      )}
+    </>
   );
 };

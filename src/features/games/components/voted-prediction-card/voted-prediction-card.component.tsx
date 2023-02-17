@@ -17,6 +17,14 @@ import { View } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
+import {
+  PredictionCardActionsContainer,
+  PredictionCardAvatarText,
+  PredictionCardContainer,
+  PredictionCardFAB,
+  PredictionCardHeaderContainer,
+  PredictionCardText,
+} from "./voted-prediction-card.styles";
 
 export type VotedPredictionCardProps = {
   prediction: VotePrediction;
@@ -48,11 +56,10 @@ export const VotedPredictionCard: FC<VotedPredictionCardProps> = ({
 
   return (
     <>
-      <Card style={{ backgroundColor: colors.bg.primary, borderRadius: 10 }}>
+      <PredictionCardContainer>
         <Card.Content>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Avatar.Text
-              style={{ backgroundColor: colors.bg.secondary }}
+          <PredictionCardHeaderContainer>
+            <PredictionCardAvatarText
               size={30}
               label={
                 prediction.prediction.creatorFirstName[0] +
@@ -63,60 +70,55 @@ export const VotedPredictionCard: FC<VotedPredictionCardProps> = ({
               <View></View>
             </Spacer>
             <View>
-              <Text style={{ color: colors.text.inverse }} variant="body">
-                Posted by
-              </Text>
-              <Text style={{ color: colors.text.inverse }} variant="body">
+              <PredictionCardText variant="body">Posted by</PredictionCardText>
+              <PredictionCardText variant="body">
                 {prediction.prediction.creatorFirstName +
                   prediction.prediction.creatorLastName}
-              </Text>
+              </PredictionCardText>
             </View>
-          </View>
+          </PredictionCardHeaderContainer>
           <Spacer position="top" size="large">
             <View></View>
           </Spacer>
-          <Text style={{ color: colors.text.inverse }} variant="body">
+          <PredictionCardText variant="body">
             {prediction.prediction.content}
-          </Text>
-          <Text style={{ color: colors.text.inverse }} variant="body">
+          </PredictionCardText>
+          <PredictionCardText variant="body">
             3 points to play
-          </Text>
-          <Text style={{ color: colors.text.inverse }} variant="body">
+          </PredictionCardText>
+          <PredictionCardText variant="body">
             Prediction guess: {prediction.answer}
-          </Text>
+          </PredictionCardText>
         </Card.Content>
-      </Card>
+      </PredictionCardContainer>
 
       <Spacer position="top" size="large">
         <View></View>
       </Spacer>
 
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        <FAB
+      <PredictionCardActionsContainer>
+        <PredictionCardFAB
           disabled={votePredictionsCurrentPage <= PLAYERS_INITIAL_PAGE}
-          style={{ backgroundColor: colors.text.inverse }}
           icon="rewind"
           onPress={handlePrevious}
         />
         <Spacer position="right" size="large">
           <View></View>
         </Spacer>
-        <FAB
+        <PredictionCardFAB
           color={colors.bg.primary}
-          style={{ backgroundColor: colors.text.inverse }}
           icon="alert-circle-check-outline"
           onPress={handleVerifyVotePrediction}
         />
         <Spacer position="right" size="large">
           <View></View>
         </Spacer>
-        <FAB
+        <PredictionCardFAB
           disabled={votePredictionsCurrentPage >= length}
-          style={{ backgroundColor: colors.text.inverse }}
           icon="fast-forward"
           onPress={handleNext}
         />
-      </View>
+      </PredictionCardActionsContainer>
     </>
   );
 };
