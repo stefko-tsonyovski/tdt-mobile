@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import { View } from "react-native";
 import { Card } from "react-native-paper";
-import { Spacer } from "../../../components/spacer/spacer.component";
-import { Text } from "../../../components/typography/text.component";
+import { Spacer } from "../../../../components/spacer/spacer.component";
+import { Text } from "../../../../components/typography/text.component";
 import {
   Match,
-  MatchDrawViewModel,
-} from "../../../services/matches/matches.service";
+  MatchCardViewModel,
+} from "../../../../services/matches/matches.service";
 import {
   CardContainer,
   PlayerContainer,
@@ -16,7 +16,7 @@ import {
 } from "./match-result-card.styles";
 
 type MatchResultCardProps = {
-  match: MatchDrawViewModel;
+  match: MatchCardViewModel;
 };
 
 export const MatchResultCard: FC<MatchResultCardProps> = ({ match }) => {

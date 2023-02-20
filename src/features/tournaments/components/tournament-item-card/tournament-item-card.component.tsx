@@ -3,7 +3,6 @@ import { Card, Colors, FAB } from "react-native-paper";
 import CountryFlag from "react-native-country-flag";
 import { Tournament } from "../../../../services/tournaments/tournaments.service";
 import { Text } from "../../../../components/typography/text.component";
-import { View } from "react-native";
 
 import {
   CircleContainerFavorites,

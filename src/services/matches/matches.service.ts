@@ -31,32 +31,35 @@ export type MatchesByRoundViewModel = {
     _id: string;
     name: string;
   };
-  matches: MatchDrawViewModel[];
+  matches: MatchCardViewModel[];
 };
 
-export type MatchDrawViewModel = {
+export type MatchCardViewModel = {
   id: number;
   homeId: number;
   homePlayer: {
     name: string;
     ranking: number;
+    countryKey: string;
   };
   homeSets: number;
   awayId: number;
   awayPlayer: {
     name: string;
     ranking: number;
+    countryKey: string;
   };
   awaySets: number;
   winnerId: number;
+  favoriteId: string;
 };
 
 export type GetMatchesViewModel = {
-  matches: Match[];
+  matches: MatchCardViewModel[];
 };
 
 export type GetDrawMatchesViewModel = {
-  matches: MatchDrawViewModel[];
+  matches: MatchCardViewModel[];
 };
 
 export type GetMatchesGroupedByRoundVieModel = {
@@ -67,10 +70,11 @@ export type GetMatchesGroupedByRoundVieModel = {
 
 export function useMatchesByTournamentAndDate(
   tournamentId?: number,
-  date?: string
+  date?: string,
+  email?: string
 ) {
-  return useQuery([`matches`, tournamentId, date], () =>
-    getMatchesByTournamentAndDate(tournamentId, date)
+  return useQuery([`matches`, tournamentId, date, email], () =>
+    getMatchesByTournamentAndDate(tournamentId, date, email)
   );
 }
 
@@ -93,10 +97,12 @@ export function useMatchesByTournamentGroupByRound(tournamentId: number) {
 
 const getMatchesByTournamentAndDate = async (
   tournamentId?: number,
-  date?: string
+  date?: string,
+  email?: string
 ) => {
+  console.log("get matches");
   const response = await axios.get<GetMatchesViewModel>(
-    `/api/v1/matches/byTournamentAndDate?tournamentId=${tournamentId}&date=${date}`
+    `${BASE_URL}/matches/byTournamentAndDate?tournamentId=${tournamentId}&date=${date}&email=${email}`
   );
   const result = response.data;
   return result;
