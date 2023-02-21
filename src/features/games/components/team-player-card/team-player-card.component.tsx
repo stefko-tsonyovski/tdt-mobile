@@ -16,20 +16,28 @@ import {
   TeamPlayerPointsWonContainer,
 } from "./team-player-card.styles";
 import { MultiplierText } from "../team-player-balls/team-player-balls.styles";
+import React from "react";
 
 export type TeamPlayerCardProps = {
   player: PlayerInTeam;
   index: number;
+  disabled?: boolean;
 };
 
-export const TeamPlayerCard: FC<TeamPlayerCardProps> = ({ player, index }) => {
+export const TeamPlayerCard: FC<TeamPlayerCardProps> = ({
+  player,
+  index,
+  disabled,
+}) => {
   return (
     <>
       <TeamPlayerCardContainer>
         <CardHeaderContainer>
           <Index variant="body">{index}</Index>
           <TeamPlayerPointsWonContainer>
-            <MultiplierText variant="body">{player.pointsWon}PT</MultiplierText>
+            <MultiplierText variant="body">
+              {player.pointsWon.toFixed(0)}PT
+            </MultiplierText>
           </TeamPlayerPointsWonContainer>
         </CardHeaderContainer>
         <Spacer position="top" size="medium">
@@ -42,7 +50,7 @@ export const TeamPlayerCard: FC<TeamPlayerCardProps> = ({ player, index }) => {
         </TeamPlayerName>
       </TeamPlayerCardContainer>
       <Spacer position="top" size="small">
-        <TeamPlayerBalls player={player} />
+        <TeamPlayerBalls disabled={disabled} player={player} />
       </Spacer>
     </>
   );

@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import React from "react";
 import { View } from "react-native";
 import { Searchbar, Checkbox } from "react-native-paper";
 import { Spacer } from "../../../components/spacer/spacer.component";
@@ -32,9 +33,10 @@ export const SearchPlayer = () => {
   return (
     <>
       <Searchbar
-        placeholder="Click the input and press the search icon to filter the players..."
+        placeholder="Click the search icon for results..."
         onChangeText={onChangeSearch}
         onSubmitEditing={handleSearch}
+        onIconPress={handleSearch}
         value={searchQuery}
       />
       <Spacer position="top" size="large">

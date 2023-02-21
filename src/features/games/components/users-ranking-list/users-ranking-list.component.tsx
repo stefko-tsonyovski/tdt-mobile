@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import React, { useContext, useState } from "react";
 import { View } from "react-native";
 import { Searchbar } from "react-native-paper";
@@ -11,17 +12,29 @@ import {
   User,
   useTop200,
 } from "../../../../services/users/users.service";
+import { fetchUsersAtom } from "../../../../utils/atoms";
 import { UsersTable } from "../users-table/users-table.component";
+import {
+  InfoBoxContainer,
+  InfoBoxContainerText,
+} from "./users-ranking-list.styles";
 
 export const UsersRankingList = () => {
   const { user } = useContext(AuthenticationContext);
 
-  const { data: usersData, isLoading: isLoadingUsers } = useTop200();
-  const { data: currentUserData } = useCurrentUserPosition(user.email);
-
+  const [fetchUsers, setFetchUsers] = useAtom(fetchUsersAtom);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const onChangeSearch = (query: string) => setSearchQuery(query);
+  const { data: usersData, isLoading: isLoadingUsers } = useTop200(
+    searchQuery,
+    fetchUsers
+  );
+  const { data: currentUserData } = useCurrentUserPosition(user.email);
+
+  const onChangeSearch = (query: string) => {
+    setFetchUsers(false);
+    setSearchQuery(query);
+  };
 
   return (
     <>
@@ -29,29 +42,17 @@ export const UsersRankingList = () => {
         <Text variant="body">Loading...</Text>
       ) : (
         <>
-          <View
-            style={{
-              backgroundColor: colors.bg.primary,
-              padding: 8,
-              borderRadius: 10,
-            }}
-          >
-            <Text
-              style={{ color: colors.text.inverse, fontSize: 20 }}
-              variant="body"
-            >
+          <InfoBoxContainer>
+            <InfoBoxContainerText variant="body">
               USERS RANKINGS
-            </Text>
+            </InfoBoxContainerText>
             <Spacer position="top" size="medium">
               <View></View>
             </Spacer>
-            <Text
-              style={{ color: colors.text.inverse, fontSize: 20 }}
-              variant="body"
-            >
+            <InfoBoxContainerText variant="body">
               YOUR POSITION: #{currentUserData?.position}
-            </Text>
-          </View>
+            </InfoBoxContainerText>
+          </InfoBoxContainer>
 
           <Spacer position="top" size="large">
             <View></View>
@@ -61,6 +62,8 @@ export const UsersRankingList = () => {
             <Searchbar
               placeholder="Search users..."
               onChangeText={onChangeSearch}
+              onSubmitEditing={() => setFetchUsers(true)}
+              onIconPress={() => setFetchUsers(true)}
               value={searchQuery}
             />
           </Elevation>
@@ -69,7 +72,7 @@ export const UsersRankingList = () => {
             <View></View>
           </Spacer>
 
-          <UsersTable users={usersData?.users as User[]} />
+          <UsersTable users={(usersData?.users as User[]) || []} />
         </>
       )}
     </>
