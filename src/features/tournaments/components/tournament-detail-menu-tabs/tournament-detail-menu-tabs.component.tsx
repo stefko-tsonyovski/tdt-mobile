@@ -29,8 +29,6 @@ const tabs = ["DRAW", "RESULTS"];
 const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
-  console.log(index);
-
   return value === index ? (
     <TabPanelContainer>
       {value === index && (

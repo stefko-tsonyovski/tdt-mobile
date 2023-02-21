@@ -66,6 +66,10 @@ export type GetMatchesGroupedByRoundVieModel = {
   groupedMatches: MatchesByRoundViewModel[];
 };
 
+export type SingleMatchViewModel = {
+  match: Match;
+};
+
 // React Query Hooks
 
 export function useMatchesByTournamentAndDate(
@@ -91,6 +95,10 @@ export function useMatchesByTournamentGroupByRound(tournamentId: number) {
   return useQuery(["matches/byTournamentGroupedByRound", tournamentId], () =>
     getMatchesByTournamentGroupByRound(tournamentId)
   );
+}
+
+export function useSingleMatch(id: number) {
+  return useQuery([`matches/${id}`, id], () => getSingleMatch(id));
 }
 
 // API Methods
@@ -123,6 +131,15 @@ const getMatchesByTournamentAndRound = async (
 const getMatchesByTournamentGroupByRound = async (tournamentId: number) => {
   const response = await axios.get<GetMatchesGroupedByRoundVieModel>(
     `${BASE_URL}/matches/byTournamentGroupByRound?tournamentId=${tournamentId}`
+  );
+  const result = response.data;
+
+  return result;
+};
+
+const getSingleMatch = async (id: number) => {
+  const response = await axios.get<SingleMatchViewModel>(
+    `${BASE_URL}/matches/${id}`
   );
   const result = response.data;
 
