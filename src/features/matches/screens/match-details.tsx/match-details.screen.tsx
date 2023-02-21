@@ -6,6 +6,8 @@ import { useSingleMatch } from "../../../../services/matches/matches.service";
 import { TournamentMatchHeading } from "../../../tournaments/components/tournament-match-heading/tournament-match-heading.component";
 import { SafeArea } from "../../../../components/utility/safe-area.component";
 import { PlayersMatchCard } from "../../../players/components/players-match-card/players-match-card.component";
+import { MatchTabSummary } from "../../components/match-tab-summary/match-tab-summary.component";
+import { MatchMenuTabs } from "../../components/match-menu-tabs/match-menu-tabs.component";
 
 export type MatchDetailsScreenProps = NativeStackScreenProps<
   TournamentsRootStackParamList,
@@ -30,6 +32,7 @@ export const MatchDetailsScreen: FC<MatchDetailsScreenProps> = ({ route }) => {
             date={data.match.date}
             status={data.match.status}
           />
+          <MatchMenuTabs match={data.match} />
         </>
       ) : (
         <>

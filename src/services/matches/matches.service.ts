@@ -24,6 +24,17 @@ export type Match = {
   awaySet5: string;
   tournamentId: number;
   favoriteId?: string;
+} & MatchStatsViewModel;
+
+export type MatchStatsViewModel = {
+  homeAces?: number;
+  homeDoubleFaults?: number;
+  homeWinners?: number;
+  homeUnforcedErrors?: number;
+  awayAces?: number;
+  awayDoubleFaults?: number;
+  awayWinners?: number;
+  awayUnforcedErrors?: number;
 };
 
 export type MatchesByRoundViewModel = {
