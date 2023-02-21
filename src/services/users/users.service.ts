@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient, useQuery } from "react-query";
 import axios, { AxiosError } from "axios";
 import { BASE_URL } from "../../utils/constants";
+import { PlayerInTeam } from "../players/players.service";
 
 export type GetTradesByUserViewModel = {
   trades: number;
@@ -27,10 +28,22 @@ export type GetTop200ViewModel = {
   leagueName: string;
 };
 
+export type GetTeamPointsByUserViewModel = {
+  points: number;
+};
+
+export type GetTeamByUserAndByWeekViewModel = {
+  players: PlayerInTeam[];
+};
+
 // React Query hooks
 
-export function useTop200() {
-  return useQuery(["users"], getTop200Users);
+export function useTop200(searchTerm: string, enabled: boolean) {
+  return useQuery(
+    ["users", searchTerm, enabled],
+    () => getTop200Users(searchTerm),
+    { enabled }
+  );
 }
 
 export function useTradesByUser(email: string) {
@@ -43,9 +56,31 @@ export function useUserByEmail(email: string) {
   return useQuery(["users", email], () => getUserByEmail(email));
 }
 
+export function useUserById(id: string) {
+  return useQuery(["users", id], () => getUserById(id));
+}
+
 export function useCurrentUserPosition(email: string) {
   return useQuery(["leagues", "users", email], () =>
     getCurrentUserPosition(email)
+  );
+}
+
+export function useTotalByUserAndByWeek(userId: string, weekId: string) {
+  return useQuery(["totalPoints", userId, weekId], () =>
+    getTotalByUserAndByWeek(userId, weekId)
+  );
+}
+
+export function useWeeklyByUserAndByWeek(userId: string, weekId: string) {
+  return useQuery(["weeklyPoints", userId, weekId], () =>
+    getWeeklyByUserAndByWeek(userId, weekId)
+  );
+}
+
+export function useTeamByUserAndByWeek(userId: string, weekId: string) {
+  return useQuery(["teamByUserAndByWeek", userId, weekId], () =>
+    getTeamByUserAndByWeek(userId, weekId)
   );
 }
 
@@ -70,8 +105,10 @@ export function useCreateUser() {
 
 // API methods
 
-export const getTop200Users = async () => {
-  const response = await axios.get<GetTop200ViewModel>(`${BASE_URL}/users`);
+export const getTop200Users = async (searchTerm: string) => {
+  const response = await axios.get<GetTop200ViewModel>(
+    `${BASE_URL}/users?searchTerm=${searchTerm}`
+  );
   return response.data;
 };
 
@@ -87,9 +124,44 @@ export const getUserByEmail = async (email: string) => {
   return response.data;
 };
 
+export const getUserById = async (id: string) => {
+  const response = await axios.get<User>(`${BASE_URL}/users/${id}`);
+  return response.data;
+};
+
 export const getCurrentUserPosition = async (email: string) => {
   const response = await axios.get<User>(
     `${BASE_URL}/users/showMe?email=${email}`
+  );
+  return response.data;
+};
+
+export const getTotalByUserAndByWeek = async (
+  userId: string,
+  weekId: string
+) => {
+  const response = await axios.get<GetTeamPointsByUserViewModel>(
+    `${BASE_URL}/users/total?userId=${userId}&weekId=${weekId}`
+  );
+  return response.data;
+};
+
+export const getWeeklyByUserAndByWeek = async (
+  userId: string,
+  weekId: string
+) => {
+  const response = await axios.get<GetTeamPointsByUserViewModel>(
+    `${BASE_URL}/users/weekly?userId=${userId}&weekId=${weekId}`
+  );
+  return response.data;
+};
+
+export const getTeamByUserAndByWeek = async (
+  userId: string,
+  weekId: string
+) => {
+  const response = await axios.get<GetTeamByUserAndByWeekViewModel>(
+    `${BASE_URL}/users/teamByUser?userId=${userId}&weekId=${weekId}`
   );
   return response.data;
 };

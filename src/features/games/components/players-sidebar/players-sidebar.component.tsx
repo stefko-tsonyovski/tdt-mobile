@@ -29,6 +29,7 @@ import { useContext, useRef, useState } from "react";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { useEffect } from "react";
 import { PlayersSidebarCard } from "../players-sidebar-card/players-sidebar-card.component";
+import React from "react";
 
 export const PlayersSidebar = () => {
   const flatListRef = useRef<FlatList>(null);
@@ -134,6 +135,15 @@ export const PlayersSidebar = () => {
                 isLoadingPlayersInTeam ||
                 isLoadingSubstitutions ? (
                   <Text variant="body">Loading...</Text>
+                ) : !fetchPlayers ? (
+                  <Spacer position="top" size="large">
+                    <Text
+                      style={{ color: colors.bg.primary, textAlign: "center" }}
+                      variant="body"
+                    >
+                      CLICK THE SEARCH ICON FOR RESULTS...
+                    </Text>
+                  </Spacer>
                 ) : Number(filteredPlayers?.players.length) > 0 ? (
                   <FlatList
                     ref={flatListRef}
@@ -155,7 +165,14 @@ export const PlayersSidebar = () => {
                     }}
                   />
                 ) : (
-                  <Text variant="body">No results!</Text>
+                  <Spacer position="top" size="large">
+                    <Text
+                      style={{ color: colors.bg.primary, textAlign: "center" }}
+                      variant="body"
+                    >
+                      NO RESULTS!
+                    </Text>
+                  </Spacer>
                 )}
               </Spacer>
             </Dialog.Content>

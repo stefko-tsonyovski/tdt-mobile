@@ -21,11 +21,15 @@ import {
 
 export type TeamPlayerBallsProps = {
   player: PlayerInTeam;
+  disabled?: boolean;
 };
 
 const ballsPerPlayer = [1, 2, 3];
 
-export const TeamPlayerBalls: FC<TeamPlayerBallsProps> = ({ player }) => {
+export const TeamPlayerBalls: FC<TeamPlayerBallsProps> = ({
+  player,
+  disabled,
+}) => {
   const { user } = useContext(AuthenticationContext);
   const [selected] = useAtom(selectedWeekAtom);
 
@@ -49,11 +53,25 @@ export const TeamPlayerBalls: FC<TeamPlayerBallsProps> = ({ player }) => {
       <TeamPlayerBallsContainer>
         {ballsPerPlayer.map((item) => {
           return player.balls >= item ? (
+            disabled ? (
+              <IconButton
+                key={item}
+                icon="tennis-ball"
+                color={colors.ui.activeTennisBall}
+              />
+            ) : (
+              <IconButton
+                key={item}
+                icon="tennis-ball"
+                color={colors.ui.activeTennisBall}
+                onPress={deleteBallFromPlayer}
+              />
+            )
+          ) : disabled ? (
             <IconButton
               key={item}
               icon="tennis-ball"
-              color={colors.ui.activeTennisBall}
-              onPress={deleteBallFromPlayer}
+              color={colors.ui.unactiveTennisBall}
             />
           ) : (
             <IconButton

@@ -20,7 +20,7 @@ export const StatsCircle: FC<StatsCircleProps> = ({ color, text, points }) => {
       <Circle color={color}>
         <TextContainer>
           <CircleText variant="body">
-            {text === "YOUR BALANCE" ? points + "M" : points}
+            {text === "YOUR BALANCE" ? points + "M" : points.toFixed(0)}
           </CircleText>
         </TextContainer>
       </Circle>
