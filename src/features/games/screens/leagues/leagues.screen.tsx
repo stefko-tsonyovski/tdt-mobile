@@ -1,10 +1,13 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
+import { View } from "react-native";
+import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 import { VerticalDivider } from "../../../../components/vertical-divider/vertical-divider.styles";
 import { GamesRootStackParamList } from "../../../../infrastructure/navigation/games.navigator";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { FantasyGameScreenContainer } from "../../components/games.styles";
+import { LeaguesRankingList } from "../../components/leagues-ranking-list/leagues-ranking-list.component";
 import {
   ButtonsContainer,
   GrowIconButton,
@@ -34,6 +37,12 @@ export const LeaguesScreen = () => {
           icon="lan-disconnect"
         />
       </ButtonsContainer>
+
+      <Spacer position="top" size="large">
+        <View></View>
+      </Spacer>
+
+      <LeaguesRankingList />
     </FantasyGameScreenContainer>
   );
 };
