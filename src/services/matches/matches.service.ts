@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 import { BASE_URL } from "../../utils/constants";
+import { Player } from "../players/players.service";
+import { Tournament } from "../tournaments/tournaments.service";
 
 export type Match = {
   id: number;
@@ -65,6 +67,33 @@ export type MatchCardViewModel = {
   favoriteId: string;
 };
 
+export type FilterByPlayerAndSurface = {
+  skipMatchId: number;
+  playerId: number;
+  surface: string;
+};
+
+export type FilterByPlayersAndSurface = {
+  skipMatchId: number;
+  homeId: number;
+  awayId: number;
+  surface: string;
+};
+
+export type HeadToHeadMatchViewModel = {
+  id: number;
+  player: Player;
+  homePlayer: Player;
+  awayPlayer: Player;
+  homeSets: string;
+  awaySets: string;
+  winnerId: number;
+  date: string;
+  tournament: Tournament;
+  favoriteId?: string;
+  status: string;
+};
+
 export type GetMatchesViewModel = {
   matches: MatchCardViewModel[];
 };
@@ -75,6 +104,11 @@ export type GetDrawMatchesViewModel = {
 
 export type GetMatchesGroupedByRoundVieModel = {
   groupedMatches: MatchesByRoundViewModel[];
+};
+
+export type GetLastMatchesByPlayerViewModel = {
+  player: Player;
+  matches: HeadToHeadMatchViewModel[];
 };
 
 export type SingleMatchViewModel = {
@@ -105,6 +139,12 @@ export function useMatchesByTournamentAndRound(
 export function useMatchesByTournamentGroupByRound(tournamentId: number) {
   return useQuery(["matches/byTournamentGroupedByRound", tournamentId], () =>
     getMatchesByTournamentGroupByRound(tournamentId)
+  );
+}
+
+export function useLastMatchesByPlayer(filter: FilterByPlayerAndSurface) {
+  return useQuery(["matches/lastByPlayer", filter], () =>
+    getLastMatchesByPlayer(filter)
   );
 }
 
@@ -142,6 +182,18 @@ const getMatchesByTournamentAndRound = async (
 const getMatchesByTournamentGroupByRound = async (tournamentId: number) => {
   const response = await axios.get<GetMatchesGroupedByRoundVieModel>(
     `${BASE_URL}/matches/byTournamentGroupByRound?tournamentId=${tournamentId}`
+  );
+  const result = response.data;
+
+  return result;
+};
+
+const getLastMatchesByPlayer = async (filters: FilterByPlayerAndSurface) => {
+  const response = await axios.post<GetLastMatchesByPlayerViewModel>(
+    `/api/v1/matches/lastByPlayer`,
+    {
+      ...filters,
+    }
   );
   const result = response.data;
 

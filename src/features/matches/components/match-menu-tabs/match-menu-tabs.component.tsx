@@ -13,6 +13,7 @@ import {
 import { MatchTabSummary } from "../match-tab-summary/match-tab-summary.component";
 import { Match } from "../../../../services/matches/matches.service";
 import { MatchTabStats } from "../match-tab-stats/match-tab-stats.component";
+import { MatchTabHeadToHead } from "../match-tab-head-to-head/match-tab-head-to-head.component";
 
 type MatchMenuTabsProps = {
   match: Match;
@@ -71,6 +72,13 @@ export const MatchMenuTabs: FC<MatchMenuTabsProps> = ({ match }) => {
       </TabPanel>
       <TabPanel value={currentTab} index={1}>
         <MatchTabStats stats={match} />
+      </TabPanel>
+      <TabPanel value={currentTab} index={2}>
+        <MatchTabHeadToHead
+          id={match.id}
+          homeId={match.homeId}
+          awayId={match.awayId}
+        />
       </TabPanel>
     </TabsContainer>
   );
