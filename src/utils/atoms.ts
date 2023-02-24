@@ -20,6 +20,7 @@ export const playerSearchTermAtom = atom("");
 export const fetchPlayersAtom = atom(true);
 export const fetchUsersAtom = atom(true);
 export const fetchLeaguesAtom = atom(true);
+export const fetchUsersByLeagueAtom = atom(true);
 export const playersCurrentPageAtom = atom(PLAYERS_INITIAL_PAGE);
 export const isPlayersSidebarOpenAtom = atom(false);
 export const selectedDateAtom = atom(new Date().toLocaleDateString("en-CA"));

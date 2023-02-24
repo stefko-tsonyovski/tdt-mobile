@@ -29,7 +29,7 @@ export const UsersRankingList = () => {
     searchQuery,
     fetchUsers
   );
-  const { data: currentUserData } = useCurrentUserPosition(user.email);
+  const { data: currentUserData } = useCurrentUserPosition(user.email, -1);
 
   const onChangeSearch = (query: string) => {
     setFetchUsers(false);

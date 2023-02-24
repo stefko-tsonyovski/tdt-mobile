@@ -1,19 +1,23 @@
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
-import { Text } from "../../../../components/typography/text.component";
 import { VerticalDivider } from "../../../../components/vertical-divider/vertical-divider.styles";
 import { GamesRootStackParamList } from "../../../../infrastructure/navigation/games.navigator";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { FantasyGameScreenContainer } from "../../components/games.styles";
-import { LeaguesRankingList } from "../../components/leagues-ranking-list/leagues-ranking-list.component";
+import { LeagueInvitationsList } from "../../components/league-invitations-list/league-invitations-list.component";
 import {
   ButtonsContainer,
   GrowIconButton,
 } from "../../components/menu/menu.styles";
 
-export const LeaguesScreen = () => {
+export const LeagueInvitationsScreen = () => {
   const navigation = useNavigation<NavigationProp<GamesRootStackParamList>>();
 
   return (
@@ -43,7 +47,7 @@ export const LeaguesScreen = () => {
           <View></View>
         </Spacer>
 
-        <LeaguesRankingList />
+        <LeagueInvitationsList />
       </ScrollView>
     </FantasyGameScreenContainer>
   );

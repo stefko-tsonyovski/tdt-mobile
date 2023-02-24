@@ -1,20 +1,26 @@
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
-import { Text } from "../../../../components/typography/text.component";
 import { VerticalDivider } from "../../../../components/vertical-divider/vertical-divider.styles";
 import { GamesRootStackParamList } from "../../../../infrastructure/navigation/games.navigator";
+import { LeaguesRootStackParamList } from "../../../../infrastructure/navigation/leagues.navigator";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { FantasyGameScreenContainer } from "../../components/games.styles";
-import { LeaguesRankingList } from "../../components/leagues-ranking-list/leagues-ranking-list.component";
 import {
   ButtonsContainer,
   GrowIconButton,
 } from "../../components/menu/menu.styles";
+import { RequestList } from "../../components/request-list/request-list.component";
 
-export const LeaguesScreen = () => {
+export const RequestsScreen = () => {
   const navigation = useNavigation<NavigationProp<GamesRootStackParamList>>();
+  const route = useRoute<RouteProp<LeaguesRootStackParamList>>();
 
   return (
     <FantasyGameScreenContainer>
@@ -43,7 +49,7 @@ export const LeaguesScreen = () => {
           <View></View>
         </Spacer>
 
-        <LeaguesRankingList />
+        <RequestList leagueId={route.params?.leagueId as string} />
       </ScrollView>
     </FantasyGameScreenContainer>
   );

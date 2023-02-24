@@ -60,8 +60,11 @@ export function useUserById(id: string) {
   return useQuery(["users", id], () => getUserById(id));
 }
 
-export function useCurrentUserPosition(email: string) {
-  return useQuery(["leagues", "users", email], () =>
+export function useCurrentUserPosition(
+  email: string,
+  leagueInvitationsLength: number
+) {
+  return useQuery(["leagues", "users", email, leagueInvitationsLength], () =>
     getCurrentUserPosition(email)
   );
 }
@@ -81,6 +84,21 @@ export function useWeeklyByUserAndByWeek(userId: string, weekId: string) {
 export function useTeamByUserAndByWeek(userId: string, weekId: string) {
   return useQuery(["teamByUserAndByWeek", userId, weekId], () =>
     getTeamByUserAndByWeek(userId, weekId)
+  );
+}
+
+export function useByLeague(
+  leagueId: string,
+  searchTerm: string,
+  enabled: boolean,
+  requestsLength: number
+) {
+  return useQuery(
+    ["users", leagueId, searchTerm, enabled, requestsLength],
+    () => getUsersByLeague(leagueId, searchTerm),
+    {
+      enabled: enabled,
+    }
   );
 }
 
@@ -162,6 +180,16 @@ export const getTeamByUserAndByWeek = async (
 ) => {
   const response = await axios.get<GetTeamByUserAndByWeekViewModel>(
     `${BASE_URL}/users/teamByUser?userId=${userId}&weekId=${weekId}`
+  );
+  return response.data;
+};
+
+export const getUsersByLeague = async (
+  leagueId: string,
+  searchTerm: string
+) => {
+  const response = await axios.get<GetTop200ViewModel>(
+    `${BASE_URL}/users/byLeague/${leagueId}?searchTerm=${searchTerm}`
   );
   return response.data;
 };
