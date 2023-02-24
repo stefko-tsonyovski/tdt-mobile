@@ -5,22 +5,31 @@ import { View } from "react-native";
 import { DataTable, IconButton } from "react-native-paper";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
+import { GamesRootStackParamList } from "../../../../infrastructure/navigation/games.navigator";
 import { UsersRootStackParamList } from "../../../../infrastructure/navigation/users.navigator";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { UpdateLeagueInputModel } from "../../../../services/leagues/leagues.service";
 import { User } from "../../../../services/users/users.service";
-import { fetchUsersAtom } from "../../../../utils/atoms";
+import { fetchUsersByLeagueAtom } from "../../../../utils/atoms";
+import { KickMember } from "../kick-member/kick-member.component";
 import { PredictionCardText } from "../voted-prediction-card/voted-prediction-card.styles";
 
 const numberOfItemsPerPageList = [5, 10, 25];
 
-export type UsersTableProps = {
+export type UsersByLeagueTableProps = {
   users: User[];
+  currentUser: User;
+  league: UpdateLeagueInputModel;
 };
 
-export const UsersTable: FC<UsersTableProps> = ({ users }) => {
-  const navigation = useNavigation<NavigationProp<UsersRootStackParamList>>();
+export const UsersByLeagueTable: FC<UsersByLeagueTableProps> = ({
+  users,
+  currentUser,
+  league,
+}) => {
+  const navigation = useNavigation<NavigationProp<GamesRootStackParamList>>();
 
-  const [fetchUsers] = useAtom(fetchUsersAtom);
+  const [fetchUsersByLeague] = useAtom(fetchUsersByLeagueAtom);
 
   const [page, setPage] = React.useState(0);
   const [numberOfItemsPerPage, onItemsPerPageChange] = useState(
@@ -31,7 +40,7 @@ export const UsersTable: FC<UsersTableProps> = ({ users }) => {
 
   useEffect(() => {
     setPage(0);
-  }, [numberOfItemsPerPage, fetchUsers]);
+  }, [numberOfItemsPerPage, fetchUsersByLeague]);
 
   return (
     <DataTable>
@@ -45,17 +54,27 @@ export const UsersTable: FC<UsersTableProps> = ({ users }) => {
         <DataTable.Title style={{ flex: 1 }}>
           <PredictionCardText variant="body">POINTS</PredictionCardText>
         </DataTable.Title>
-        <DataTable.Title style={{ flex: 1 }}>
+        <DataTable.Title style={{ flex: 2 }}>
           <PredictionCardText variant="body">VIEW</PredictionCardText>
         </DataTable.Title>
       </DataTable.Header>
 
-      {fetchUsers ? (
+      {fetchUsersByLeague ? (
         users.length ? (
           users.slice(from, to).map((user) => (
             <DataTable.Row key={user._id}>
               <DataTable.Cell style={{ flex: 1 }}>
-                <Text variant="body">{user.position}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text variant="body">{user.position}</Text>
+                  {user._id === league.creatorId && (
+                    <IconButton color={colors.bg.primary} icon="crown" />
+                  )}
+                </View>
               </DataTable.Cell>
               <DataTable.Cell style={{ flex: 2 }}>
                 <Text variant="body">
@@ -65,17 +84,32 @@ export const UsersTable: FC<UsersTableProps> = ({ users }) => {
               <DataTable.Cell style={{ flex: 1 }}>
                 <Text variant="body">{user.totalPoints.toFixed(0)}</Text>
               </DataTable.Cell>
-              <DataTable.Cell style={{ flex: 1 }}>
-                <IconButton
-                  onPress={() =>
-                    navigation.navigate("TeamByUser", {
-                      userId: user._id,
-                      title: user.firstName + " " + user.lastName,
-                    })
-                  }
-                  icon="eye"
-                  color={colors.ui.secondary}
-                />
+              <DataTable.Cell style={{ flex: 2 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    onPress={() =>
+                      navigation.navigate("Users", {
+                        screen: "TeamByUser",
+                        params: {
+                          userId: user._id,
+                          title: user.firstName + " " + user.lastName,
+                        },
+                      })
+                    }
+                    icon="eye"
+                    color={colors.ui.secondary}
+                  />
+
+                  {currentUser._id === league.creatorId &&
+                    currentUser._id !== user._id && (
+                      <KickMember member={user} leagueId={league._id} />
+                    )}
+                </View>
               </DataTable.Cell>
             </DataTable.Row>
           ))
