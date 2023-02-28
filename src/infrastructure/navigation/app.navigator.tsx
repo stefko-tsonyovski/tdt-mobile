@@ -6,6 +6,7 @@ import { SettingsScreen } from "../../features/settings/screens/settings.screen"
 import { colors } from "../theme/colors";
 import { GamesNavigator } from "./games.navigator";
 import { TournamentsNavigator } from "./tournaments.navigator";
+import { RankListNavigator } from "./rank-list.navigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,8 @@ export const AppNavigator = () => {
             return <Ionicons name="settings" size={size} color={color} />;
           } else if (route.name === "Tournaments") {
             return <Ionicons name="home-outline" size={size} color={color} />;
+          } else if (route.name === "RankList") {
+            return <Ionicons name="trophy" size={size} color={color} />;
           }
         },
         tabBarActiveTintColor: colors.bg.secondary,
@@ -38,6 +41,7 @@ export const AppNavigator = () => {
     >
       <Tab.Screen name="Tournaments" component={TournamentsNavigator} />
       <Tab.Screen name="Games" component={GamesNavigator} />
+      <Tab.Screen name="RankList" component={RankListNavigator} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
