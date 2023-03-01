@@ -90,6 +90,10 @@ export function useFilteredPlayers(
   );
 }
 
+export function usePlayers() {
+  return useQuery(["players/all"], getAllPlayers);
+}
+
 export function usePlayersInTeam(
   filters: FilterPlayersInTeamObject,
   email: string
@@ -290,6 +294,13 @@ export const getAllPlayersInTeam = async (
 
   return result;
 };
+
+export const getAllPlayers = async () => {
+  const response = await axios.get<GetAllPlayersViewModel>(`${BASE_URL}/players`);
+  const result= response.data;
+
+  return result;
+}
 
 export const getAllSubstitutions = async (
   filters: FilterPlayersInTeamObject,
