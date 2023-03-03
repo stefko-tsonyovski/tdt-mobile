@@ -2,7 +2,7 @@ import { Button } from "react-native-paper";
 import styled from "styled-components/native";
 import { theme } from "../../../../infrastructure/theme";
 
-const circleContainerStyles = `
+export const circleContainerStyles = `
   justify-content: center;
   align-items: center;
   padding: 10px;
