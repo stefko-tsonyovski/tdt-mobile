@@ -4,6 +4,7 @@ import { BASE_URL } from "../../utils/constants";
 import { Player } from "../players/players.service";
 import { Tournament } from "../tournaments/tournaments.service";
 
+// Types
 export type Match = {
   id: number;
   status: string;
@@ -49,6 +50,7 @@ export type MatchesByRoundViewModel = {
 
 export type MatchCardViewModel = {
   id: number;
+  date: string;
   homeId: number;
   homePlayer: {
     name: string;
@@ -64,6 +66,7 @@ export type MatchCardViewModel = {
   };
   awaySets: number;
   winnerId: number;
+  status: string;
   favoriteId: string;
 };
 
@@ -71,6 +74,7 @@ export type FilterByPlayerAndSurface = {
   skipMatchId: number;
   playerId: number;
   surface: string;
+  email: string;
 };
 
 export type FilterByPlayersAndSurface = {
@@ -108,7 +112,7 @@ export type GetMatchesGroupedByRoundVieModel = {
 
 export type GetLastMatchesByPlayerViewModel = {
   player: Player;
-  matches: HeadToHeadMatchViewModel[];
+  matches: MatchCardViewModel[];
 };
 
 export type SingleMatchViewModel = {
@@ -145,6 +149,15 @@ export function useMatchesByTournamentGroupByRound(tournamentId: number) {
 export function useLastMatchesByPlayer(filter: FilterByPlayerAndSurface) {
   return useQuery(["matches/lastByPlayer", filter], () =>
     getLastMatchesByPlayer(filter)
+  );
+}
+
+export function useLastH2HMatchesByPlayer(
+  filter: FilterByPlayersAndSurface,
+  email: string
+) {
+  return useQuery(["matches/lastH2HMatches", filter], () =>
+    getLastH2HMatchesByPlayer(filter, email)
   );
 }
 
@@ -190,9 +203,25 @@ const getMatchesByTournamentGroupByRound = async (tournamentId: number) => {
 
 const getLastMatchesByPlayer = async (filters: FilterByPlayerAndSurface) => {
   const response = await axios.post<GetLastMatchesByPlayerViewModel>(
-    `/api/v1/matches/lastByPlayer`,
+    `${BASE_URL}/matches/lastByPlayer`,
     {
       ...filters,
+    }
+  );
+  const result = response.data;
+
+  return result;
+};
+
+const getLastH2HMatchesByPlayer = async (
+  filter: FilterByPlayersAndSurface,
+  email: string
+) => {
+  const response = await axios.post<GetMatchesViewModel>(
+    `${BASE_URL}/matches/lastH2HByPlayer`,
+    {
+      ...filter,
+      email,
     }
   );
   const result = response.data;

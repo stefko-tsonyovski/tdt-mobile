@@ -14,6 +14,7 @@ import { MatchTabSummary } from "../match-tab-summary/match-tab-summary.componen
 import { Match } from "../../../../services/matches/matches.service";
 import { MatchTabStats } from "../match-tab-stats/match-tab-stats.component";
 import { MatchTabHeadToHead } from "../match-tab-head-to-head/match-tab-head-to-head.component";
+import { TournamentMatchesDraw } from "../../../tournaments/components/tournament-matches-draw/tournament-matches-draw.component";
 
 type MatchMenuTabsProps = {
   match: Match;
@@ -79,6 +80,9 @@ export const MatchMenuTabs: FC<MatchMenuTabsProps> = ({ match }) => {
           homeId={match.homeId}
           awayId={match.awayId}
         />
+      </TabPanel>
+      <TabPanel value={currentTab} index={3}>
+        <TournamentMatchesDraw tournamentId={match.tournamentId} />
       </TabPanel>
     </TabsContainer>
   );

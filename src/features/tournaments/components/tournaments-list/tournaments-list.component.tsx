@@ -67,7 +67,7 @@ export const TournamentsList = () => {
         ) : (
           <>
             <Divider />
-            <Text variant="body">No Matches</Text>
+            <Text variant="body">No Tournaments</Text>
             <Divider />
           </>
         )
