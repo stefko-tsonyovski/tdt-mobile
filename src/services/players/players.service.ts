@@ -40,6 +40,10 @@ export type GetAllPlayersInTeamViewModel = {
   players: PlayerInTeam[];
 };
 
+export type GetSinglePlayerViewModel = {
+  player: Player;
+};
+
 export type FilterPlayersInTeamObject = {
   selected: Item;
 };
@@ -110,6 +114,10 @@ export function useSubstitutions(
   return useQuery(["team", "substitutions", filters, email], () =>
     getAllSubstitutions(filters, email)
   );
+}
+
+export function useSinglePlayer(id: number) {
+  return useQuery([`players/${id}`, id], () => getSinglePlayer(id));
 }
 
 export function useAddPlayerToTeam() {
@@ -311,6 +319,15 @@ export const getAllSubstitutions = async (
     {
       ...filters,
     }
+  );
+  const result = response.data;
+
+  return result;
+};
+
+export const getSinglePlayer = async (id: number) => {
+  const response = await axios.get<GetSinglePlayerViewModel>(
+    `${BASE_URL}/players/${id}`
   );
   const result = response.data;
 

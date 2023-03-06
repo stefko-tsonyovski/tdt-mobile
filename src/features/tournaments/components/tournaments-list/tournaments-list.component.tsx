@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { Text } from "../../../../components/typography/text.component";
 import { Divider } from "react-native-paper";
 import {
@@ -13,17 +13,13 @@ import { TournamentItemCard } from "../tournament-item-card/tournament-item-card
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 
-export type TournamentsListProps = {
-  navigation: NativeStackNavigationProp<
-    TournamentsRootStackParamList,
-    "AllTournaments"
-  >;
-};
-
-export const TournamentsList: FC<TournamentsListProps> = ({ navigation }) => {
+export const TournamentsList = () => {
   const [date] = useAtom(selectedDateAtom);
   const { user } = useContext(AuthenticationContext);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<TournamentsRootStackParamList>>();
   const { data, isLoading, isError, error } = useAllTournamentsByDate(
     date,
     user?.email
@@ -71,7 +67,7 @@ export const TournamentsList: FC<TournamentsListProps> = ({ navigation }) => {
         ) : (
           <>
             <Divider />
-            <Text variant="body">No Matches</Text>
+            <Text variant="body">No Tournaments</Text>
             <Divider />
           </>
         )

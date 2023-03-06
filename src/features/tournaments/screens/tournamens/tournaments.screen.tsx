@@ -17,10 +17,10 @@ export const TournamentsScreen: FC<TournamentsScreenProps> = ({
 }) => {
   return (
     <SafeArea>
-      <TournamentsFilter />
-      <Spacer position="top" size="large">
-        <TournamentsList navigation={navigation} />
+      <Spacer position="bottom" size="large">
+        <TournamentsFilter />
       </Spacer>
+      <TournamentsList />
     </SafeArea>
   );
 };

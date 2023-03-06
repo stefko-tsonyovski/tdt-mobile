@@ -54,8 +54,6 @@ export const MatchCard: FC<MatchCardProps> = ({ match }) => {
     });
   };
 
-  console.log(favoriteId);
-
   return (
     <Card>
       <MatchContainer>

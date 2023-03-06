@@ -1,10 +1,7 @@
-import React, { FC, useState } from "react";
-import { Pressable, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import React, { FC, ReactNode, useState } from "react";
+import { Pressable } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
-import { TournamentMatchesDraw } from "../tournament-matches-draw/tournament-matches-draw.component";
-import { TournamentMatchesResults } from "../tournament-matches-results/tournament-matches-result.component";
 import {
   ActiveTab,
   MenuTabsContainer,
@@ -12,10 +9,15 @@ import {
   TabsContainer,
   TabPanelContainer,
   TabContentContainer,
-} from "./tournament-detail-menu-tabs.styles";
+} from "../../../../components/menu-tabs/menu-tabs.styles";
+import { MatchTabSummary } from "../match-tab-summary/match-tab-summary.component";
+import { Match } from "../../../../services/matches/matches.service";
+import { MatchTabStats } from "../match-tab-stats/match-tab-stats.component";
+import { MatchTabHeadToHead } from "../match-tab-head-to-head/match-tab-head-to-head.component";
+import { TournamentMatchesDraw } from "../../../tournaments/components/tournament-matches-draw/tournament-matches-draw.component";
 
-type TournamentDetailMenuTabsProps = {
-  tournamentId: number;
+type MatchMenuTabsProps = {
+  match: Match;
 };
 
 interface TabPanelProps {
@@ -24,7 +26,7 @@ interface TabPanelProps {
   value: number;
 }
 
-const tabs = ["DRAW", "RESULTS"];
+const tabs = ["SUMMARY", "STATS", "H2H", "DRAW"];
 
 const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
@@ -40,9 +42,7 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
-export const TournamentDetailMenuTabs: FC<TournamentDetailMenuTabsProps> = ({
-  tournamentId,
-}) => {
+export const MatchMenuTabs: FC<MatchMenuTabsProps> = ({ match }) => {
   const [currentTab, setCurrentTab] = useState(0);
 
   const handlePressTab = (index: number) => {
@@ -69,10 +69,20 @@ export const TournamentDetailMenuTabs: FC<TournamentDetailMenuTabsProps> = ({
         ))}
       </MenuTabsContainer>
       <TabPanel value={currentTab} index={0}>
-        <TournamentMatchesDraw tournamentId={tournamentId} />
+        <MatchTabSummary summary={match} />
       </TabPanel>
       <TabPanel value={currentTab} index={1}>
-        <TournamentMatchesResults tournamentId={tournamentId} />
+        <MatchTabStats stats={match} />
+      </TabPanel>
+      <TabPanel value={currentTab} index={2}>
+        <MatchTabHeadToHead
+          id={match.id}
+          homeId={match.homeId}
+          awayId={match.awayId}
+        />
+      </TabPanel>
+      <TabPanel value={currentTab} index={3}>
+        <TournamentMatchesDraw tournamentId={match.tournamentId} />
       </TabPanel>
     </TabsContainer>
   );
