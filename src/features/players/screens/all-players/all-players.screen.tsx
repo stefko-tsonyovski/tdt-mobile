@@ -1,24 +1,24 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { Text } from "../../../../components/typography/text.component";
+import { RankListRootStackParamList } from "../../../../infrastructure/navigation/rank-list.navigator";
 import {
   Player,
   usePlayers,
 } from "../../../../services/players/players.service";
+import { CurrentWeek } from "../../../games/components/current-week/current-week.component";
 import { PlayerCard } from "../../components/player-card/player-card.component";
+import { HeadingBarContainer } from "../../components/player-card/player-card.styles";
 
 export const AllPlayers = () => {
   const { data, isLoading } = usePlayers();
 
-  const renderItem = useCallback(
-    ({ item }: { item: Player }) => {
-      return <PlayerCard player={item} />;
-    },
-    [data]
-  );
+  const renderItem = ({ item }: { item: Player }) => {
+    return <PlayerCard player={item} />;
+  };
 
-  const keyExtractor = useCallback((item: Player) => item.id.toString(), []);
+  const keyExtractor = (item: Player) => item.id.toString();
   return (
     <View>
       {!isLoading && data ? (
@@ -28,6 +28,15 @@ export const AllPlayers = () => {
           data={data.players}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
+          ListHeaderComponent={() => (
+            <>
+              <CurrentWeek />
+              <HeadingBarContainer>
+                <Text variant="body">#</Text>
+                <Text variant="body">POINTS</Text>
+              </HeadingBarContainer>
+            </>
+          )}
         />
       ) : (
         <Text variant="body">Loading...</Text>
