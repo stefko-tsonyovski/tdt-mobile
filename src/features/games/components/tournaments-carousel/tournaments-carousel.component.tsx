@@ -41,21 +41,13 @@ import Spinner from "react-native-loading-spinner-overlay";
 export const TournamentsCarousel = () => {
   const [selected] = useAtom(selectedWeekAtom);
   const [roundId] = useAtom(selectedRoundId);
-  const [page, setPage] = useAtom(bracketsCurrentPageAtom);
+  const [, setPage] = useAtom(bracketsCurrentPageAtom);
 
   const [current, setCurrent] = useAtom(currentTournamentAtom);
 
   const { data: tournamentsData, isLoading: isLoadingTournaments } =
     useTournamentsByWeek(selected.value);
   const { data: roundsData, isLoading: isLoadingRounds } = useAllRounds();
-
-  const { data: bracketsData, isFetching: isFetchingBrackets } =
-    useAllBracketsByTournamentAndRound(
-      Number(tournamentsData?.tournaments[current]?.id),
-      roundId,
-      page,
-      BRACKETS_ITEMS_PER_PAGE
-    );
 
   const handleArrowRightClick = () => {
     if (current <= 0) {
@@ -69,16 +61,14 @@ export const TournamentsCarousel = () => {
 
   return (
     <>
-      {isLoadingTournaments ||
-      isLoadingRounds ||
-      !tournamentsData?.tournaments[current] ? (
-        // <Spinner
-        //   visible={true}
-        //   textContent={"This may take a while..."}
-        //   textStyle={{ color: colors.text.inverse }}
-        // />
-        <Text variant="body">Loading...</Text>
+      {isLoadingTournaments || isLoadingRounds ? (
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
+        // <Text variant="body">Loading...</Text>
         <>
           <TournamentContainer>
             <CountryFlag
@@ -119,9 +109,6 @@ export const TournamentsCarousel = () => {
 
           <Spacer position="top" size="large">
             <BracketsContainer
-              brackets={bracketsData?.brackets as Bracket[]}
-              totalItems={Number(bracketsData?.totalItems)}
-              isFetching={isFetchingBrackets}
               tournamentId={Number(tournamentsData?.tournaments[current]?.id)}
               roundId={roundId}
             />
