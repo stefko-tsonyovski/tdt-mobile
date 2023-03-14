@@ -10,6 +10,7 @@ import {
   UpdateLeagueInputModel,
   useUpdateLeague,
 } from "../../../../services/leagues/leagues.service";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type UpdateLeagueProps = {
   inputModel: UpdateLeagueInputModel;
@@ -19,7 +20,7 @@ export const UpdateLeague: FC<UpdateLeagueProps> = ({ inputModel }) => {
   const navigation = useNavigation<NavigationProp<LeaguesRootStackParamList>>();
 
   const { user } = useContext(AuthenticationContext);
-  const { mutate: updateLeague } = useUpdateLeague();
+  const { mutate: updateLeague, isLoading } = useUpdateLeague();
 
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState(inputModel.name);
@@ -39,6 +40,16 @@ export const UpdateLeague: FC<UpdateLeagueProps> = ({ inputModel }) => {
 
     navigation.setOptions({ title: name });
   };
+
+  if (isLoading) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <View>

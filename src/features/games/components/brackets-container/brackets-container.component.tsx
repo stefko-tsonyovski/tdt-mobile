@@ -16,6 +16,7 @@ import {
 } from "../../../../utils/constants";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { BracketPagination } from "./brackets-container.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type BracketsContainerProps = {
   brackets: Bracket[];
@@ -47,7 +48,11 @@ export const BracketsContainer: FC<BracketsContainerProps> = ({
   return (
     <>
       {isFetching || isLoadingPicks ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : brackets?.length && brackets ? (
         <View>
           {brackets.map((bracket) => (

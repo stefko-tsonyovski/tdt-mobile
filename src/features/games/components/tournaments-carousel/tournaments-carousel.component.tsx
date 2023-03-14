@@ -36,6 +36,7 @@ import {
   PLAYERS_INITIAL_PAGE,
 } from "../../../../utils/constants";
 import { BracketsContainer } from "../brackets-container/brackets-container.component";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const TournamentsCarousel = () => {
   const [selected] = useAtom(selectedWeekAtom);
@@ -71,6 +72,11 @@ export const TournamentsCarousel = () => {
       {isLoadingTournaments ||
       isLoadingRounds ||
       !tournamentsData?.tournaments[current] ? (
+        // <Spinner
+        //   visible={true}
+        //   textContent={"This may take a while..."}
+        //   textStyle={{ color: colors.text.inverse }}
+        // />
         <Text variant="body">Loading...</Text>
       ) : (
         <>

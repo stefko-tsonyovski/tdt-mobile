@@ -20,6 +20,7 @@ import {
 import { useAtom } from "jotai";
 import { selectedWeekAtom } from "../../../../utils/atoms";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type PlayersSidebarCardProps = {
   item: Player;
@@ -35,8 +36,10 @@ export const PlayersSidebarCard: FC<PlayersSidebarCardProps> = ({
   const { user } = useContext(AuthenticationContext);
   const [selected] = useAtom(selectedWeekAtom);
 
-  const { mutate: addPlayerToTeam } = useAddPlayerToTeam();
-  const { mutate: deletePlayerFromTeam } = useDeletePlayerFromTeam();
+  const { mutate: addPlayerToTeam, isLoading: isLoadingAdd } =
+    useAddPlayerToTeam();
+  const { mutate: deletePlayerFromTeam, isLoading: isLoadingDelete } =
+    useDeletePlayerFromTeam();
 
   const isPlayerBought = () => {
     return (
@@ -62,6 +65,16 @@ export const PlayersSidebarCard: FC<PlayersSidebarCardProps> = ({
     };
     deletePlayerFromTeam(inputModel);
   };
+
+  if (isLoadingAdd || isLoadingDelete) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <CardContainer>

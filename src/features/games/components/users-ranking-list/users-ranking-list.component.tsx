@@ -18,6 +18,7 @@ import {
   InfoBoxContainer,
   InfoBoxContainerText,
 } from "./users-ranking-list.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const UsersRankingList = () => {
   const { user } = useContext(AuthenticationContext);
@@ -39,7 +40,11 @@ export const UsersRankingList = () => {
   return (
     <>
       {isLoadingUsers ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <InfoBoxContainer>

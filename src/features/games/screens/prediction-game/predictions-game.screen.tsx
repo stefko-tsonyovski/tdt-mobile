@@ -15,6 +15,7 @@ import { View } from "react-native";
 import { Button } from "react-native-paper";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { PredictionsWithoutAnswerList } from "../../components/predictions-without-asnwer-list/predictions-without-answer-list.component";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type PredictionsGameScreenProps = NativeStackScreenProps<
   PredictionsGameRootStackParamList,
@@ -35,7 +36,11 @@ export const PredictionsGameScreen: FC<PredictionsGameScreenProps> = ({
   return (
     <FantasyGameScreenContainer>
       {isLoadingUsers ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : usersData?.role === "user" ? (
         <>
           <PredictionsToolbar navigation={navigation} route={route} />

@@ -10,6 +10,7 @@ import { StatsCircle } from "../../stats-circle/stats-circle.component";
 import { colors } from "../../../../../infrastructure/theme/colors";
 import { Text } from "../../../../../components/typography/text.component";
 import { StatsCirclesContainer } from "../balance-trades-container/brackets-trades-container.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const PointsContainer = () => {
   const { user } = useContext(AuthenticationContext);
@@ -24,7 +25,11 @@ export const PointsContainer = () => {
   return (
     <>
       {isLoadingUserWeek || isLoadingTotal ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <StatsCirclesContainer>
           <View>

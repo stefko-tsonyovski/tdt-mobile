@@ -10,6 +10,7 @@ import { View } from "react-native";
 import { IconButton } from "react-native-paper";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { TennisBallsContainer } from "./tennis-balls.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const countOfTennisBalls = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -25,7 +26,11 @@ export const TennisBalls = () => {
   return (
     <>
       {isLoadingUserWeek ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <CurrentWeekTitle variant="body">YOUR TENNIS BALLS:</CurrentWeekTitle>

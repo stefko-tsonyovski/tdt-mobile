@@ -7,6 +7,7 @@ import { useCountdown } from "../../../../services/weeks/weeks.service";
 import { selectedWeekAtom } from "../../../../utils/atoms";
 import { CurrentWeekTitle } from "../current-week/current-week.styles";
 import { TabButton, TabButtonText } from "./countdown.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const Countdown = () => {
   const [selectedWeek] = useAtom(selectedWeekAtom);
@@ -17,7 +18,11 @@ export const Countdown = () => {
   return (
     <>
       {isLoadingCountdown ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           {Number(countdownTime?.countdownDays) >= 0 ||

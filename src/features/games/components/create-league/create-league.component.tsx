@@ -5,10 +5,11 @@ import { Spacer } from "../../../../components/spacer/spacer.component";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { useCreateLeague } from "../../../../services/leagues/leagues.service";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const CreateLeague = () => {
   const { user } = useContext(AuthenticationContext);
-  const { mutate: createLeague } = useCreateLeague();
+  const { mutate: createLeague, isLoading } = useCreateLeague();
 
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState("");
@@ -25,6 +26,16 @@ export const CreateLeague = () => {
     createLeague(league);
     hideDialog();
   };
+
+  if (isLoading) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <View>

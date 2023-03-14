@@ -13,6 +13,7 @@ import {
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { PredictionsGameRootStackParamList } from "../../../../infrastructure/navigation/predictions-game.navigator";
 import { colors } from "../../../../infrastructure/theme/colors";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type PredictionsGameScreenProps = NativeStackScreenProps<
   PredictionsGameRootStackParamList,
@@ -30,7 +31,11 @@ export const PredictionsToolbar: FC<PredictionsGameScreenProps> = ({
   return (
     <>
       {isLoadingPredictionPoints ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <PredictionsToolbarContainer>
           <IconButton

@@ -7,6 +7,7 @@ import { AuthenticationContext } from "../../../../services/authentication/authe
 import { useByReceiver } from "../../../../services/league-invitations/league-invitations.service";
 import { LeagueInvitationCard } from "../league-invitation-card/league-invitation-card.component";
 import { ListHeading } from "../voted-prediction-list/voted-prediction-list.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const LeagueInvitationsList = () => {
   const { user } = useContext(AuthenticationContext);
@@ -17,7 +18,11 @@ export const LeagueInvitationsList = () => {
   return (
     <>
       {isLoadingLeagueInvitations ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <ListHeading variant="body">PENDING INVITATIONS</ListHeading>

@@ -18,6 +18,7 @@ import {
   MultiplierText,
   TeamPlayerBallsContainer,
 } from "./team-player-balls.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type TeamPlayerBallsProps = {
   player: PlayerInTeam;
@@ -33,8 +34,9 @@ export const TeamPlayerBalls: FC<TeamPlayerBallsProps> = ({
   const { user } = useContext(AuthenticationContext);
   const [selected] = useAtom(selectedWeekAtom);
 
-  const { mutate: addBall } = useAddBallToPlayer();
-  const { mutate: deleteBall } = useDeleteBallFromPlayer();
+  const { mutate: addBall, isLoading: isLoadingAdd } = useAddBallToPlayer();
+  const { mutate: deleteBall, isLoading: isLoadingDelete } =
+    useDeleteBallFromPlayer();
 
   const addBallToPlayer = () => {
     addBall({ weekId: selected.value, playerId: player.id, email: user.email });
@@ -47,6 +49,16 @@ export const TeamPlayerBalls: FC<TeamPlayerBallsProps> = ({
       email: user.email,
     });
   };
+
+  if (isLoadingAdd || isLoadingDelete) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <>

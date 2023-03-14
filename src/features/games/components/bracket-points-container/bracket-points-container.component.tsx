@@ -12,6 +12,7 @@ import {
 import { selectedWeekAtom } from "../../../../utils/atoms";
 import { StatsCirclesContainer } from "../fantasy-game-card/balance-trades-container/brackets-trades-container.styles";
 import { StatsCircle } from "../stats-circle/stats-circle.component";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const BracketPointsContainer = () => {
   const { user } = useContext(AuthenticationContext);
@@ -26,7 +27,11 @@ export const BracketPointsContainer = () => {
   return (
     <>
       {isLoadingUserWeek || isLoadingTotal ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <StatsCirclesContainer>
           <View>

@@ -13,6 +13,7 @@ import {
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { PointsCircle } from "./points-circle/points-circle.component";
 import { colors } from "../../../../infrastructure/theme/colors";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const Dashboard = () => {
   const { user } = useContext(AuthenticationContext);
@@ -30,7 +31,11 @@ export const Dashboard = () => {
   return (
     <>
       {isLoadingTeam || isLoadingBracket || isLoadingPrediction ? (
-        ""
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <DashboardHeader>

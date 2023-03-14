@@ -10,6 +10,7 @@ import { approvedPredictionsCurrentPageAtom } from "../../../../utils/atoms";
 import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
 import { PredictionCard } from "../predictions-card/predictions-card.component";
 import { ListHeading } from "../voted-prediction-list/voted-prediction-list.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const PredictionsList = () => {
   const { user } = useContext(AuthenticationContext);
@@ -28,7 +29,11 @@ export const PredictionsList = () => {
   return (
     <>
       {isFetchingPredictions ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <ListHeading variant="body">PREDICTIONS</ListHeading>
