@@ -48,6 +48,11 @@ export type MatchesByRoundViewModel = {
   matches: MatchCardViewModel[];
 };
 
+export type MatchesByTournament = {
+  tournament: Tournament;
+  matches: MatchCardViewModel[];
+};
+
 export type MatchCardViewModel = {
   id: number;
   date: string;
@@ -110,6 +115,10 @@ export type GetMatchesGroupedByRoundVieModel = {
   groupedMatches: MatchesByRoundViewModel[];
 };
 
+export type GetMatchesGroupedByTournament = {
+  groupedMatches: MatchesByTournament[];
+};
+
 export type GetLastMatchesByPlayerViewModel = {
   player: Player;
   matches: MatchCardViewModel[];
@@ -143,6 +152,12 @@ export function useMatchesByTournamentAndRound(
 export function useMatchesByTournamentGroupByRound(tournamentId: number) {
   return useQuery(["matches/byTournamentGroupedByRound", tournamentId], () =>
     getMatchesByTournamentGroupByRound(tournamentId)
+  );
+}
+
+export function useMatchesByPlayerGroupByTournament(playerId: number) {
+  return useQuery(["matches/byPlayer", playerId], () =>
+    getMatchesByPlayerGroupByTournament(playerId)
   );
 }
 
@@ -223,6 +238,15 @@ const getLastH2HMatchesByPlayer = async (
       ...filter,
       email,
     }
+  );
+  const result = response.data;
+
+  return result;
+};
+
+const getMatchesByPlayerGroupByTournament = async (playerId: number) => {
+  const response = await axios.get<GetMatchesGroupedByTournament>(
+    `${BASE_URL}/matches/byPlayerGroupByTournament?playerId=${playerId}`
   );
   const result = response.data;
 

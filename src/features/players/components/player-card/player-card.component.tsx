@@ -13,8 +13,6 @@ type PlayerCardProps = {
 export const PlayerCard: FC<PlayerCardProps> = ({ player }) => {
   const { countryKey, name, ranking, points } = player;
 
-  console.log(countryKey);
-
   return (
     <Card.Title
       style={{ borderBottomWidth: 1, borderBottomColor: `${Colors.grey400}` }}
