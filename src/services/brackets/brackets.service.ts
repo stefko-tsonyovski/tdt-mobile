@@ -16,6 +16,8 @@ export type UpdateBracketInputModel = {
 export type Bracket = {
   homePlayer: Player;
   awayPlayer: Player;
+  homeVotes: number;
+  awayVotes: number;
 } & UpdateBracketInputModel;
 
 export type GetAllBracketsByTournamentAndRoundViewModel = {
