@@ -8,12 +8,15 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { colors } from "../../../infrastructure/theme/colors";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { View } from "react-native";
 
 const TransparentSafeArea = styled(SafeArea)`
   background-color: transparent;
 `;
 const SettingsBackground = styled.ImageBackground.attrs({
-  source: require("../../../../assets/home_bg.jpg"),
+  source: {
+    uri: "https://res.cloudinary.com/dcvkhhwth/image/upload/v1678829465/background-image_uk9slf.png",
+  },
 })`
   position: absolute;
   height: 100%;
@@ -33,29 +36,30 @@ export const SettingsScreen = () => {
   return (
     <SettingsBackground>
       <TransparentSafeArea>
-        <AvatarContainer>
-          <Avatar.Icon size={180} icon="human" />
-          <Spacer position="top" size="large">
-            <Text variant="label">
-              {user.email}: {user.emailVerified}
-            </Text>
-          </Spacer>
-        </AvatarContainer>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <AvatarContainer>
+            <Avatar.Icon
+              style={{ backgroundColor: colors.bg.primary }}
+              size={180}
+              icon="human"
+            />
+          </AvatarContainer>
 
-        <List.Section>
-          <Spacer position="top" size="small" children={undefined} />
-          <SettingsItem
-            title="Logout"
-            left={(props) => (
-              <List.Icon
-                {...props}
-                color={colors.ui.secondary}
-                icon="exit-to-app"
-              />
-            )}
-            onPress={onLogout}
-          />
-        </List.Section>
+          <List.Section>
+            <Spacer position="top" size="small" children={undefined} />
+            <SettingsItem
+              title="Logout"
+              left={(props) => (
+                <List.Icon
+                  {...props}
+                  color={colors.ui.secondary}
+                  icon="exit-to-app"
+                />
+              )}
+              onPress={onLogout}
+            />
+          </List.Section>
+        </View>
       </TransparentSafeArea>
     </SettingsBackground>
   );

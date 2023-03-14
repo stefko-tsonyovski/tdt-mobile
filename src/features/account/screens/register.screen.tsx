@@ -17,6 +17,7 @@ import {
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { View } from "react-native";
 
 export type RegisterScreenProps = NativeStackScreenProps<
   AccountRootStackParamList,
@@ -34,8 +35,11 @@ export const RegisterScreen: FC<RegisterScreenProps> = ({ navigation }) => {
   return (
     <AccountBackground>
       <AccountCover />
-      <Title variant="body">Tennis Dream Team</Title>
       <AccountContainer>
+        <Title variant="body">Tennis Dream Team</Title>
+        <Spacer position="top" size="large">
+          <View></View>
+        </Spacer>
         <NamesContainer>
           <NameInput
             label="First Name"

@@ -2,7 +2,10 @@ import { useAtom } from "jotai";
 import React, { FC, useContext } from "react";
 import { Text } from "../../../../components/typography/text.component";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
-import { Bracket } from "../../../../services/brackets/brackets.service";
+import {
+  Bracket,
+  useAllBracketsByTournamentAndRound,
+} from "../../../../services/brackets/brackets.service";
 import { useByTournament } from "../../../../services/picks/picks.service";
 import { bracketsCurrentPageAtom } from "../../../../utils/atoms";
 import { BracketsCard } from "../brackets-card/brackets-card.component";
@@ -19,22 +22,24 @@ import { BracketPagination } from "./brackets-container.styles";
 import Spinner from "react-native-loading-spinner-overlay";
 
 export type BracketsContainerProps = {
-  brackets: Bracket[];
-  isFetching: boolean;
-  totalItems: number;
   tournamentId: number;
   roundId: string;
 };
 
 export const BracketsContainer: FC<BracketsContainerProps> = ({
-  brackets,
-  isFetching,
-  totalItems,
   tournamentId,
   roundId,
 }) => {
   const { user } = useContext(AuthenticationContext);
   const [page, setPage] = useAtom(bracketsCurrentPageAtom);
+
+  const { data: bracketsData, isFetching: isFetchingBrackets } =
+    useAllBracketsByTournamentAndRound(
+      tournamentId,
+      roundId,
+      page,
+      BRACKETS_ITEMS_PER_PAGE
+    );
 
   const { data: picksData, isLoading: isLoadingPicks } = useByTournament(
     tournamentId,
@@ -47,15 +52,15 @@ export const BracketsContainer: FC<BracketsContainerProps> = ({
 
   return (
     <>
-      {isFetching || isLoadingPicks ? (
+      {isLoadingPicks || isFetchingBrackets ? (
         <Spinner
           visible={true}
           textContent={"This may take a while..."}
           textStyle={{ color: colors.text.inverse }}
         />
-      ) : brackets?.length && brackets ? (
+      ) : bracketsData?.brackets?.length && bracketsData.brackets ? (
         <View>
-          {brackets.map((bracket) => (
+          {bracketsData.brackets.map((bracket) => (
             <BracketsCard
               key={bracket._id}
               bracket={bracket}
@@ -73,7 +78,8 @@ export const BracketsContainer: FC<BracketsContainerProps> = ({
               <Spacer position="left" size="large">
                 <IconButton
                   disabled={
-                    page >= Math.ceil(totalItems / BRACKETS_ITEMS_PER_PAGE)
+                    page >=
+                    Math.ceil(bracketsData.totalItems / BRACKETS_ITEMS_PER_PAGE)
                   }
                   icon="fast-forward"
                   onPress={handleNext}

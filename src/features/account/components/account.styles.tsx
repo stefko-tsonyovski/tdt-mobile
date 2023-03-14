@@ -5,7 +5,9 @@ import { Text } from "../../../components/typography/text.component";
 import { View } from "react-native";
 
 export const AccountBackground = styled.ImageBackground.attrs({
-  source: require("../../../../assets/home_bg.jpg"),
+  source: {
+    uri: "https://res.cloudinary.com/dcvkhhwth/image/upload/v1678829465/background-image_uk9slf.png",
+  },
 })`
   flex: 1;
   align-items: center;
@@ -31,7 +33,7 @@ export const NamesContainer = styled(View)`
 `;
 
 export const AuthButton = styled(Button).attrs({
-  color: colors.brand.primary,
+  color: colors.bg.primary,
 })`
   padding: ${(props) => props.theme.space[2]};
 `;
@@ -46,6 +48,7 @@ export const AuthInput = styled(TextInput)`
 
 export const Title = styled(Text)`
   font-size: 30px;
+  text-align: center;
 `;
 
 export const ErrorContainer = styled(View)`

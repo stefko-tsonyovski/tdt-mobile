@@ -11,6 +11,7 @@ import {
   Title,
   AnimationWrapper,
 } from "../components/account.styles";
+import { View } from "react-native";
 
 export type AccountScreenProps = NativeStackScreenProps<
   AccountRootStackParamList,
@@ -22,8 +23,12 @@ export const AccountScreen: FC<AccountScreenProps> = ({ navigation }) => {
     <AccountBackground>
       <AccountCover />
       <AnimationWrapper></AnimationWrapper>
-      <Title variant="body">Tennis Dream Team</Title>
+
       <AccountContainer>
+        <Title variant="body">Tennis Dream Team</Title>
+        <Spacer position="top" size="large">
+          <View></View>
+        </Spacer>
         <AuthButton
           icon="lock-open-outline"
           mode="contained"
