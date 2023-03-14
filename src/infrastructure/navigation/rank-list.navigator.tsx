@@ -6,7 +6,7 @@ import { PlayerDetailsScreen } from "../../features/players/screens/player-detai
 
 export type RankListRootStackParamList = {
   AllPlayers: undefined;
-  PlayerDetails: { id: string };
+  PlayerDetails: { id: number };
 };
 
 const Stack = createStackNavigator<RankListRootStackParamList>();

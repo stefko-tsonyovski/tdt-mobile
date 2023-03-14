@@ -1,11 +1,10 @@
 import { useAtom } from "jotai";
-import React, { FC, useCallback, useRef } from "react";
-import { View } from "react-native";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { Divider } from "react-native-paper";
+import React, { FC, useCallback } from "react";
+import { FlatList } from "react-native-gesture-handler";
+import { NoData } from "../../../../components/no-data/no-data.component";
+import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 import {
-  Match,
   MatchCardViewModel,
   useMatchesByTournamentAndRound,
 } from "../../../../services/matches/matches.service";
@@ -39,26 +38,25 @@ export const TournamentMatchesDraw: FC<TournamentMatchesDrawProps> = ({
   );
 
   return (
-    <>
-      {!isLoading && data ? (
-        data?.matches?.length ? (
-          <FlatList
-            ListHeaderComponent={<MatchesRoundFilter />}
-            data={data.matches}
-            keyExtractor={keyExtractor}
-            maxToRenderPerBatch={8}
-            renderItem={renderItem}
-          />
+    <FlatList
+      ListHeaderComponent={<MatchesRoundFilter />}
+      data={isLoading || !data ? [] : data.matches}
+      ListFooterComponent={
+        isLoading || !data ? (
+          <Spacer position="top" size="large">
+            <Text variant="body" textAlign="center">
+              Loading...
+            </Text>
+          </Spacer>
+        ) : data.matches.length === 0 ? (
+          <NoData message="No Matches" />
         ) : (
-          <>
-            <Divider />
-            <Text variant="body">No Matches</Text>
-            <Divider />
-          </>
+          <></>
         )
-      ) : (
-        <Text variant="body">Loading...</Text>
-      )}
-    </>
+      }
+      keyExtractor={keyExtractor}
+      maxToRenderPerBatch={8}
+      renderItem={renderItem}
+    />
   );
 };

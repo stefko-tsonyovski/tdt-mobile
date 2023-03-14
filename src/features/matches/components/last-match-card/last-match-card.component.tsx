@@ -50,7 +50,6 @@ export const LastMatchCard: FC<LastMatchCardProps> = ({ match, playerId }) => {
           day: "numeric",
           month: "numeric",
         });
-  console.log("favorite", favoriteId);
 
   return (
     <Card style={favoriteId ? { backgroundColor: Colors.lightBlue100 } : {}}>
@@ -80,45 +79,45 @@ export const LastMatchCard: FC<LastMatchCardProps> = ({ match, playerId }) => {
               </PlayerSetsContainer>
             </PlayerResultContainer>
           </Spacer>
-          {playerId && (
-            <PlayerResultContainer>
-              <PlayerCountryContainer>
-                <CountryFlag size={25} isoCode={awayPlayer.countryKey} />
-              </PlayerCountryContainer>
-              <PlayerNameContainer>
-                {awayId === winnerId ? (
-                  <TextWinner variant="body">{awayPlayer.name}</TextWinner>
-                ) : (
-                  <Text variant="body">{awayPlayer.name}</Text>
-                )}
-              </PlayerNameContainer>
-              <PlayerSetsContainer>
-                {awayId === winnerId ? (
-                  <TextWinner variant="body">{awaySets}</TextWinner>
-                ) : (
-                  <Text variant="body">{awaySets}</Text>
-                )}
-              </PlayerSetsContainer>
-            </PlayerResultContainer>
-          )}
+          <PlayerResultContainer>
+            <PlayerCountryContainer>
+              <CountryFlag size={25} isoCode={awayPlayer.countryKey} />
+            </PlayerCountryContainer>
+            <PlayerNameContainer>
+              {awayId === winnerId ? (
+                <TextWinner variant="body">{awayPlayer.name}</TextWinner>
+              ) : (
+                <Text variant="body">{awayPlayer.name}</Text>
+              )}
+            </PlayerNameContainer>
+            <PlayerSetsContainer>
+              {awayId === winnerId ? (
+                <TextWinner variant="body">{awaySets}</TextWinner>
+              ) : (
+                <Text variant="body">{awaySets}</Text>
+              )}
+            </PlayerSetsContainer>
+          </PlayerResultContainer>
         </PlayerResultsContainer>
-        <ResultStatusContainer>
-          {status === "finished" ? (
-            winnerId === playerId ? (
-              <WinnerStatus>
-                <Text variant="body">W</Text>
-              </WinnerStatus>
+        {playerId && (
+          <ResultStatusContainer>
+            {status === "finished" ? (
+              winnerId === playerId ? (
+                <WinnerStatus>
+                  <Text variant="body">W</Text>
+                </WinnerStatus>
+              ) : (
+                <LoserStatus>
+                  <Text variant="body">L</Text>
+                </LoserStatus>
+              )
             ) : (
-              <LoserStatus>
-                <Text variant="body">L</Text>
-              </LoserStatus>
-            )
-          ) : (
-            <PendingStatus>
-              <Text variant="body">P</Text>
-            </PendingStatus>
-          )}
-        </ResultStatusContainer>
+              <PendingStatus>
+                <Text variant="body">P</Text>
+              </PendingStatus>
+            )}
+          </ResultStatusContainer>
+        )}
       </MatchContainer>
     </Card>
   );

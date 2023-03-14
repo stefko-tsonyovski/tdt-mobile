@@ -37,6 +37,19 @@ const label = (theme: any) => `
     font-weight: ${theme.fontWeights.medium};
 `;
 
+// position
+const center = (theme: any) => `
+  text-align: center;
+`;
+
+const right = (theme: any) => `
+text-align: right;
+`;
+
+const left = (theme: any) => `
+text-align: left;
+`;
+
 const variants = {
   body,
   label,
@@ -46,15 +59,24 @@ const variants = {
   inverse,
 };
 
+const textAligns = {
+  center,
+  right,
+  left,
+};
+
 export type TextProps = {
-  variant: "body" | "label" | "caption" | "error" | "hint" | "inverse";
+  variant?: "body" | "label" | "caption" | "error" | "hint" | "inverse";
+  textAlign?: "center" | "right" | "left";
 };
 
 export const Text = styled.Text<TextProps>`
   ${({ theme }) => defaultTextStyles(theme)}
   ${({ variant = "body", theme }) => variants[variant](theme)}
+  ${({ textAlign = "left", theme }) => textAligns[textAlign](theme)}
 `;
 
 Text.defaultProps = {
   variant: "body",
+  textAlign: "left",
 };

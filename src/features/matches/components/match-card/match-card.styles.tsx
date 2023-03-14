@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 
 export const MatchContainer = styled(Card.Content)`
   flex-direction: row;
+  align-items: center;
 `;
 
 export const FavoriteContainer = styled.View`
