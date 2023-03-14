@@ -17,6 +17,7 @@ import { Spacer } from "../../../../components/spacer/spacer.component";
 import { useContext, useRef } from "react";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { SubstitutionCard } from "../substitution-card/substitution-card.component";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const SubstitutionList = () => {
   const flatListRef = useRef<FlatList>(null);
@@ -60,7 +61,11 @@ export const SubstitutionList = () => {
             <Dialog.Content>
               <Spacer position="top" size="large">
                 {isLoadingFiltered || isLoadingPlayersInTeam ? (
-                  <Text variant="body">Loading...</Text>
+                  <Spinner
+                    visible={true}
+                    textContent={"This may take a while..."}
+                    textStyle={{ color: colors.text.inverse }}
+                  />
                 ) : Number(filteredPlayers?.players?.length) > 0 ? (
                   <FlatList
                     ref={flatListRef}

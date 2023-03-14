@@ -7,6 +7,7 @@ import { colors } from "../../../../infrastructure/theme/colors";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { League } from "../../../../services/leagues/leagues.service";
 import { useCreateRequest } from "../../../../services/requests/requests.service";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type CreateRequestProps = {
   league: League;
@@ -14,7 +15,7 @@ export type CreateRequestProps = {
 
 export const CreateRequest: FC<CreateRequestProps> = ({ league }) => {
   const { user } = useContext(AuthenticationContext);
-  const { mutate: createRequest } = useCreateRequest();
+  const { mutate: createRequest, isLoading } = useCreateRequest();
 
   const [visible, setVisible] = useState(false);
 
@@ -25,6 +26,16 @@ export const CreateRequest: FC<CreateRequestProps> = ({ league }) => {
     createRequest({ leagueId: league._id, email: user.email });
     hideDialog();
   };
+
+  if (isLoading) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <View>

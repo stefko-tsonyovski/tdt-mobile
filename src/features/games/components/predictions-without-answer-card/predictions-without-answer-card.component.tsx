@@ -26,6 +26,7 @@ import {
   PredictionCardHeaderContainer,
   PredictionCardText,
 } from "../voted-prediction-card/voted-prediction-card.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type PredictionCardProps = {
   prediction: Prediction;
@@ -125,6 +126,16 @@ export const PredictionsWithoutAnswerCard: FC<PredictionCardProps> = ({
 
     updatePrediction({ _id: prediction._id, answer: "wrong" });
   };
+
+  if (isLoadingUpdate) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <>

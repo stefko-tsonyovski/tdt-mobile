@@ -12,6 +12,7 @@ import {
   useCreateLeagueInvitation,
 } from "../../../../services/league-invitations/league-invitations.service";
 import { UpdateLeagueInputModel } from "../../../../services/leagues/leagues.service";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type SendLeagueInvitationProps = {
   league: UpdateLeagueInputModel;
@@ -59,7 +60,11 @@ export const SendLeagueInvitation: FC<SendLeagueInvitationProps> = ({
   return (
     <View>
       {isLoadingUsers || isLoadingCreateLeagueInvitation ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <Button

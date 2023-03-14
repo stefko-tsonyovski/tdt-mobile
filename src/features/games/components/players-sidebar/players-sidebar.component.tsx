@@ -8,7 +8,7 @@ import {
   selectedWeekAtom,
 } from "../../../../utils/atoms";
 import { View, FlatList } from "react-native";
-import { Avatar, Button, Dialog, IconButton, Portal } from "react-native-paper";
+import { Button, Dialog, Portal } from "react-native-paper";
 import { Text } from "../../../../components/typography/text.component";
 import { colors } from "../../../../infrastructure/theme/colors";
 import {
@@ -18,18 +18,14 @@ import {
   usePlayersInTeam,
   useSubstitutions,
 } from "../../../../services/players/players.service";
-import {
-  PLAYERS_INITIAL_PAGE,
-  PLAYERS_ITEMS_PER_PAGE,
-  PLAYER_ITEM_HEIGHT,
-} from "../../../../utils/constants";
+import { PLAYERS_ITEMS_PER_PAGE } from "../../../../utils/constants";
 import { SearchPlayer } from "../../search-player/search-player.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { useContext, useRef, useState } from "react";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
-import { useEffect } from "react";
 import { PlayersSidebarCard } from "../players-sidebar-card/players-sidebar-card.component";
 import React from "react";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const PlayersSidebar = () => {
   const flatListRef = useRef<FlatList>(null);
@@ -42,10 +38,9 @@ export const PlayersSidebar = () => {
   const [checked] = useAtom(isBoughtAtom);
   const [selected] = useAtom(selectedWeekAtom);
   const [fetchPlayers] = useAtom(fetchPlayersAtom);
-  const [page, setPage] = useAtom(playersCurrentPageAtom);
+  const [page] = useAtom(playersCurrentPageAtom);
 
-  const [players, setPlayers] = useState([] as Player[]);
-  const [isLoadingNew, setIsLoadingNew] = useState(false);
+  const [isLoadingNew] = useState(false);
 
   const { data: filteredPlayers, isFetching: isLoadingFiltered } =
     useFilteredPlayers(
@@ -73,43 +68,6 @@ export const PlayersSidebar = () => {
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
-  const handleNextPage = () => {
-    const totalPages = Math.ceil(
-      Number(filteredPlayers?.totalItems) / PLAYERS_ITEMS_PER_PAGE
-    );
-
-    if (page < totalPages) {
-      setPage(page + 1);
-    }
-  };
-
-  const getItemLayout = (data: Player[] | null | undefined, index: number) => ({
-    length: PLAYER_ITEM_HEIGHT,
-    offset: PLAYER_ITEM_HEIGHT * index,
-    index,
-  });
-
-  // useEffect(() => {
-  //   let allPlayers = [
-  //     ...players,
-  //     ...((filteredPlayers?.players.filter(
-  //       (fp) => !players.some((p) => p._id === fp._id)
-  //     ) || []) as Player[]),
-  //   ];
-
-  //   if ((playerSearchTerm || checked) && fetchPlayers) {
-  //     allPlayers = filteredPlayers?.players as Player[];
-  //   }
-
-  //   setPlayers(allPlayers);
-  //   setTimeout(() => {
-  //     flatListRef.current?.scrollToIndex({
-  //       animated: false,
-  //       index: allPlayers.length - 1,
-  //     });
-  //   }, 400);
-  // }, [filteredPlayers]);
-
   return (
     <>
       <View>
@@ -134,7 +92,11 @@ export const PlayersSidebar = () => {
                 isLoadingNew ||
                 isLoadingPlayersInTeam ||
                 isLoadingSubstitutions ? (
-                  <Text variant="body">Loading...</Text>
+                  <Spinner
+                    visible={true}
+                    textContent={"This may take a while..."}
+                    textStyle={{ color: colors.text.inverse }}
+                  />
                 ) : !fetchPlayers ? (
                   <Spacer position="top" size="large">
                     <Text

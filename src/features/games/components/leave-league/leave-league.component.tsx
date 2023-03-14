@@ -12,6 +12,7 @@ import {
   useDeleteLeague,
   useLeaveLeague,
 } from "../../../../services/leagues/leagues.service";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type DeleteLeagueProps = {
   inputModel: UpdateLeagueInputModel;
@@ -21,7 +22,7 @@ export const LeaveLeague: FC<DeleteLeagueProps> = ({ inputModel }) => {
   const navigation = useNavigation<NavigationProp<GamesRootStackParamList>>();
 
   const { user } = useContext(AuthenticationContext);
-  const { mutate: leaveLeague } = useLeaveLeague();
+  const { mutate: leaveLeague, isLoading } = useLeaveLeague();
 
   const [visible, setVisible] = useState(false);
 
@@ -39,6 +40,16 @@ export const LeaveLeague: FC<DeleteLeagueProps> = ({ inputModel }) => {
 
     navigation.goBack();
   };
+
+  if (isLoading) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <View>

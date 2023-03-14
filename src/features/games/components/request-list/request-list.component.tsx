@@ -8,6 +8,7 @@ import { AuthenticationContext } from "../../../../services/authentication/authe
 import { useUnapprovedByLeague } from "../../../../services/requests/requests.service";
 import { RequestCard } from "../request-card/request-card.component";
 import { ListHeading } from "../voted-prediction-list/voted-prediction-list.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type RequestListProps = {
   leagueId: string;
@@ -22,7 +23,11 @@ export const RequestList: FC<RequestListProps> = ({ leagueId }) => {
   return (
     <>
       {isLoadingRequests ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <ListHeading variant="body">UNAPPROVED REQUESTS</ListHeading>

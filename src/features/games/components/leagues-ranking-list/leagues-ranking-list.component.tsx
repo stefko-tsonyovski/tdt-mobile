@@ -22,6 +22,7 @@ import {
   InfoBoxContainer,
   InfoBoxContainerText,
 } from "../users-ranking-list/users-ranking-list.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const LeaguesRankingList = () => {
   const navigation = useNavigation<NavigationProp<LeaguesRootStackParamList>>();
@@ -52,7 +53,11 @@ export const LeaguesRankingList = () => {
   return (
     <>
       {isLoadingLeagues || isLoadingLeagueInvitations ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <InfoBoxContainer>

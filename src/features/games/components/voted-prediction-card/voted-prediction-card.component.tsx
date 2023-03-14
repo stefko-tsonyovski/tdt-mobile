@@ -25,6 +25,7 @@ import {
   PredictionCardHeaderContainer,
   PredictionCardText,
 } from "./voted-prediction-card.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type VotedPredictionCardProps = {
   prediction: VotePrediction;
@@ -40,7 +41,7 @@ export const VotedPredictionCard: FC<VotedPredictionCardProps> = ({
     votePredictionsCurrentPageAtom
   );
 
-  const { mutate: verifyVotePrediction } = useVerifyVotePrediction();
+  const { mutate: verifyVotePrediction, isLoading } = useVerifyVotePrediction();
 
   const handlePrevious = () =>
     setVotePredictionsCurrentPage(votePredictionsCurrentPage - 1);
@@ -53,6 +54,16 @@ export const VotedPredictionCard: FC<VotedPredictionCardProps> = ({
       email: user.email,
     });
   };
+
+  if (isLoading) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <>

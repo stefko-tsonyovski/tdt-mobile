@@ -10,6 +10,8 @@ import { selectedWeekAtom } from "../../../../utils/atoms";
 import { AddPlayerCard } from "../add-player-card/add-player-card.component";
 import { TeamPlayerCardListContainer } from "../team-player-card-list/team-player-card-list.styles";
 import { TeamPlayerCard } from "../team-player-card/team-player-card.component";
+import Spinner from "react-native-loading-spinner-overlay";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 export type TeamByUserPlayerCardListProps = {
   userId: string;
@@ -27,7 +29,11 @@ export const TeamByUserPlayerCardList: FC<TeamByUserPlayerCardListProps> = ({
   return (
     <>
       {isLoadingPlayers ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <Spacer position="left" size="large">

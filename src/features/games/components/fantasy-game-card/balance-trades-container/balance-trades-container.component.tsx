@@ -11,6 +11,7 @@ import { colors } from "../../../../../infrastructure/theme/colors";
 import { Text } from "../../../../../components/typography/text.component";
 import { useTradesByUser } from "../../../../../services/users/users.service";
 import { StatsCirclesContainer } from "./brackets-trades-container.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const BalanceTradesContainer = () => {
   const { user } = useContext(AuthenticationContext);
@@ -27,7 +28,11 @@ export const BalanceTradesContainer = () => {
   return (
     <>
       {isLoadingUserWeek || isLoadingTrades ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <StatsCirclesContainer>
           <View>

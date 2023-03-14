@@ -11,6 +11,7 @@ import { Button, TextInput } from "react-native-paper";
 import { PREDICTION_CONTENT_MAX_LENGTH } from "../../../../utils/constants";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { useCreatePrediction } from "../../../../services/predictions/predictions.service";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type PredictionsGameScreenProps = NativeStackScreenProps<
   PredictionsGameRootStackParamList,
@@ -21,7 +22,7 @@ export const AddPredictionScreen: FC<PredictionsGameScreenProps> = ({
   navigation,
   route,
 }) => {
-  const { mutate: createPrediction } = useCreatePrediction();
+  const { mutate: createPrediction, isLoading } = useCreatePrediction();
 
   const { user } = useContext(AuthenticationContext);
   const [text, setText] = useState("");
@@ -35,6 +36,16 @@ export const AddPredictionScreen: FC<PredictionsGameScreenProps> = ({
     createPrediction(inputModel);
     navigation.navigate("PredictionsMain");
   };
+
+  if (isLoading) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <FantasyGameScreenContainer>

@@ -17,6 +17,7 @@ import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
 import { PredictionCard } from "../predictions-card/predictions-card.component";
 import { VotedPredictionCard } from "../voted-prediction-card/voted-prediction-card.component";
 import { ListHeading } from "./voted-prediction-list.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const VotedPredictionsList = () => {
   const { user } = useContext(AuthenticationContext);
@@ -33,7 +34,11 @@ export const VotedPredictionsList = () => {
   return (
     <>
       {isFetchingPredictions ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <ListHeading variant="body">YOUR VOTES</ListHeading>

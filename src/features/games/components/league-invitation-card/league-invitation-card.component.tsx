@@ -21,6 +21,7 @@ import {
   useAcceptLeagueInvitation,
   useDeleteLeagueInvitation,
 } from "../../../../services/league-invitations/league-invitations.service";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type LeagueInvitationCardProps = {
   leagueInvitation: LeagueInvitation;
@@ -49,7 +50,11 @@ export const LeagueInvitationCard: FC<LeagueInvitationCardProps> = ({
   return (
     <>
       {isLoadingAccept || isLoadingDelete ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <PredictionCardContainer>

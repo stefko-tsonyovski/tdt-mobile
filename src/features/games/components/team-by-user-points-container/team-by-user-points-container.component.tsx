@@ -10,6 +10,7 @@ import {
 } from "../../../../services/users/users.service";
 import { selectedWeekAtom } from "../../../../utils/atoms";
 import { StatsCircle } from "../stats-circle/stats-circle.component";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type TeamByUserPointsContainerProps = {
   userId: string;
@@ -28,7 +29,11 @@ export const TeamByUserPointsContainer: FC<TeamByUserPointsContainerProps> = ({
   return (
     <>
       {isLoadingWeekly || isLoadingTotal ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <View
           style={{

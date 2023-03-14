@@ -13,6 +13,7 @@ import {
   useKickMember,
 } from "../../../../services/leagues/leagues.service";
 import { User } from "../../../../services/users/users.service";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type KickMemberProps = {
   member: User;
@@ -21,7 +22,7 @@ export type KickMemberProps = {
 
 export const KickMember: FC<KickMemberProps> = ({ member, leagueId }) => {
   const { user } = useContext(AuthenticationContext);
-  const { mutate: kickMember } = useKickMember();
+  const { mutate: kickMember, isLoading } = useKickMember();
 
   const [visible, setVisible] = useState(false);
 
@@ -32,6 +33,16 @@ export const KickMember: FC<KickMemberProps> = ({ member, leagueId }) => {
     kickMember({ memberId: member._id, leagueId, email: user.email });
     hideDialog();
   };
+
+  if (isLoading) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <View>

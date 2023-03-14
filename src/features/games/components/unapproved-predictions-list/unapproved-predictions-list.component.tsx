@@ -9,6 +9,7 @@ import { unapprovedPredictionsCurrentPageAtom } from "../../../../utils/atoms";
 import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
 import { UnapprovedPredictionCard } from "../unapproved-predictions-card/unapproved-predictions-card.component";
 import { ListHeading } from "../voted-prediction-list/voted-prediction-list.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const UnapprovedPredictionsList = () => {
   const [unapprovedPredictionsCurrentPage] = useAtom(
@@ -21,7 +22,11 @@ export const UnapprovedPredictionsList = () => {
   return (
     <>
       {isFetchingPredictions ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <ListHeading variant="body">UNAPPROVED PREDICTIONS</ListHeading>

@@ -1,6 +1,8 @@
 import { Text } from "../../../../components/typography/text.component";
 import { useWeekByCurrentDate } from "../../../../services/weeks/weeks.service";
 import { CurrentWeekTitle } from "./current-week.styles";
+import Spinner from "react-native-loading-spinner-overlay";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 export const CurrentWeek = () => {
   const { data: currentWeek, isLoading: isLoadingCurrentWeek } =
@@ -9,7 +11,11 @@ export const CurrentWeek = () => {
   return (
     <>
       {isLoadingCurrentWeek ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <CurrentWeekTitle variant="body">
           CURRENT WEEK:{" "}

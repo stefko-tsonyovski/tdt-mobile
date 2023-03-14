@@ -20,6 +20,7 @@ import { AuthenticationContext } from "../../../../services/authentication/authe
 import { Text } from "../../../../components/typography/text.component";
 import { useAtom } from "jotai";
 import { fetchUsersByLeagueAtom } from "../../../../utils/atoms";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type RequestCardProps = {
   request: Request;
@@ -49,7 +50,11 @@ export const RequestCard: FC<RequestCardProps> = ({ request }) => {
   return (
     <>
       {isLoadingApprove || isLoadingDelete ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <PredictionCardContainer>

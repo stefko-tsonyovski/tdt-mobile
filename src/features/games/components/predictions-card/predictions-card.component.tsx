@@ -27,6 +27,7 @@ import {
   PredictionCardText,
 } from "../voted-prediction-card/voted-prediction-card.styles";
 import { PredictionCardPostedByContainer } from "./predictions-card.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type PredictionCardProps = {
   prediction: Prediction;
@@ -41,7 +42,7 @@ export const PredictionCard: FC<PredictionCardProps> = ({
   const [predictionsCurrentPage, setPredictionsCurrentPage] = useAtom(
     approvedPredictionsCurrentPageAtom
   );
-  const { mutate: createVotePrediction } = useCreateVotePrediction();
+  const { mutate: createVotePrediction, isLoading } = useCreateVotePrediction();
 
   const translateX = new Animated.Value(0);
   const translateY = new Animated.Value(0);
@@ -126,6 +127,16 @@ export const PredictionCard: FC<PredictionCardProps> = ({
 
     createVotePrediction(inputModel);
   };
+
+  if (isLoading) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <>

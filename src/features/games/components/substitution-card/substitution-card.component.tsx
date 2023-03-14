@@ -24,6 +24,7 @@ import { useAtom } from "jotai";
 import { selectedWeekAtom } from "../../../../utils/atoms";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { ExchangePlayer } from "../exchange-player/exchange-player.component";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export type PlayersSidebarCardProps = {
   item: Player;
@@ -37,16 +38,20 @@ export const SubstitutionCard: FC<PlayersSidebarCardProps> = ({
   const { user } = useContext(AuthenticationContext);
   const [selected] = useAtom(selectedWeekAtom);
 
-  const { data: playersInTeamData } = usePlayersInTeam(
-    {
-      selected,
-    },
-    user.email
-  );
+  const { data: playersInTeamData, isLoading: isLoadingPlayers } =
+    usePlayersInTeam(
+      {
+        selected,
+      },
+      user.email
+    );
 
   const { mutate: deletePlayerFromTeam, isLoading: isLoadingDelete } =
     useDeletePlayerFromTeam();
-  const { mutate: performSubstitution } = usePerformSubstitution();
+  const {
+    mutate: performSubstitution,
+    isLoading: isLoadingPerformSubstitution,
+  } = usePerformSubstitution();
 
   const performSubstitutionHandler = (
     inputModel: PerformSubstitutionInputModel
@@ -62,6 +67,16 @@ export const SubstitutionCard: FC<PlayersSidebarCardProps> = ({
     };
     deletePlayerFromTeam(inputModel);
   };
+
+  if (isLoadingPlayers || isLoadingDelete || isLoadingPerformSubstitution) {
+    return (
+      <Spinner
+        visible={true}
+        textContent={"This may take a while..."}
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
     <CardContainer>

@@ -22,6 +22,7 @@ import {
   ButtonsContainer,
   GrowIconButton,
 } from "../../components/menu/menu.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const LeagueDetailsScreen = () => {
   const navigation = useNavigation<NavigationProp<GamesRootStackParamList>>();
@@ -34,7 +35,11 @@ export const LeagueDetailsScreen = () => {
   return (
     <FantasyGameScreenContainer>
       {isLoadingLeague ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <ScrollView showsVerticalScrollIndicator>
           <ButtonsContainer>

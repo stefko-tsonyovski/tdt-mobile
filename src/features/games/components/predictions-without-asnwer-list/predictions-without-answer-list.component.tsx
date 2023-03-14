@@ -14,6 +14,7 @@ import { PLAYERS_INITIAL_PAGE } from "../../../../utils/constants";
 import { PredictionsWithoutAnswerCard } from "../predictions-without-answer-card/predictions-without-answer-card.component";
 import { UnapprovedPredictionCard } from "../unapproved-predictions-card/unapproved-predictions-card.component";
 import { ListHeading } from "../voted-prediction-list/voted-prediction-list.styles";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const PredictionsWithoutAnswerList = () => {
   const { user } = useContext(AuthenticationContext);
@@ -32,7 +33,11 @@ export const PredictionsWithoutAnswerList = () => {
   return (
     <>
       {isFetchingPredictions ? (
-        <Text variant="body">Loading...</Text>
+        <Spinner
+          visible={true}
+          textContent={"This may take a while..."}
+          textStyle={{ color: colors.text.inverse }}
+        />
       ) : (
         <>
           <ListHeading variant="body">PREDICTIONS WITHOUT ANSWER</ListHeading>
