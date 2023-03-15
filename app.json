@@ -7,7 +7,7 @@
     "icon": "https://res.cloudinary.com/dcvkhhwth/image/upload/v1678827075/external-tennis-sport-wanicon-flat-wanicon_hpfgm1.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "https://res.cloudinary.com/dcvkhhwth/image/upload/v1678827604/splash_tvzx2w.png",
+      "image": "./assets/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
