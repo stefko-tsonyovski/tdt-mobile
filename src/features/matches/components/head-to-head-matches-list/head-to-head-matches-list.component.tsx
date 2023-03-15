@@ -1,7 +1,6 @@
 import React, { FC, useContext } from "react";
 import { useAtom } from "jotai";
-import { View } from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity, View } from "react-native";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 import {

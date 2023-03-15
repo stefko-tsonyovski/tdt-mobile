@@ -7,9 +7,9 @@ import { TournamentMatchHeading } from "../../../tournaments/components/tourname
 import { SafeArea } from "../../../../components/utility/safe-area.component";
 import { PlayersMatchCard } from "../../../players/components/players-match-card/players-match-card.component";
 import { MatchMenuTabs } from "../../components/match-menu-tabs/match-menu-tabs.component";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { TouchableOpacity } from "react-native";
 
 export type MatchDetailsScreenProps = NativeStackScreenProps<
   TournamentsRootStackParamList,

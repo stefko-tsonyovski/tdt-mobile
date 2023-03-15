@@ -22,11 +22,11 @@ export const WinnerStatus = styled.View`
 export const LoserStatus = styled.View`
   ${circleContainerStyles}
   backgroundColor: ${Colors.red300}
-    color: white;
+  color: white;
 `;
 
 export const PendingStatus = styled.View`
+  ${circleContainerStyles}
   background-color: ${Colors.orange300};
   color: white;
-  padding: 5px;
 `;

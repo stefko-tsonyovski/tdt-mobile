@@ -1,11 +1,7 @@
-import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React, { FC } from "react";
-import { View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Colors } from "react-native-paper";
-import { Text } from "../../../../components/typography/text.component";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { TouchableOpacity, View } from "react-native";
 import { TabParamList } from "../../../../infrastructure/navigation/app.navigator";
-import { RankListRootStackParamList } from "../../../../infrastructure/navigation/rank-list.navigator";
 import { PlayerMatchCard } from "../player-match-card/player-match-card.component";
 import {
   PlayersCardContainer,
