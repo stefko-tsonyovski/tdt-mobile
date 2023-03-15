@@ -58,9 +58,21 @@ export const AppNavigator = () => {
       })}
     >
       <Tab.Screen name="Games" component={GamesNavigator} />
-      <Tab.Screen name="Favorites" component={FavoritesScreen} />
-      <Tab.Screen name="Tournaments" component={TournamentsNavigator} />
-      <Tab.Screen name="RankList" component={RankListNavigator} />
+      <Tab.Screen
+        options={({}) => ({ title: "Favorites" })}
+        name="Favorites"
+        component={FavoritesScreen}
+      />
+      <Tab.Screen
+        options={({}) => ({ title: "Tournaments" })}
+        name="Tournaments"
+        component={TournamentsNavigator}
+      />
+      <Tab.Screen
+        options={({}) => ({ title: "RankList" })}
+        name="RankList"
+        component={RankListNavigator}
+      />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );

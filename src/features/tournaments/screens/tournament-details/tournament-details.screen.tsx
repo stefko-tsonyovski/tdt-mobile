@@ -15,9 +15,9 @@ export const TournamentDetailsScreen: FC<Props> = ({ route, navigation }) => {
   const { tournamentId } = route.params;
 
   return (
-    <SafeArea>
+    <>
       <TournamentDetailCard tournamentId={tournamentId} />
       <TournamentDetailMenuTabs tournamentId={tournamentId} />
-    </SafeArea>
+    </>
   );
 };

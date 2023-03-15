@@ -16,12 +16,19 @@ export const RankListNavigator = () => {
     <SafeArea>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false,
           animationEnabled: true,
         }}
       >
-        <Stack.Screen name="AllPlayers" component={AllPlayers} />
-        <Stack.Screen name="PlayerDetails" component={PlayerDetailsScreen} />
+        <Stack.Screen
+          options={({}) => ({ title: "Rank List" })}
+          name="AllPlayers"
+          component={AllPlayers}
+        />
+        <Stack.Screen
+          options={({}) => ({ title: "Player Details" })}
+          name="PlayerDetails"
+          component={PlayerDetailsScreen}
+        />
       </Stack.Navigator>
     </SafeArea>
   );
