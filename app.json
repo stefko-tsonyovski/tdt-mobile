@@ -23,7 +23,8 @@
         "foregroundImage": "https://res.cloudinary.com/dcvkhhwth/image/upload/v1678827075/external-tennis-sport-wanicon-flat-wanicon_hpfgm1.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.stefkonoisyboy.TennisDreamTeam"
+      "package": "com.stefkonoisyboy.TennisDreamTeam",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
