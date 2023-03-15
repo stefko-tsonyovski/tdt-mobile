@@ -1,18 +1,21 @@
-import React, { FC, useCallback, useContext } from "react";
+import React, { FC, useContext } from "react";
 import { useAtom } from "jotai";
 import { View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 import {
   MatchCardViewModel,
   useLastH2HMatchesByPlayer,
 } from "../../../../services/matches/matches.service";
-import { MatchCard } from "../match-card/match-card.component";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
-import { Divider } from "react-native-paper";
 import { LastMatchCard } from "../last-match-card/last-match-card.component";
 import { selectedSurfaceAtom } from "../../../../utils/atoms";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";
+import Spinner from "react-native-loading-spinner-overlay/lib";
+import { colors } from "../../../../infrastructure/theme/colors";
+import { NoData } from "../../../../components/no-data/no-data.component";
 
 type HeadToHeadMatchesListProps = {
   matchId: number;
@@ -25,6 +28,8 @@ export const HeadToHeadMatchesList: FC<HeadToHeadMatchesListProps> = ({
   homeId,
   awayId,
 }) => {
+  const navigation =
+    useNavigation<NavigationProp<TournamentsRootStackParamList>>();
   const [surface] = useAtom(selectedSurfaceAtom);
   const { user } = useContext(AuthenticationContext);
 
@@ -38,36 +43,48 @@ export const HeadToHeadMatchesList: FC<HeadToHeadMatchesListProps> = ({
     user?.email
   );
 
-  const renderItem = useCallback(
-    ({ item }: { item: MatchCardViewModel }) => {
-      return <LastMatchCard match={item} />;
-    },
-    [data]
-  );
-  const keyExtractor = useCallback(
-    (item: MatchCardViewModel) => item.id.toString(),
-    [data]
-  );
+  const renderItem = ({ item }: { item: MatchCardViewModel }) => {
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("MatchDetails", { matchId: item.id })
+        }
+      >
+        <LastMatchCard match={item} />
+      </TouchableOpacity>
+    );
+  };
+
+  const keyExtractor = (item: MatchCardViewModel) => item.id.toString();
+
+  if (isLoading || !data) {
+    return (
+      <Spinner
+        visible={true}
+        textContent="This may take a while..."
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
+
   return (
     <View>
-      {!isLoading && data ? (
-        data.matches &&
-        data.matches.length > 0 && (
-          <View>
-            <Spacer position="bottom" size="medium">
-              <Text variant="body">Matches H2H</Text>
-            </Spacer>
-            <FlatList
-              initialNumToRender={2}
-              maxToRenderPerBatch={4}
-              data={data.matches}
-              renderItem={renderItem}
-              keyExtractor={keyExtractor}
-            />
-          </View>
-        )
+      <Text variant="body">Head To Head matches</Text>
+      {data.matches && data.matches.length > 0 ? (
+        <View>
+          <Spacer position="bottom" size="medium">
+            <Text variant="body">Matches H2H</Text>
+          </Spacer>
+          <FlatList
+            initialNumToRender={2}
+            maxToRenderPerBatch={4}
+            data={data.matches}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+          />
+        </View>
       ) : (
-        <Text variant="body">Loading...</Text>
+        <NoData message="No Head2Head Matches" />
       )}
     </View>
   );

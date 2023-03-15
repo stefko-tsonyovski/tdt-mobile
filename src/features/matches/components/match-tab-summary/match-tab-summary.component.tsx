@@ -1,6 +1,7 @@
 import React, { FC } from "react";
+import Spinner from "react-native-loading-spinner-overlay/lib";
 import { DataTable } from "react-native-paper";
-import { Text } from "../../../../components/typography/text.component";
+import { colors } from "../../../../infrastructure/theme/colors";
 import {
   Player,
   useSinglePlayer,
@@ -8,19 +9,19 @@ import {
 
 export type MatchSummary = {
   homeId: number;
-  homeSets: string;
-  homeSet1: string;
-  homeSet2: string;
-  homeSet3: string;
-  homeSet4: string;
-  homeSet5: string;
+  homeSets: number;
+  homeSet1: number;
+  homeSet2: number;
+  homeSet3: number;
+  homeSet4: number;
+  homeSet5: number;
   awayId: number;
-  awaySets: string;
-  awaySet1: string;
-  awaySet2: string;
-  awaySet3: string;
-  awaySet4: string;
-  awaySet5: string;
+  awaySets: number;
+  awaySet1: number;
+  awaySet2: number;
+  awaySet3: number;
+  awaySet4: number;
+  awaySet5: number;
 };
 
 export type MatchTabSummaryProps = {
@@ -51,7 +52,13 @@ export const MatchTabSummary: FC<MatchTabSummaryProps> = ({ summary }) => {
     useSinglePlayer(awayId);
 
   if (homeIsLoading || awayIsLoading) {
-    return <Text variant="body">Loading...</Text>;
+    return (
+      <Spinner
+        visible={true}
+        textContent="This may take a while..."
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
   }
 
   const { name: homeName, country: homeCountry } = homePlayer?.player as Player;
@@ -69,26 +76,60 @@ export const MatchTabSummary: FC<MatchTabSummaryProps> = ({ summary }) => {
         <DataTable.Title style={{ maxWidth: 30 }}>5</DataTable.Title>
       </DataTable.Header>
       <DataTable.Row>
-        <DataTable.Cell>
-          {homeName} ({homeCountry}){" "}
+        <DataTable.Cell
+          textStyle={{ fontWeight: homeSets > awaySets ? "bold" : "normal" }}
+        >
+          {homeName} ({homeCountry})
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{homeSets}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{homeSet1}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{homeSet2}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{homeSet3}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{homeSet4}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{homeSet5}</DataTable.Cell>
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{ fontWeight: "bold" }}
+        >
+          {homeSets === -1 ? "n/a" : homeSets}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {homeSet1 === -1 || !homeSet1 ? "n/a" : homeSet1}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {homeSet2 === -1 || !homeSet2 ? "n/a" : homeSet2}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {homeSet3 === -1 || !homeSet3 ? "n/a" : homeSet3}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {homeSet4 === -1 || !homeSet4 ? "n/a" : homeSet4}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {homeSet5 === -1 || !homeSet5 ? "n/a" : homeSet5}
+        </DataTable.Cell>
       </DataTable.Row>
       <DataTable.Row>
-        <DataTable.Cell>
-          {awayName} ({awayCountry}){" "}
+        <DataTable.Cell
+          textStyle={{ fontWeight: awaySets > homeSets ? "bold" : "normal" }}
+        >
+          {awayName} ({awayCountry})
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{awaySets}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{awaySet1}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{awaySet2}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{awaySet3}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{awaySet4}</DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{awaySet5}</DataTable.Cell>
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{ fontWeight: "bold" }}
+        >
+          {awaySets}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {awaySet1 === -1 || !awaySet1 ? "n/a" : awaySet1}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {awaySet2 === -1 || !awaySet2 ? "n/a" : awaySet2}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {awaySet3 === -1 || !awaySet3 ? "n/a" : awaySet3}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {awaySet4 === -1 || !awaySet4 ? "n/a" : awaySet4}
+        </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>
+          {awaySet5 === -1 || !awaySet5 ? "n/a" : awaySet5}
+        </DataTable.Cell>
       </DataTable.Row>
     </DataTable>
   );

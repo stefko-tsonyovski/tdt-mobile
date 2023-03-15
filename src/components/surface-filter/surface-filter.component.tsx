@@ -17,9 +17,9 @@ export const SurfaceFilter = () => {
 
   return (
     <>
-      {surfaces.map((s) => {
+      {surfaces.map((s, index) => {
         return (
-          <Spacer position="bottom" size="small">
+          <Spacer position="bottom" size="small" key={s + index}>
             {s === surface ? (
               <Chip
                 style={{ backgroundColor: Colors.blue300 }}

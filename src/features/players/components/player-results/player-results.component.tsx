@@ -17,6 +17,8 @@ import { LastMatchesList } from "../../../matches/components/last-matches-list/l
 import { LastMatchCard } from "../../../matches/components/last-match-card/last-match-card.component";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";
+import Spinner from "react-native-loading-spinner-overlay/lib";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 type PlayerResultsProps = {
   playerId: number;
@@ -28,9 +30,6 @@ export const PlayerResults: FC<PlayerResultsProps> = ({ playerId }) => {
   const { data, isLoading } = useMatchesByPlayerGroupByTournament(playerId);
 
   const renderItemLastMatch = ({ item }: { item: MatchCardViewModel }) => {
-    console.log(item.awayPlayer.countryKey);
-    console.log(item.homePlayer.countryKey);
-
     return (
       <TouchableOpacity
         onPress={() =>
@@ -72,12 +71,18 @@ export const PlayerResults: FC<PlayerResultsProps> = ({ playerId }) => {
     item.tournament.id.toString();
 
   if (isLoading || !data) {
-    return <Text textAlign="center">Loading...</Text>;
+    return (
+      <Spinner
+        visible={true}
+        textContent="This may take a while..."
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
   }
 
   return (
     <>
-      {data.groupedMatches?.length && data.groupedMatches.length > 0 ? (
+      {data.groupedMatches && data.groupedMatches.length > 0 ? (
         <FlatList
           data={data?.groupedMatches}
           renderItem={renderItem}

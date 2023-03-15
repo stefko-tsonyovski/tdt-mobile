@@ -1,26 +1,21 @@
-import React, { useCallback } from "react";
-import { Chip } from "react-native-paper";
-import { useAtom } from "jotai";
-import { selectedRoundId } from "../../../../utils/atoms";
-import {
-  Round,
-  useAllRounds,
-} from "../../../../services/rounds/rounds.service";
-import { FlatList } from "react-native-gesture-handler";
-import { Text } from "../../../../components/typography/text.component";
+import React from "react";
+import { useAllRounds } from "../../../../services/rounds/rounds.service";
 import { RoundsList } from "../../../games/components/rounds-list/rounds-list.component";
+import Spinner from "react-native-loading-spinner-overlay/lib";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 export const MatchesRoundFilter = () => {
-  const [round, setRound] = useAtom(selectedRoundId);
   const { data, isLoading } = useAllRounds();
 
-  return (
-    <>
-      {!isLoading && data ? (
-        <RoundsList rounds={data?.rounds} />
-      ) : (
-        <Text variant="body">Loading...</Text>
-      )}
-    </>
-  );
+  if (isLoading || !data) {
+    return (
+      <Spinner
+        visible={true}
+        textContent="This may take a while..."
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
+
+  return <RoundsList rounds={data?.rounds} />;
 };

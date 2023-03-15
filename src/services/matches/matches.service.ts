@@ -13,18 +13,18 @@ export type Match = {
   date: string;
   round: string;
   winnerId: number;
-  homeSets: string;
-  awaySets: string;
-  homeSet1: string;
-  homeSet2: string;
-  homeSet3: string;
-  homeSet4: string;
-  homeSet5: string;
-  awaySet1: string;
-  awaySet2: string;
-  awaySet3: string;
-  awaySet4: string;
-  awaySet5: string;
+  homeSets: number;
+  awaySets: number;
+  homeSet1: number;
+  homeSet2: number;
+  homeSet3: number;
+  homeSet4: number;
+  homeSet5: number;
+  awaySet1: number;
+  awaySet2: number;
+  awaySet3: number;
+  awaySet4: number;
+  awaySet5: number;
   tournamentId: number;
   favoriteId?: string;
 } & MatchStatsViewModel;
@@ -87,20 +87,6 @@ export type FilterByPlayersAndSurface = {
   homeId: number;
   awayId: number;
   surface: string;
-};
-
-export type HeadToHeadMatchViewModel = {
-  id: number;
-  player: Player;
-  homePlayer: Player;
-  awayPlayer: Player;
-  homeSets: string;
-  awaySets: string;
-  winnerId: number;
-  date: string;
-  tournament: Tournament;
-  favoriteId?: string;
-  status: string;
 };
 
 export type GetMatchesViewModel = {
@@ -187,7 +173,6 @@ const getMatchesByTournamentAndDate = async (
   date?: string,
   email?: string
 ) => {
-  console.log("get matches");
   const response = await axios.get<GetMatchesViewModel>(
     `${BASE_URL}/matches/byTournamentAndDate?tournamentId=${tournamentId}&date=${date}&email=${email}`
   );
