@@ -13,23 +13,21 @@ const Stack = createStackNavigator<RankListRootStackParamList>();
 
 export const RankListNavigator = () => {
   return (
-    <SafeArea>
-      <Stack.Navigator
-        screenOptions={{
-          animationEnabled: true,
-        }}
-      >
-        <Stack.Screen
-          options={({}) => ({ title: "Rank List" })}
-          name="AllPlayers"
-          component={AllPlayers}
-        />
-        <Stack.Screen
-          options={({}) => ({ title: "Player Details" })}
-          name="PlayerDetails"
-          component={PlayerDetailsScreen}
-        />
-      </Stack.Navigator>
-    </SafeArea>
+    <Stack.Navigator
+      screenOptions={{
+        animationEnabled: true,
+      }}
+    >
+      <Stack.Screen
+        options={({}) => ({ title: "Rank List" })}
+        name="AllPlayers"
+        component={AllPlayers}
+      />
+      <Stack.Screen
+        options={({}) => ({ title: "Player Details" })}
+        name="PlayerDetails"
+        component={PlayerDetailsScreen}
+      />
+    </Stack.Navigator>
   );
 };
