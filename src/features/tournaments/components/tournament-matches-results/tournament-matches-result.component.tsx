@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from "react";
+import React, { FC } from "react";
 import {
   MatchCardViewModel,
   MatchesByRoundViewModel,
@@ -6,7 +6,11 @@ import {
 } from "../../../../services/matches/matches.service";
 import { Text } from "../../../../components/typography/text.component";
 import { MatchResultCard } from "../../../matches/components/match-result-card/match-result-card.component";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";
+import Spinner from "react-native-loading-spinner-overlay/lib";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 type TournamentMatchesResults = {
   tournamentId: number;
@@ -15,60 +19,59 @@ type TournamentMatchesResults = {
 export const TournamentMatchesResults: FC<TournamentMatchesResults> = ({
   tournamentId,
 }) => {
+  const navigation =
+    useNavigation<NavigationProp<TournamentsRootStackParamList>>();
   const { data, isLoading } = useMatchesByTournamentGroupByRound(tournamentId);
 
-  const renderItemMatches = useCallback(
-    ({ item }: { item: MatchCardViewModel }) => (
+  const renderItemMatches = ({ item }: { item: MatchCardViewModel }) => (
+    <TouchableOpacity
+      onPress={() => navigation.navigate("MatchDetails", { matchId: item.id })}
+    >
       <MatchResultCard match={item} />
-    ),
-    [data]
+    </TouchableOpacity>
   );
 
-  const keyExtractorMatches = useCallback(
-    (item: MatchCardViewModel, index: number) =>
-      item.id.toString() + index.toString(),
-    [data]
-  );
+  const keyExtractorMatches = (item: MatchCardViewModel, index: number) =>
+    item.id.toString() + index.toString();
 
-  const renderItem = useCallback(
-    ({ item }: { item: MatchesByRoundViewModel }) => {
-      return (
-        <>
-          <Text variant="body" style={{ textTransform: "uppercase" }}>
-            {item.round?.name}
-          </Text>
-          <FlatList
-            listKey={item.round?.name}
-            initialNumToRender={8}
-            maxToRenderPerBatch={16}
-            data={item.matches}
-            keyExtractor={keyExtractorMatches}
-            renderItem={renderItemMatches}
-          />
-        </>
-      );
-    },
-    []
-  );
+  const renderItem = ({ item }: { item: MatchesByRoundViewModel }) => {
+    return (
+      <>
+        <Text variant="body" style={{ textTransform: "uppercase" }}>
+          {item.round?.name}
+        </Text>
+        <FlatList
+          listKey={item.round?.name}
+          initialNumToRender={8}
+          maxToRenderPerBatch={16}
+          data={item.matches}
+          keyExtractor={keyExtractorMatches}
+          renderItem={renderItemMatches}
+        />
+      </>
+    );
+  };
 
-  const keyExtractor = useCallback(
-    (item: MatchesByRoundViewModel, index: number) => item.round?.name + index,
-    [data]
-  );
+  const keyExtractor = (item: MatchesByRoundViewModel, index: number) =>
+    item.round?.name + index;
+
+  if (isLoading || !data) {
+    return (
+      <Spinner
+        visible={true}
+        textContent="This may take a while..."
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
 
   return (
-    <>
-      {!isLoading && data ? (
-        <FlatList
-          initialNumToRender={1}
-          maxToRenderPerBatch={2}
-          data={data.groupedMatches}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-        />
-      ) : (
-        <Text variant="body">Loading...</Text>
-      )}
-    </>
+    <FlatList
+      initialNumToRender={1}
+      maxToRenderPerBatch={2}
+      data={data.groupedMatches}
+      keyExtractor={keyExtractor}
+      renderItem={renderItem}
+    />
   );
 };

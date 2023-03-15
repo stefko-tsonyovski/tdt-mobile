@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
 import React from "react";
-import { View } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import Spinner from "react-native-loading-spinner-overlay/lib";
 import { Text } from "../../../../components/typography/text.component";
 import { RankListRootStackParamList } from "../../../../infrastructure/navigation/rank-list.navigator";
+import { colors } from "../../../../infrastructure/theme/colors";
 import {
   Player,
   usePlayers,
@@ -21,7 +22,9 @@ export const AllPlayers = () => {
   const renderItem = ({ item }: { item: Player }) => {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate("PlayerDetails", { id: item.id })}
+        onPress={() =>
+          navigation.navigate("PlayerDetails", { playerId: item.id })
+        }
       >
         <PlayerCard player={item} />
       </TouchableOpacity>
@@ -29,28 +32,33 @@ export const AllPlayers = () => {
   };
 
   const keyExtractor = (item: Player) => item.id.toString();
+
+  if (isLoading || !data) {
+    return (
+      <Spinner
+        visible={true}
+        textContent="This may take a while..."
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
+
   return (
-    <View>
-      {!isLoading && data ? (
-        <FlatList
-          initialNumToRender={16}
-          maxToRenderPerBatch={4}
-          data={data.players}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          ListHeaderComponent={() => (
-            <>
-              <CurrentWeek />
-              <HeadingBarContainer>
-                <Text variant="body">#</Text>
-                <Text variant="body">POINTS</Text>
-              </HeadingBarContainer>
-            </>
-          )}
-        />
-      ) : (
-        <Text variant="body">Loading...</Text>
+    <FlatList
+      initialNumToRender={30}
+      maxToRenderPerBatch={20}
+      data={data.players}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+      ListHeaderComponent={() => (
+        <>
+          <CurrentWeek />
+          <HeadingBarContainer>
+            <Text variant="body">#</Text>
+            <Text variant="body">POINTS</Text>
+          </HeadingBarContainer>
+        </>
       )}
-    </View>
+    />
   );
 };

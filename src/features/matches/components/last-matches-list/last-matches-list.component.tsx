@@ -2,10 +2,12 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
 import React, { FC, useContext } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay/lib";
+import { NoData } from "../../../../components/no-data/no-data.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
-import { SafeArea } from "../../../../components/utility/safe-area.component";
 import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";
+import { colors } from "../../../../infrastructure/theme/colors";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import {
   MatchCardViewModel,
@@ -48,24 +50,32 @@ export const LastMatchesList: FC<LastMatchesListProps> = ({
 
   const keyExtractor = (item: MatchCardViewModel) => item.id.toString();
 
-  return !isLoading && data ? (
-    data.matches && data.matches.length ? (
-      <View>
-        <Spacer position="bottom" size="medium">
-          <Text variant="body">Last matches: {data.player?.name}</Text>
-        </Spacer>
-        <FlatList
-          initialNumToRender={2}
-          maxToRenderPerBatch={4}
-          data={data.matches}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-        />
-      </View>
-    ) : (
-      <></>
-    )
-  ) : (
-    <Text variant="body">Loading...</Text>
+  if (isLoading || !data) {
+    return (
+      <Spinner
+        visible={true}
+        textContent="This may take a while..."
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
+
+  return (
+    <>
+      <Text variant="body">Last matches: {data.player?.name}</Text>
+      {data.matches && data.matches.length ? (
+        <View>
+          <FlatList
+            initialNumToRender={2}
+            maxToRenderPerBatch={4}
+            data={data.matches}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+          />
+        </View>
+      ) : (
+        <NoData message="No Matches" />
+      )}
+    </>
   );
 };

@@ -6,6 +6,7 @@ import { LastMatchesList } from "../last-matches-list/last-matches-list.componen
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { HeadToHeadMatchesList } from "../head-to-head-matches-list/head-to-head-matches-list.component";
 import { SurfaceFilter } from "../../../../components/surface-filter/surface-filter.component";
+import { Spacer } from "../../../../components/spacer/spacer.component";
 
 type MatchHeadToHeadProps = {
   id: number;
@@ -20,7 +21,11 @@ export const MatchTabHeadToHead: FC<MatchHeadToHeadProps> = ({
 }) => {
   const players = [homeId, awayId];
   const renderItem = ({ item }: { item: number }) => {
-    return <LastMatchesList matchId={id} playerId={item} />;
+    return (
+      <Spacer position="top" size="large">
+        <LastMatchesList matchId={id} playerId={item} />
+      </Spacer>
+    );
   };
   const keyExtractor = (item: number) => item.toString();
 
@@ -31,7 +36,15 @@ export const MatchTabHeadToHead: FC<MatchHeadToHeadProps> = ({
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         ListHeaderComponent={SurfaceFilter}
-        ListFooterComponent={HeadToHeadMatchesList}
+        ListFooterComponent={
+          <Spacer position="top" size="large">
+            <HeadToHeadMatchesList
+              matchId={id}
+              homeId={homeId}
+              awayId={awayId}
+            />
+          </Spacer>
+        }
       />
     </>
   );

@@ -1,8 +1,10 @@
 import React, { FC } from "react";
 import { View, StyleSheet } from "react-native";
 import CountryFlag from "react-native-country-flag";
+import Spinner from "react-native-loading-spinner-overlay/lib";
 import { Card, Colors } from "react-native-paper";
 import { Text } from "../../../../components/typography/text.component";
+import { colors } from "../../../../infrastructure/theme/colors";
 import { useSingleTournament } from "../../../../services/tournaments/tournaments.service";
 import {
   HeadingCardTitle,
@@ -17,30 +19,36 @@ export const TournamentMatchHeading: FC<TournamentMatchHeadingProps> = ({
   tournamentId,
 }) => {
   const { data, isLoading } = useSingleTournament(tournamentId);
+
+  if (isLoading || !data) {
+    return (
+      <Spinner
+        visible={true}
+        textContent="This may take a while..."
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
   return (
     <HeadingContainer>
-      {!isLoading && data ? (
-        <Card>
-          <HeadingCardTitle
-            left={() => (
-              <CountryFlag isoCode={data.tournament.countryKey} size={25} />
-            )}
-            titleStyle={styles.title}
-            title={
-              <>
-                <Text style={styles.country} variant="body">
-                  {data.tournament.countryName}:{"  "}
-                </Text>
-                <Text variant="body" style={styles.details}>
-                  {`${data.tournament.name},  ${data.tournament.surface}`}
-                </Text>
-              </>
-            }
-          />
-        </Card>
-      ) : (
-        <Text variant="body">Loading....</Text>
-      )}
+      <Card>
+        <HeadingCardTitle
+          left={() => (
+            <CountryFlag isoCode={data.tournament.countryKey} size={25} />
+          )}
+          titleStyle={styles.title}
+          title={
+            <>
+              <Text style={styles.country} variant="body">
+                {data.tournament.countryName}:{"  "}
+              </Text>
+              <Text variant="body" style={styles.details}>
+                {`${data.tournament.name},  ${data.tournament.surface}`}
+              </Text>
+            </>
+          }
+        />
+      </Card>
     </HeadingContainer>
   );
 };

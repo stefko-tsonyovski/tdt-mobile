@@ -14,6 +14,8 @@ import {
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Card, Colors, Divider } from "react-native-paper";
 import { PlayerResults } from "../../components/player-results/player-results.component";
+import Spinner from "react-native-loading-spinner-overlay/lib";
+import { colors } from "../../../../infrastructure/theme/colors";
 
 type PlayerDetailsScreenProps = NativeStackScreenProps<
   RankListRootStackParamList,
@@ -24,17 +26,20 @@ export const PlayerDetailsScreen: FC<PlayerDetailsScreenProps> = ({
   navigation,
   route,
 }) => {
-  const { id } = route.params;
+  const { playerId } = route.params;
 
-  const { data, isLoading } = useSinglePlayer(id);
+  const { data, isLoading } = useSinglePlayer(playerId);
 
   if (isLoading || !data) {
-    return <Text textAlign="center">Loading...</Text>;
+    return (
+      <Spinner visible={true} textStyle={{ color: colors.text.inverse }} />
+    );
   }
 
   const {
-    player: { id: playerId, name, gender, countryKey, ranking, imageUrl },
+    player: { name, gender, countryKey, ranking, imageUrl },
   } = data;
+
   return (
     <View>
       <CardHeaderPlayerContainer>

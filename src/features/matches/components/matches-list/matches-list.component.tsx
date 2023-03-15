@@ -1,12 +1,12 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { FC, useContext } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { Divider } from "react-native-paper";
+import Spinner from "react-native-loading-spinner-overlay/lib";
+import { NoData } from "../../../../components/no-data/no-data.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
-import { Text } from "../../../../components/typography/text.component";
 import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";
+import { colors } from "../../../../infrastructure/theme/colors";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import {
   MatchCardViewModel,
@@ -44,25 +44,29 @@ export const MatchesList: FC<MatchesListProps> = ({ tournamentId, date }) => {
   };
   const keyExtractor = (item: MatchCardViewModel) => item.id.toString();
 
+  if (isLoading || !data) {
+    return (
+      <Spinner
+        visible={true}
+        textContent="This may take a while..."
+        textStyle={{ color: colors.text.inverse }}
+      />
+    );
+  }
+
   return (
     <>
-      {!isLoading &&
-        data &&
-        (data.matches?.length ? (
-          <Spacer position="top" size="medium">
-            <FlatList
-              data={data.matches}
-              keyExtractor={keyExtractor}
-              renderItem={renderItem}
-            />
-          </Spacer>
-        ) : (
-          <>
-            <Divider />
-            <Text variant="body">No Matches</Text>
-            <Divider />
-          </>
-        ))}
+      {data.matches && data.matches.length > 0 ? (
+        <Spacer position="top" size="medium">
+          <FlatList
+            data={data.matches}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+          />
+        </Spacer>
+      ) : (
+        <NoData message="No Matches" />
+      )}
     </>
   );
 };
