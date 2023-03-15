@@ -41,7 +41,7 @@ export const PlayerDetailsScreen: FC<PlayerDetailsScreenProps> = ({
   } = data;
 
   return (
-    <View>
+    <>
       <CardHeaderPlayerContainer>
         <Spacer position="left" size="medium">
           <Spacer position="bottom" size="medium">
@@ -90,6 +90,6 @@ export const PlayerDetailsScreen: FC<PlayerDetailsScreenProps> = ({
       <Spacer position="top" size="large">
         <PlayerResults playerId={playerId} />
       </Spacer>
-    </View>
+    </>
   );
 };

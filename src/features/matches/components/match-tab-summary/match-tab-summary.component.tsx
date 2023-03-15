@@ -64,6 +64,8 @@ export const MatchTabSummary: FC<MatchTabSummaryProps> = ({ summary }) => {
   const { name: homeName, country: homeCountry } = homePlayer?.player as Player;
   const { name: awayName, country: awayCountry } = awayPlayer?.player as Player;
 
+  console.log(homeSets);
+
   return (
     <DataTable>
       <DataTable.Header>
@@ -85,7 +87,7 @@ export const MatchTabSummary: FC<MatchTabSummaryProps> = ({ summary }) => {
           style={{ maxWidth: 30 }}
           textStyle={{ fontWeight: "bold" }}
         >
-          {homeSets === -1 ? "n/a" : homeSets}
+          {homeSets === -1 || !homeSets ? "n/a" : homeSets}
         </DataTable.Cell>
         <DataTable.Cell style={{ maxWidth: 30 }}>
           {homeSet1 === -1 || !homeSet1 ? "n/a" : homeSet1}
@@ -113,7 +115,7 @@ export const MatchTabSummary: FC<MatchTabSummaryProps> = ({ summary }) => {
           style={{ maxWidth: 30 }}
           textStyle={{ fontWeight: "bold" }}
         >
-          {awaySets}
+          {awaySets === -1 || !awaySets ? "n/a" : awaySets}
         </DataTable.Cell>
         <DataTable.Cell style={{ maxWidth: 30 }}>
           {awaySet1 === -1 || !awaySet1 ? "n/a" : awaySet1}

@@ -35,7 +35,7 @@ export const MatchDetailsScreen: FC<MatchDetailsScreenProps> = ({
   }
 
   return (
-    <SafeArea>
+    <>
       <TouchableOpacity
         onPress={() =>
           navigation.navigate("TournamentDetails", {
@@ -55,6 +55,6 @@ export const MatchDetailsScreen: FC<MatchDetailsScreenProps> = ({
         status={data.match.status}
       />
       <MatchMenuTabs match={data.match} />
-    </SafeArea>
+    </>
   );
 };

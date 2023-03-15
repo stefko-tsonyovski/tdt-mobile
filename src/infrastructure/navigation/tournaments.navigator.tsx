@@ -17,24 +17,31 @@ const Stack = createStackNavigator<TournamentsRootStackParamList>();
 
 export const TournamentsNavigator = () => {
   return (
-    <SafeArea>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          animationEnabled: true,
-        }}
-      >
-        <Stack.Screen name="AllTournaments" component={TournamentsScreen} />
-        <Stack.Screen
-          name="TournamentDetails"
-          component={TournamentDetailsScreen}
-        />
-        <Stack.Screen
-          name="SingleTournamentMatches"
-          component={SingleTournamentMatchesScreen}
-        />
-        <Stack.Screen name="MatchDetails" component={MatchDetailsScreen} />
-      </Stack.Navigator>
-    </SafeArea>
+    <Stack.Navigator
+      screenOptions={{
+        animationEnabled: true,
+      }}
+    >
+      <Stack.Screen
+        options={({}) => ({ title: "Tournaments" })}
+        name="AllTournaments"
+        component={TournamentsScreen}
+      />
+      <Stack.Screen
+        options={({}) => ({ title: "Tournament Details" })}
+        name="TournamentDetails"
+        component={TournamentDetailsScreen}
+      />
+      <Stack.Screen
+        options={({}) => ({ title: "Tournament Matches" })}
+        name="SingleTournamentMatches"
+        component={SingleTournamentMatchesScreen}
+      />
+      <Stack.Screen
+        options={({}) => ({ title: "Match Details" })}
+        name="MatchDetails"
+        component={MatchDetailsScreen}
+      />
+    </Stack.Navigator>
   );
 };

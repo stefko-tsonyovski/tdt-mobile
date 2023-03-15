@@ -6,11 +6,11 @@ import { Spacer } from "../../../../components/spacer/spacer.component";
 
 export const TournamentsScreen = () => {
   return (
-    <SafeArea>
+    <>
       <Spacer position="bottom" size="large">
         <TournamentsFilter />
       </Spacer>
       <TournamentsList />
-    </SafeArea>
+    </>
   );
 };
