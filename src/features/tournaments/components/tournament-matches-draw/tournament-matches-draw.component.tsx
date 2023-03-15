@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
 import React, { FC } from "react";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { NoData } from "../../../../components/no-data/no-data.component";
 import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";

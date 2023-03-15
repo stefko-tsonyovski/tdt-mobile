@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
 import React from "react";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { Text } from "../../../../components/typography/text.component";
 import { RankListRootStackParamList } from "../../../../infrastructure/navigation/rank-list.navigator";

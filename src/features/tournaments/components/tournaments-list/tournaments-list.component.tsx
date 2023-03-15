@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Text } from "../../../../components/typography/text.component";
-import { Divider } from "react-native-paper";
 import {
   Tournament,
   useAllTournamentsByDate,
@@ -10,19 +9,18 @@ import { useAtom } from "jotai";
 import { selectedDateAtom } from "../../../../utils/atoms";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { TournamentItemCard } from "../tournament-item-card/tournament-item-card.component";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { NoData } from "../../../../components/no-data/no-data.component";
+import { FlatList, TouchableOpacity } from "react-native";
 
 export const TournamentsList = () => {
   const [date] = useAtom(selectedDateAtom);
   const { user } = useContext(AuthenticationContext);
   const navigation =
-    useNavigation<NativeStackNavigationProp<TournamentsRootStackParamList>>();
+    useNavigation<NavigationProp<TournamentsRootStackParamList>>();
   const { data, isLoading, isError, error } = useAllTournamentsByDate(
     date,
     user?.email

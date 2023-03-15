@@ -6,11 +6,12 @@ import {
 } from "../../../../services/matches/matches.service";
 import { Text } from "../../../../components/typography/text.component";
 import { MatchResultCard } from "../../../matches/components/match-result-card/match-result-card.component";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { FlatList, TouchableOpacity } from "react-native";
+import { NoData } from "../../../../components/no-data/no-data.component";
 
 type TournamentMatchesResults = {
   tournamentId: number;
@@ -66,12 +67,18 @@ export const TournamentMatchesResults: FC<TournamentMatchesResults> = ({
   }
 
   return (
-    <FlatList
-      initialNumToRender={1}
-      maxToRenderPerBatch={2}
-      data={data.groupedMatches}
-      keyExtractor={keyExtractor}
-      renderItem={renderItem}
-    />
+    <>
+      {data.groupedMatches && data.groupedMatches.length > 0 ? (
+        <FlatList
+          initialNumToRender={1}
+          maxToRenderPerBatch={2}
+          data={data.groupedMatches}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+        />
+      ) : (
+        <NoData message="No Results" />
+      )}
+    </>
   );
 };

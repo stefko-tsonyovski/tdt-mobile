@@ -1,19 +1,12 @@
 import React, { FC } from "react";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RankListRootStackParamList } from "../../../../infrastructure/navigation/rank-list.navigator";
+import { FlatList, TouchableOpacity } from "react-native";
 import {
-  Match,
   MatchCardViewModel,
   MatchesByTournament,
   useMatchesByPlayerGroupByTournament,
-  useMatchesByTournamentGroupByRound,
 } from "../../../../services/matches/matches.service";
-import { SafeArea } from "../../../../components/utility/safe-area.component";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { TournamentItemDetailCard } from "../../../tournaments/components/tournament-item-detail-card/tournament-item-detail-card.component";
-import { Text } from "../../../../components/typography/text.component";
 import { NoData } from "../../../../components/no-data/no-data.component";
-import { LastMatchesList } from "../../../matches/components/last-matches-list/last-matches-list.component";
 import { LastMatchCard } from "../../../matches/components/last-match-card/last-match-card.component";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { TournamentsRootStackParamList } from "../../../../infrastructure/navigation/tournaments.navigator";

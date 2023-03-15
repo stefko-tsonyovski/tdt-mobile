@@ -1,14 +1,28 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import { BASE_URL } from "../../utils/constants";
+import { Tournament } from "../tournaments/tournaments.service";
+import { Match, MatchesByTournament } from "../matches/matches.service";
 
 // Types
-type CreateFavoriteInputModel = {
+export type TournamentsByDate = {
+  date: string;
+  tournaments: MatchesByTournament[];
+};
+
+export type GetFavoriteMatchesViewModel = {
+  matchesByDate: TournamentsByDate[];
+};
+
+export type CreateFavoriteInputModel = {
   matchId: number;
   email: string;
 };
 
 // React Query Hooks
+export function useFavoriteMatchesByUser(email: string) {
+  return useQuery(["favorites", email], () => getFavoriteMatchesByUser(email));
+}
 
 export function useCreateFavorite(tournamentId?: number, date?: string) {
   const queryClient = useQueryClient();
@@ -25,6 +39,7 @@ export function useCreateFavorite(tournamentId?: number, date?: string) {
     },
     onSettled: () => {
       queryClient.invalidateQueries([`matches`]);
+      queryClient.invalidateQueries([`favorites`]);
     },
   });
 }
@@ -50,6 +65,14 @@ export function useDeleteFavorite(tournamentId?: number, date?: string) {
 }
 
 // API Methods
+const getFavoriteMatchesByUser = async (email: string) => {
+  const response = await axios.get<GetFavoriteMatchesViewModel>(
+    `${BASE_URL}/favorites?email=${email}`
+  );
+  const result = response.data;
+
+  return result;
+};
 
 const createFavorite = async (
   createFavoriteInputModel: CreateFavoriteInputModel

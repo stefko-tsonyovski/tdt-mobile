@@ -13,6 +13,7 @@ import {
   RankListRootStackParamList,
 } from "./rank-list.navigator";
 import { NavigatorScreenParams } from "@react-navigation/native";
+import { FavoritesScreen } from "../../features/favorites/screens/favorites/favorites.screen";
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -20,12 +21,14 @@ export type TabParamList = {
   Games: NavigatorScreenParams<GamesRootStackParamList>;
   Tournaments: NavigatorScreenParams<TournamentsRootStackParamList>;
   RankList: NavigatorScreenParams<RankListRootStackParamList>;
+  Favorites: undefined;
   Settings: undefined;
 };
 
 export const AppNavigator = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Tournaments"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           if (route.name === "Games") {
@@ -42,6 +45,8 @@ export const AppNavigator = () => {
             return <Ionicons name="home-outline" size={size} color={color} />;
           } else if (route.name === "RankList") {
             return <Ionicons name="trophy" size={size} color={color} />;
+          } else if (route.name === "Favorites") {
+            return <Ionicons name="star" size={size} color={color} />;
           }
         },
         tabBarActiveTintColor: colors.bg.secondary,
@@ -52,8 +57,9 @@ export const AppNavigator = () => {
         },
       })}
     >
-      <Tab.Screen name="Tournaments" component={TournamentsNavigator} />
       <Tab.Screen name="Games" component={GamesNavigator} />
+      <Tab.Screen name="Favorites" component={FavoritesScreen} />
+      <Tab.Screen name="Tournaments" component={TournamentsNavigator} />
       <Tab.Screen name="RankList" component={RankListNavigator} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
