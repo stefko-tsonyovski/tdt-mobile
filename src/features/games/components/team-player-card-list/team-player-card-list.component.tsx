@@ -15,7 +15,16 @@ import { TeamPlayerCardListContainer } from "./team-player-card-list.styles";
 import Spinner from "react-native-loading-spinner-overlay";
 import { colors } from "../../../../infrastructure/theme/colors";
 
-const countOfCards = [1, 2, 3, 4, 5, 6, 7, 8];
+const countOfCards = [
+  { id: "1cdscsd", value: 1 },
+  { id: "2dsfsc", value: 2 },
+  { id: "3fdtr", value: 3 },
+  { id: "4vdfg", value: 4 },
+  { id: "5dsvsdf", value: 5 },
+  { id: "6fdg", value: 6 },
+  { id: "7vfdgre", value: 7 },
+  { id: "8dfgdfg", value: 8 },
+];
 
 export const TeamPlayerCardList = () => {
   const { user } = useContext(AuthenticationContext);
@@ -40,23 +49,25 @@ export const TeamPlayerCardList = () => {
     <Spacer position="left" size="large">
       <TeamPlayerCardListContainer>
         {countOfCards.map((item) => {
-          return Number(playersData?.players.length) >= item ? (
+          return Number(playersData?.players.length) >= item.value ? (
             <Spacer
-              key={playersData?.players[item - 1].id}
+              key={playersData?.players[item.value - 1].id}
               position="right"
               size="large"
             >
               <Spacer position="top" size="large">
                 <View>
                   <TeamPlayerCard
-                    player={playersData?.players[item - 1] as PlayerInTeam}
-                    index={item}
+                    player={
+                      playersData?.players[item.value - 1] as PlayerInTeam
+                    }
+                    index={item.value}
                   />
                 </View>
               </Spacer>
             </Spacer>
           ) : (
-            <Spacer key={item} position="right" size="large">
+            <Spacer key={item.id} position="right" size="large">
               <Spacer position="top" size="large">
                 <View>
                   <AddPlayerCard />
