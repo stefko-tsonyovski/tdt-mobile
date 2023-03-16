@@ -21,7 +21,7 @@ export const PointsCircle: FC<PointsCircleProps> = ({
       <Circle color={color}>
         <TextContainer>
           <CircleText color={color} variant="body">
-            {points}
+            {points.toFixed(0)}
           </CircleText>
         </TextContainer>
       </Circle>

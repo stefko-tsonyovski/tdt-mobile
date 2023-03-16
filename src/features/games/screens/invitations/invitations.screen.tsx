@@ -1,5 +1,6 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
+import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 import { VerticalDivider } from "../../../../components/vertical-divider/vertical-divider.styles";
 import { GamesRootStackParamList } from "../../../../infrastructure/navigation/games.navigator";
@@ -34,6 +35,18 @@ export const InvitationsScreen = () => {
           icon="lan-disconnect"
         />
       </ButtonsContainer>
+      <Spacer position="top" size="large">
+        <Text
+          style={{
+            textAlign: "center",
+            color: colors.bg.primary,
+            fontSize: 18,
+          }}
+          variant="body"
+        >
+          COMING SOON!
+        </Text>
+      </Spacer>
     </FantasyGameScreenContainer>
   );
 };

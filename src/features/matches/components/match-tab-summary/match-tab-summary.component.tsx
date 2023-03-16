@@ -79,58 +79,130 @@ export const MatchTabSummary: FC<MatchTabSummaryProps> = ({ summary }) => {
       </DataTable.Header>
       <DataTable.Row>
         <DataTable.Cell
-          textStyle={{ fontWeight: homeSets > awaySets ? "bold" : "normal" }}
+          textStyle={{
+            fontWeight:
+              homeSets >= 0 && homeSets > awaySets ? "bold" : "normal",
+          }}
         >
           {homeName} ({homeCountry})
         </DataTable.Cell>
         <DataTable.Cell
           style={{ maxWidth: 30 }}
-          textStyle={{ fontWeight: "bold" }}
+          textStyle={{
+            fontWeight:
+              homeSets >= 0 && homeSets > awaySets ? "bold" : "normal",
+          }}
         >
-          {homeSets === -1 || !homeSets ? "n/a" : homeSets}
+          {homeSets < 0 || isNaN(homeSets) ? "-" : homeSets}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {homeSet1 === -1 || !homeSet1 ? "n/a" : homeSet1}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              homeSet1 >= 0 && homeSet1 > awaySet1 ? "bold" : "normal",
+          }}
+        >
+          {homeSet1 < 0 || isNaN(homeSet1) ? "-" : homeSet1}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {homeSet2 === -1 || !homeSet2 ? "n/a" : homeSet2}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              homeSet2 >= 0 && homeSet2 > awaySet2 ? "bold" : "normal",
+          }}
+        >
+          {homeSet2 < 0 || isNaN(homeSet2) ? "-" : homeSet2}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {homeSet3 === -1 || !homeSet3 ? "n/a" : homeSet3}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              homeSet3 >= 0 && homeSet3 > awaySet3 ? "bold" : "normal",
+          }}
+        >
+          {homeSet3 < 0 || isNaN(homeSet3) ? "-" : homeSet3}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {homeSet4 === -1 || !homeSet4 ? "n/a" : homeSet4}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              homeSet4 >= 0 && homeSet4 > awaySet4 ? "bold" : "normal",
+          }}
+        >
+          {homeSet4 < 0 || isNaN(homeSet4) ? "-" : homeSet4}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {homeSet5 === -1 || !homeSet5 ? "n/a" : homeSet5}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              homeSet5 >= 0 && homeSet5 > awaySet5 ? "bold" : "normal",
+          }}
+        >
+          {homeSet5 < 0 || isNaN(homeSet5) ? "-" : homeSet5}
         </DataTable.Cell>
       </DataTable.Row>
       <DataTable.Row>
         <DataTable.Cell
-          textStyle={{ fontWeight: awaySets > homeSets ? "bold" : "normal" }}
+          textStyle={{
+            fontWeight:
+              awaySets >= 0 && awaySets > homeSets ? "bold" : "normal",
+          }}
         >
           {awayName} ({awayCountry})
         </DataTable.Cell>
         <DataTable.Cell
           style={{ maxWidth: 30 }}
-          textStyle={{ fontWeight: "bold" }}
+          textStyle={{
+            fontWeight:
+              awaySets >= 0 && awaySets > homeSets ? "bold" : "normal",
+          }}
         >
-          {awaySets === -1 || !awaySets ? "n/a" : awaySets}
+          {awaySets < 0 || isNaN(awaySets) ? "-" : awaySets}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {awaySet1 === -1 || !awaySet1 ? "n/a" : awaySet1}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              awaySet1 >= 0 && awaySet1 > homeSet1 ? "bold" : "normal",
+          }}
+        >
+          {awaySet1 < 0 || isNaN(awaySet1) ? "-" : awaySet1}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {awaySet2 === -1 || !awaySet2 ? "n/a" : awaySet2}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              awaySet2 >= 0 && awaySet2 > homeSet2 ? "bold" : "normal",
+          }}
+        >
+          {awaySet2 < 0 || isNaN(awaySet2) ? "-" : awaySet2}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {awaySet3 === -1 || !awaySet3 ? "n/a" : awaySet3}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              awaySet3 >= 0 && awaySet3 > homeSet3 ? "bold" : "normal",
+          }}
+        >
+          {awaySet3 < 0 || isNaN(awaySet3) ? "-" : awaySet3}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {awaySet4 === -1 || !awaySet4 ? "n/a" : awaySet4}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              awaySet4 >= 0 && awaySet4 > homeSet4 ? "bold" : "normal",
+          }}
+        >
+          {awaySet4 < 0 || isNaN(awaySet4) ? "-" : awaySet4}
         </DataTable.Cell>
-        <DataTable.Cell style={{ maxWidth: 30 }}>
-          {awaySet5 === -1 || !awaySet5 ? "n/a" : awaySet5}
+        <DataTable.Cell
+          style={{ maxWidth: 30 }}
+          textStyle={{
+            fontWeight:
+              awaySet5 >= 0 && awaySet5 > homeSet5 ? "bold" : "normal",
+          }}
+        >
+          {awaySet5 < 0 || isNaN(awaySet5) ? "-" : awaySet5}
         </DataTable.Cell>
       </DataTable.Row>
     </DataTable>
