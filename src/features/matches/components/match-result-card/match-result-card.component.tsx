@@ -37,9 +37,17 @@ export const MatchResultCard: FC<MatchResultCardProps> = ({ match }) => {
           <PlayerContainer>
             <PlayerName>
               {homeId === winnerId ? (
-                <TextWinner variant="body">{`${homePlayer.name} (${homePlayer.ranking})`}</TextWinner>
+                <TextWinner variant="body">
+                  {homePlayer
+                    ? `${homePlayer.name} (${homePlayer.ranking})`
+                    : "No home player"}
+                </TextWinner>
               ) : (
-                <Text variant="body">{`${homePlayer.name} (${homePlayer.ranking})`}</Text>
+                <Text variant="body">
+                  {homePlayer
+                    ? `${homePlayer.name} (${homePlayer.ranking})`
+                    : "No home player"}
+                </Text>
               )}
             </PlayerName>
             <PlayerSets>
@@ -53,9 +61,17 @@ export const MatchResultCard: FC<MatchResultCardProps> = ({ match }) => {
           <PlayerContainer>
             <PlayerName>
               {awayId === winnerId ? (
-                <TextWinner variant="body">{`${awayPlayer.name} (${awayPlayer.ranking})`}</TextWinner>
+                <TextWinner variant="body">
+                  {awayPlayer
+                    ? `${awayPlayer.name} (${awayPlayer.ranking})`
+                    : "No away player"}
+                </TextWinner>
               ) : (
-                <Text variant="body">{`${awayPlayer.name} (${awayPlayer.ranking})`}</Text>
+                <Text variant="body">
+                  {awayPlayer
+                    ? `${awayPlayer.name} (${awayPlayer.ranking})`
+                    : "No away player"}
+                </Text>
               )}
             </PlayerName>
             <PlayerSets>

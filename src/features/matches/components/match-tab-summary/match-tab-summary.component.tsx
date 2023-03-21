@@ -64,8 +64,6 @@ export const MatchTabSummary: FC<MatchTabSummaryProps> = ({ summary }) => {
   const { name: homeName, country: homeCountry } = homePlayer?.player as Player;
   const { name: awayName, country: awayCountry } = awayPlayer?.player as Player;
 
-  console.log(homeSets);
-
   return (
     <DataTable>
       <DataTable.Header>

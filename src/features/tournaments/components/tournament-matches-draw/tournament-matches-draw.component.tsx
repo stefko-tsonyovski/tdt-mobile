@@ -30,11 +30,19 @@ export const TournamentMatchesDraw: FC<TournamentMatchesDrawProps> = ({
   );
 
   const renderItem = ({ item }: { item: MatchCardViewModel }) => (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("MatchDetails", { matchId: item.id })}
-    >
-      <MatchResultCard match={item} />
-    </TouchableOpacity>
+    <>
+      {item.homeId > 0 && item.awayId > 0 ? (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("MatchDetails", { matchId: item.id })
+          }
+        >
+          <MatchResultCard match={item} />
+        </TouchableOpacity>
+      ) : (
+        <MatchResultCard match={item} />
+      )}
+    </>
   );
 
   const keyExtractor = (item: MatchCardViewModel) => item.id.toString();
