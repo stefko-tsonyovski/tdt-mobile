@@ -144,7 +144,7 @@ export const BracketsCard: FC<BracketsCardProps> = ({ bracket, picks }) => {
                   bracket={bracket}
                   variant="body"
                 >
-                  {homePlayer && homePlayer.name}
+                  {homePlayer ? homePlayer.name : "No home player"}
                   {homePlayer && `(${homePlayer.ranking})`}
                 </PlayerText>
                 <View>
@@ -176,7 +176,7 @@ export const BracketsCard: FC<BracketsCardProps> = ({ bracket, picks }) => {
                   bracket={bracket}
                   variant="body"
                 >
-                  {awayPlayer && awayPlayer.name}
+                  {awayPlayer ? awayPlayer.name : "No away player"}
                   {awayPlayer && `(${awayPlayer.ranking})`}
                 </PlayerText>
                 {picks.some((p) => p.bracketId === bracket._id) ? (
