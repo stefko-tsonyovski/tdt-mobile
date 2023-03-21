@@ -159,7 +159,6 @@ export function useCreatePrediction() {
         "You successfully created the prediction! Waiting for approval..."
       );
       console.log(
-        "error",
         "You successfully created the prediction! Waiting for approval..."
       );
     },
