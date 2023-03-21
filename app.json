@@ -2,7 +2,7 @@
   "expo": {
     "name": "TennisDreamTeam",
     "slug": "TennisDreamTeam",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "orientation": "portrait",
     "icon": "https://res.cloudinary.com/dcvkhhwth/image/upload/v1678827075/external-tennis-sport-wanicon-flat-wanicon_hpfgm1.png",
     "userInterfaceStyle": "light",
@@ -24,7 +24,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.stefkonoisyboy.TennisDreamTeam",
-      "versionCode": 3
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"
