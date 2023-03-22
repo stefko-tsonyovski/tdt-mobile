@@ -40,6 +40,7 @@ export function useCreateFavorite(tournamentId?: number, date?: string) {
     onSettled: () => {
       queryClient.invalidateQueries([`matches`]);
       queryClient.invalidateQueries([`favorites`]);
+      queryClient.invalidateQueries([`tournaments`]);
     },
   });
 }
@@ -58,8 +59,9 @@ export function useDeleteFavorite(tournamentId?: number, date?: string) {
       console.log(error);
     },
     onSettled: () => {
-      queryClient.invalidateQueries([`matches`]);
       queryClient.invalidateQueries([`favorites`]);
+      queryClient.invalidateQueries([`matches`]);
+      queryClient.invalidateQueries([`tournaments`]);
     },
   });
 }

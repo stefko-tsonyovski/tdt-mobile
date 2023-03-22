@@ -20,7 +20,6 @@ import {
 } from "../../../../services/matches/matches.service";
 import { MatchCard } from "../../../matches/components/match-card/match-card.component";
 import { DetailCard } from "../../../tournaments/components/tournament-detail-card/tournament-detail-card.styles";
-import { FavoritesContainer } from "../../components/favorites/favorites.styles";
 
 export const FavoritesScreen = () => {
   const navigation = useNavigation<NavigationProp<TabParamList>>();
@@ -109,8 +108,11 @@ export const FavoritesScreen = () => {
     return (
       <Spacer position="bottom" size="large">
         <>
-          <Spacer position="bottom" size="medium">
+          <Spacer position="left" size="large">
             <Text style={{ fontWeight: "bold" }}>{date}</Text>
+          </Spacer>
+          <Spacer position="bottom" size="medium">
+            <></>
           </Spacer>
           <FlatList
             listKey={date}
@@ -139,13 +141,13 @@ export const FavoritesScreen = () => {
   const { matchesByDate } = data;
   return (
     <SafeArea>
-      <FavoritesContainer>
+      <Spacer position="top" size="xl">
         <FlatList
           data={matchesByDate}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
         />
-      </FavoritesContainer>
+      </Spacer>
     </SafeArea>
   );
 };

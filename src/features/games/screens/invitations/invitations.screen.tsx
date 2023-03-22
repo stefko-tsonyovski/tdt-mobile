@@ -1,5 +1,5 @@
+import React, { useContext, useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import React from "react";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 import { VerticalDivider } from "../../../../components/vertical-divider/vertical-divider.styles";
@@ -10,9 +10,27 @@ import {
   ButtonsContainer,
   GrowIconButton,
 } from "../../components/menu/menu.styles";
+import { TextInput } from "react-native-paper";
+import { Button, View } from "react-native";
+import { useSendInvitation } from "../../../../services/invitations/invitations.service";
+import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 
 export const InvitationsScreen = () => {
   const navigation = useNavigation<NavigationProp<GamesRootStackParamList>>();
+  const { user } = useContext(AuthenticationContext);
+  const [receiverEmail, setReceiverEmail] = useState("");
+  const { mutate: sendInvitation } = useSendInvitation();
+
+  const handleSend = () => {
+    console.log(receiverEmail);
+
+    const sendInvitationInputModel = {
+      receiverEmail,
+      senderEmail: user?.email,
+    };
+
+    sendInvitation(sendInvitationInputModel);
+  };
 
   return (
     <FantasyGameScreenContainer>
@@ -36,16 +54,19 @@ export const InvitationsScreen = () => {
         />
       </ButtonsContainer>
       <Spacer position="top" size="large">
-        <Text
-          style={{
-            textAlign: "center",
-            color: colors.bg.primary,
-            fontSize: 18,
-          }}
-          variant="body"
-        >
-          COMING SOON!
-        </Text>
+        <View>
+          <Text textAlign="center">INVITE OTHERS</Text>
+        </View>
+      </Spacer>
+      <Spacer position="top" size="large">
+        <TextInput
+          label="Email"
+          value={receiverEmail}
+          onChangeText={setReceiverEmail}
+        />
+      </Spacer>
+      <Spacer position="top" size="large">
+        <Button title="Send" color={colors.bg.primary} onPress={handleSend} />
       </Spacer>
     </FantasyGameScreenContainer>
   );
