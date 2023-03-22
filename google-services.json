@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "725913731439",
+    "project_id": "tennisdreamteam-e535e",
+    "storage_bucket": "tennisdreamteam-e535e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725913731439:android:b529104acb94e8d9e0689a",
+        "android_client_info": {
+          "package_name": "com.stefkonoisyboy.TennisDreamTeam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725913731439-qaca1g9l6qupq5fsq71u5kova0l46895.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaeQPufF7t47NvmLtaeGxj69HDMmyLcOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725913731439-qaca1g9l6qupq5fsq71u5kova0l46895.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
