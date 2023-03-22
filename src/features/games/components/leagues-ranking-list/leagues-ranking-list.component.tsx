@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { View } from "react-native";
 import { Button, Searchbar } from "react-native-paper";
 import { Elevation } from "../../../../components/elevation/elevation.styles";
