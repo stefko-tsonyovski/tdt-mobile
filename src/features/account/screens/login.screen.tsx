@@ -15,8 +15,6 @@ import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { View } from "react-native";
-import { registerForPushNotificationsAsync } from "../../../../App";
-import { useSubscribeForPushNotifications } from "../../../services/user-tokens/user-tokens.service";
 
 export type LoginScreenProps = NativeStackScreenProps<
   AccountRootStackParamList,
@@ -28,9 +26,6 @@ export const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const { onLogin, error, isLoading } = useContext(AuthenticationContext);
 
-  const { user } = useContext(AuthenticationContext);
-  const { mutate: subscribeForPushNotifications } =
-    useSubscribeForPushNotifications();
   return (
     <AccountBackground>
       <AccountCover />
@@ -69,13 +64,6 @@ export const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
               mode="contained"
               onPress={() => {
                 onLogin(email, password);
-
-                registerForPushNotificationsAsync().then((token) => {
-                  subscribeForPushNotifications({
-                    email,
-                    token: token as string,
-                  });
-                });
               }}
             >
               Login
