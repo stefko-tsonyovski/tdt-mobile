@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { View } from "react-native";
+import { FlatList, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -16,6 +16,7 @@ import { Card, Colors, Divider } from "react-native-paper";
 import { PlayerResults } from "../../components/player-results/player-results.component";
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { colors } from "../../../../infrastructure/theme/colors";
+import { PlayerHeadingCard } from "../../components/player-heading-card/player-heading-card.component";
 
 type PlayerDetailsScreenProps = NativeStackScreenProps<
   RankListRootStackParamList,
@@ -23,7 +24,6 @@ type PlayerDetailsScreenProps = NativeStackScreenProps<
 >;
 
 export const PlayerDetailsScreen: FC<PlayerDetailsScreenProps> = ({
-  navigation,
   route,
 }) => {
   const { playerId } = route.params;
@@ -42,53 +42,21 @@ export const PlayerDetailsScreen: FC<PlayerDetailsScreenProps> = ({
 
   return (
     <>
-      <CardHeaderPlayerContainer>
-        <Spacer position="left" size="medium">
-          <Spacer position="bottom" size="medium">
-            <CountryFlag size={25} isoCode={countryKey} />
-          </Spacer>
-        </Spacer>
-        <Card
-          style={{
-            backgroundColor: "transparent",
-            elevation: 0,
-          }}
-        >
-          <Card.Title
-            left={() => <PlayerImage source={{ uri: imageUrl }} />}
-            titleStyle={{
-              marginLeft: 15,
-            }}
-            titleNumberOfLines={2}
-            title={name}
-          />
-        </Card>
-        <Divider />
-        <Spacer position="top" size="medium">
-          <View style={{ flexDirection: "row" }}>
-            <Spacer position="right" size="small">
-              <Ionicons
-                style={{
-                  backgroundColor: "white",
-                  padding: 5,
-                  borderRadius: 5,
-                }}
-                name="cellular"
-                size={20}
-                color={Colors.grey700}
-              />
-            </Spacer>
-            <Text>
-              {gender === "male" ? `ATP: ${ranking}` : `WTA: ${ranking}`}
-            </Text>
-          </View>
-        </Spacer>
-      </CardHeaderPlayerContainer>
       <Spacer position="top" size="large">
-        <Text textAlign="center">Results</Text>
-      </Spacer>
-      <Spacer position="top" size="large">
-        <PlayerResults playerId={playerId} />
+        <FlatList
+          ListHeaderComponent={
+            <PlayerHeadingCard
+              name={name}
+              gender={gender}
+              countryKey={countryKey}
+              ranking={ranking}
+              imageUrl={imageUrl}
+            />
+          }
+          data={[]}
+          renderItem={null}
+          ListFooterComponent={<PlayerResults playerId={playerId} />}
+        />
       </Spacer>
     </>
   );
