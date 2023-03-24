@@ -23,6 +23,7 @@ import {
   GrowIconButton,
 } from "../../components/menu/menu.styles";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Banner } from "../../../../components/banner/banner.component";
 
 export const LeagueDetailsScreen = () => {
   const navigation = useNavigation<NavigationProp<GamesRootStackParamList>>();
@@ -42,6 +43,8 @@ export const LeagueDetailsScreen = () => {
         />
       ) : (
         <ScrollView showsVerticalScrollIndicator>
+          <Banner />
+
           <ButtonsContainer>
             <GrowIconButton
               onPress={() => navigation.navigate("Leagues")}

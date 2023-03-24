@@ -16,6 +16,7 @@ import { Button } from "react-native-paper";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { PredictionsWithoutAnswerList } from "../../components/predictions-without-asnwer-list/predictions-without-answer-list.component";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Banner } from "../../../../components/banner/banner.component";
 
 export type PredictionsGameScreenProps = NativeStackScreenProps<
   PredictionsGameRootStackParamList,
@@ -43,6 +44,7 @@ export const PredictionsGameScreen: FC<PredictionsGameScreenProps> = ({
         />
       ) : usersData?.role === "user" ? (
         <>
+          <Banner />
           <PredictionsToolbar navigation={navigation} route={route} />
 
           <Spacer position="top" size="large">

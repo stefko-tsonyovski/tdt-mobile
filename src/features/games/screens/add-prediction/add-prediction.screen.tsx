@@ -3,7 +3,7 @@ import { Text } from "../../../../components/typography/text.component";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { PredictionsGameRootStackParamList } from "../../../../infrastructure/navigation/predictions-game.navigator";
 import { colors } from "../../../../infrastructure/theme/colors";
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useState, useEffect } from "react";
 import { FantasyGameScreenContainer } from "../../components/games.styles";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { View, ScrollView } from "react-native";
@@ -12,11 +12,22 @@ import { PREDICTION_CONTENT_MAX_LENGTH } from "../../../../utils/constants";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { useCreatePrediction } from "../../../../services/predictions/predictions.service";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Banner } from "../../../../components/banner/banner.component";
+
+import {
+  AdEventType,
+  InterstitialAd,
+  TestIds,
+} from "react-native-google-mobile-ads";
 
 export type PredictionsGameScreenProps = NativeStackScreenProps<
   PredictionsGameRootStackParamList,
   "AddPrediction"
 >;
+
+const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL, {
+  requestNonPersonalizedAdsOnly: true,
+});
 
 export const AddPredictionScreen: FC<PredictionsGameScreenProps> = ({
   navigation,
@@ -26,6 +37,7 @@ export const AddPredictionScreen: FC<PredictionsGameScreenProps> = ({
 
   const { user } = useContext(AuthenticationContext);
   const [text, setText] = useState("");
+  const [interstitialLoaded, setInterstitialLoaded] = useState(false);
 
   const handleSubmit = () => {
     const inputModel = {
@@ -35,7 +47,40 @@ export const AddPredictionScreen: FC<PredictionsGameScreenProps> = ({
 
     createPrediction(inputModel);
     navigation.navigate("PredictionsMain");
+
+    if (interstitialLoaded) {
+      interstitial.show();
+    }
   };
+
+  const loadInterstitial = () => {
+    const unsubscribeLoaded = interstitial.addAdEventListener(
+      AdEventType.LOADED,
+      () => {
+        setInterstitialLoaded(true);
+      }
+    );
+
+    const unsubscribeClosed = interstitial.addAdEventListener(
+      AdEventType.CLOSED,
+      () => {
+        setInterstitialLoaded(false);
+      }
+    );
+
+    interstitial.load();
+
+    return () => {
+      unsubscribeClosed();
+      unsubscribeLoaded();
+    };
+  };
+
+  useEffect(() => {
+    const unsubscribeInterstitialEvents = loadInterstitial();
+
+    return unsubscribeInterstitialEvents;
+  }, []);
 
   if (isLoading) {
     return (
@@ -169,6 +214,8 @@ export const AddPredictionScreen: FC<PredictionsGameScreenProps> = ({
             CANCEL
           </Button>
         )}
+
+        <Banner />
       </ScrollView>
     </FantasyGameScreenContainer>
   );

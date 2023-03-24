@@ -17,6 +17,7 @@ import { Modal, Portal, Button, Switch } from "react-native-paper";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { GamesRootStackParamList } from "../../../infrastructure/navigation/games.navigator";
 import { colors } from "../../../infrastructure/theme/colors";
+import { Banner } from "../../../components/banner/banner.component";
 
 export type GamesScreenProps = NativeStackScreenProps<
   GamesRootStackParamList,
@@ -41,6 +42,9 @@ export const GamesScreen: FC<GamesScreenProps> = ({ navigation, route }) => {
     <SafeArea>
       <GamesContainer>
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Spacer position="top" size="large">
+            <View></View>
+          </Spacer>
           <FantasyGameCard navigation={navigation} route={route} />
           <Spacer position="top" size="large">
             <PredictBracketContainer>
@@ -160,6 +164,7 @@ export const GamesScreen: FC<GamesScreenProps> = ({ navigation, route }) => {
           <Spacer position="top" size="large">
             <Dashboard />
           </Spacer>
+          <Banner />
         </ScrollView>
       </GamesContainer>
     </SafeArea>

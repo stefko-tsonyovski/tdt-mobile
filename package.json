@@ -22,6 +22,7 @@
     "camelize": "^1.0.0",
     "deprecated-react-native-prop-types": "^3.0.1",
     "expo": "~47.0.12",
+    "expo-dev-client": "~2.0.1",
     "expo-device": "~5.0.0",
     "expo-font": "~11.0.1",
     "expo-modules-core": "~1.0.4 || ~1.1.1",
@@ -35,6 +36,7 @@
     "react-native": "0.70.5",
     "react-native-country-flag": "^1.1.9",
     "react-native-gesture-handler": "~2.8.0",
+    "react-native-google-mobile-ads": "^10.0.1",
     "react-native-loading-spinner-overlay": "^3.0.1",
     "react-native-modal-datetime-picker": "^14.0.1",
     "react-native-paper": "^4.12.5",
@@ -46,8 +48,7 @@
     "react-native-web": "~0.18.9",
     "react-native-webview": "11.23.1",
     "react-query": "^3.39.3",
-    "styled-components": "^5.2.1",
-    "expo-dev-client": "~2.0.1"
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

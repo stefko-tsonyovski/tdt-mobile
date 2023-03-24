@@ -6,6 +6,7 @@ import {
 } from "@react-navigation/native";
 import React from "react";
 import { ScrollView, View } from "react-native";
+import { Banner } from "../../../../components/banner/banner.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { VerticalDivider } from "../../../../components/vertical-divider/vertical-divider.styles";
 import { GamesRootStackParamList } from "../../../../infrastructure/navigation/games.navigator";
@@ -25,6 +26,7 @@ export const RequestsScreen = () => {
   return (
     <FantasyGameScreenContainer>
       <ScrollView showsVerticalScrollIndicator>
+        <Banner />
         <ButtonsContainer>
           <GrowIconButton
             onPress={() => navigation.navigate("Leagues")}

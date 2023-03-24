@@ -1,5 +1,6 @@
 import React from "react";
 import { ScrollView } from "react-native";
+import { Banner } from "../../../../components/banner/banner.component";
 import { HorizontalDivider } from "../../../../components/horizontal-divider/horizontal-divider.styles";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
@@ -14,6 +15,8 @@ export const BracketGameScreen = () => {
   return (
     <FantasyGameScreenContainer>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Banner />
+
         <Spacer position="top" size="small">
           <WeeksMenu />
         </Spacer>

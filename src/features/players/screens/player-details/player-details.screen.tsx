@@ -17,6 +17,7 @@ import { PlayerResults } from "../../components/player-results/player-results.co
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { PlayerHeadingCard } from "../../components/player-heading-card/player-heading-card.component";
+import { Banner } from "../../../../components/banner/banner.component";
 
 type PlayerDetailsScreenProps = NativeStackScreenProps<
   RankListRootStackParamList,
@@ -42,6 +43,7 @@ export const PlayerDetailsScreen: FC<PlayerDetailsScreenProps> = ({
 
   return (
     <>
+      <Banner />
       <Spacer position="top" size="large">
         <FlatList
           ListHeaderComponent={

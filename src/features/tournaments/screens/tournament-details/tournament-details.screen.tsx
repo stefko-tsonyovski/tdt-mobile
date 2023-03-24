@@ -4,6 +4,7 @@ import { TournamentsRootStackParamList } from "../../../../infrastructure/naviga
 import { SafeArea } from "../../../../components/utility/safe-area.component";
 import { TournamentDetailCard } from "../../components/tournament-detail-card/tournament-detail-card.component";
 import { TournamentDetailMenuTabs } from "../../components/tournament-detail-menu-tabs/tournament-detail-menu-tabs.component";
+import { Banner } from "../../../../components/banner/banner.component";
 
 interface Props
   extends StackScreenProps<
@@ -16,6 +17,7 @@ export const TournamentDetailsScreen: FC<Props> = ({ route, navigation }) => {
 
   return (
     <>
+      <Banner />
       <TournamentDetailCard tournamentId={tournamentId} />
       <TournamentDetailMenuTabs tournamentId={tournamentId} />
     </>

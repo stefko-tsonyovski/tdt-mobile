@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollView } from "react-native";
 import { Divider } from "react-native-paper";
+import { Banner } from "../../../../components/banner/banner.component";
 import { HorizontalDivider } from "../../../../components/horizontal-divider/horizontal-divider.styles";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { SafeArea } from "../../../../components/utility/safe-area.component";
@@ -18,6 +19,8 @@ export const FantasyGameScreen = () => {
   return (
     <FantasyGameScreenContainer>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Banner />
+
         <Spacer position="top" size="small">
           <WeeksMenu />
         </Spacer>
