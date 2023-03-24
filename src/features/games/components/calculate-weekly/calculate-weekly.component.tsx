@@ -1,20 +1,65 @@
 import { useAtom } from "jotai";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Button } from "react-native-paper";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
 import { useCalculateWeekly } from "../../../../services/players/players.service";
 import { selectedWeekAtom } from "../../../../utils/atoms";
 import Spinner from "react-native-loading-spinner-overlay";
+import {
+  AdEventType,
+  InterstitialAd,
+  TestIds,
+} from "react-native-google-mobile-ads";
+
+const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL, {
+  requestNonPersonalizedAdsOnly: true,
+});
 
 export const CalculateWeekly = () => {
   const { user } = useContext(AuthenticationContext);
   const [selected] = useAtom(selectedWeekAtom);
 
+  const [interstitialLoaded, setInterstitialLoaded] = useState(false);
+
   const { mutate: calculateWeekly, isLoading } = useCalculateWeekly();
 
-  const calculateWeeklyHandler = () =>
+  const calculateWeeklyHandler = () => {
     calculateWeekly({ weekId: selected.value, email: user.email });
+
+    if (interstitialLoaded) {
+      interstitial.show();
+    }
+  };
+
+  const loadInterstitial = () => {
+    const unsubscribeLoaded = interstitial.addAdEventListener(
+      AdEventType.LOADED,
+      () => {
+        setInterstitialLoaded(true);
+      }
+    );
+
+    const unsubscribeClosed = interstitial.addAdEventListener(
+      AdEventType.CLOSED,
+      () => {
+        setInterstitialLoaded(false);
+      }
+    );
+
+    interstitial.load();
+
+    return () => {
+      unsubscribeClosed();
+      unsubscribeLoaded();
+    };
+  };
+
+  useEffect(() => {
+    const unsubscribeInterstitialEvents = loadInterstitial();
+
+    return unsubscribeInterstitialEvents;
+  }, []);
 
   if (isLoading) {
     return (

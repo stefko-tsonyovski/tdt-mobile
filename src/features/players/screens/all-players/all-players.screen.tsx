@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/ty
 import React from "react";
 import { FlatList, TouchableOpacity } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay/lib";
+import { Banner } from "../../../../components/banner/banner.component";
 import { Text } from "../../../../components/typography/text.component";
 import { RankListRootStackParamList } from "../../../../infrastructure/navigation/rank-list.navigator";
 import { colors } from "../../../../infrastructure/theme/colors";
@@ -44,21 +45,24 @@ export const AllPlayers = () => {
   }
 
   return (
-    <FlatList
-      initialNumToRender={30}
-      maxToRenderPerBatch={20}
-      data={data.players}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      ListHeaderComponent={() => (
-        <>
-          <CurrentWeek />
-          <HeadingBarContainer>
-            <Text variant="body">#</Text>
-            <Text variant="body">POINTS</Text>
-          </HeadingBarContainer>
-        </>
-      )}
-    />
+    <>
+      <Banner />
+      <FlatList
+        initialNumToRender={30}
+        maxToRenderPerBatch={20}
+        data={data.players}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        ListHeaderComponent={() => (
+          <>
+            <CurrentWeek />
+            <HeadingBarContainer>
+              <Text variant="body">#</Text>
+              <Text variant="body">POINTS</Text>
+            </HeadingBarContainer>
+          </>
+        )}
+      />
+    </>
   );
 };

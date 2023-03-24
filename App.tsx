@@ -20,6 +20,7 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 import { Subscription } from "expo-modules-core";
+import { Banner } from "./src/components/banner/banner.component";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDGLt0aZcnRCCbaJhbPbB8GBfICzfl9Lq4",

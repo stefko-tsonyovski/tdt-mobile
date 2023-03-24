@@ -6,6 +6,7 @@ import {
 } from "@react-navigation/native";
 import React from "react";
 import { ScrollView, View } from "react-native";
+import { Banner } from "../../../../components/banner/banner.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { UsersRootStackParamList } from "../../../../infrastructure/navigation/users.navigator";
 import { FantasyGameScreenContainer } from "../../components/games.styles";
@@ -19,6 +20,7 @@ export const TeamByUser = () => {
   return (
     <FantasyGameScreenContainer>
       <ScrollView showsVerticalScrollIndicator>
+        <Banner />
         <WeeksMenu />
 
         <Spacer position="top" size="xl">

@@ -14,6 +14,7 @@ import { TextInput } from "react-native-paper";
 import { Button, View } from "react-native";
 import { useSendInvitation } from "../../../../services/invitations/invitations.service";
 import { AuthenticationContext } from "../../../../services/authentication/authentication.context";
+import { Banner } from "../../../../components/banner/banner.component";
 
 export const InvitationsScreen = () => {
   const navigation = useNavigation<NavigationProp<GamesRootStackParamList>>();
@@ -68,6 +69,8 @@ export const InvitationsScreen = () => {
       <Spacer position="top" size="large">
         <Button title="Send" color={colors.bg.primary} onPress={handleSend} />
       </Spacer>
+
+      <Banner />
     </FantasyGameScreenContainer>
   );
 };

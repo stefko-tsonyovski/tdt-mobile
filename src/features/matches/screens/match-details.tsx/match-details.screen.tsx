@@ -10,6 +10,7 @@ import { MatchMenuTabs } from "../../components/match-menu-tabs/match-menu-tabs.
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { TouchableOpacity } from "react-native";
+import { Banner } from "../../../../components/banner/banner.component";
 
 export type MatchDetailsScreenProps = NativeStackScreenProps<
   TournamentsRootStackParamList,
@@ -36,6 +37,7 @@ export const MatchDetailsScreen: FC<MatchDetailsScreenProps> = ({
 
   return (
     <>
+      <Banner />
       <TouchableOpacity
         onPress={() =>
           navigation.navigate("TournamentDetails", {

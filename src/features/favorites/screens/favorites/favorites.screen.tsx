@@ -4,6 +4,7 @@ import { View, TouchableOpacity, FlatList } from "react-native";
 import CountryFlag from "react-native-country-flag";
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { Card, Colors } from "react-native-paper";
+import { Banner } from "../../../../components/banner/banner.component";
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { Text } from "../../../../components/typography/text.component";
 import { SafeArea } from "../../../../components/utility/safe-area.component";
@@ -148,6 +149,7 @@ export const FavoritesScreen = () => {
           keyExtractor={keyExtractor}
         />
       </Spacer>
+      <Banner />
     </SafeArea>
   );
 };
