@@ -4,11 +4,12 @@ import styled from "styled-components/native";
 import { Text } from "../../../../components/typography/text.component";
 
 export const TeamPlayerCardContainer = styled(View)`
-  height: 150px;
-  width: 150px;
+  max-height: 150px;
+  max-width: 150px;
   background-color: ${(props) => props.theme.colors.ui.card};
-  padding: 5px;
   border-radius: 10px;
+  margin: 0 5px;
+  padding: 5px;
 `;
 
 export const CardHeaderContainer = styled(View)`

@@ -12,9 +12,12 @@ import {
   TestIds,
 } from "react-native-google-mobile-ads";
 
-const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL, {
-  requestNonPersonalizedAdsOnly: true,
-});
+const interstitial = InterstitialAd.createForAdRequest(
+  "ca-app-pub-5197865720618713/8328502805",
+  {
+    requestNonPersonalizedAdsOnly: true,
+  }
+);
 
 export const CalculateWeekly = () => {
   const { user } = useContext(AuthenticationContext);

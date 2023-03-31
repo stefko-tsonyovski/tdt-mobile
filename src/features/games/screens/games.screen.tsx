@@ -45,6 +45,9 @@ export const GamesScreen: FC<GamesScreenProps> = ({ navigation, route }) => {
           <Spacer position="top" size="large">
             <View></View>
           </Spacer>
+
+          <Banner />
+
           <FantasyGameCard navigation={navigation} route={route} />
           <Spacer position="top" size="large">
             <PredictBracketContainer>
@@ -164,7 +167,6 @@ export const GamesScreen: FC<GamesScreenProps> = ({ navigation, route }) => {
           <Spacer position="top" size="large">
             <Dashboard />
           </Spacer>
-          <Banner />
         </ScrollView>
       </GamesContainer>
     </SafeArea>

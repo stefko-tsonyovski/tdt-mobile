@@ -147,9 +147,9 @@ export const FavoritesScreen = () => {
           data={matchesByDate}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
+          ListHeaderComponent={<Banner />}
         />
       </Spacer>
-      <Banner />
     </SafeArea>
   );
 };

@@ -109,7 +109,7 @@ export const PlayersSidebar = () => {
                 ) : Number(filteredPlayers?.players.length) > 0 ? (
                   <FlatList
                     ref={flatListRef}
-                    style={{ height: 100 }}
+                    style={{ height: 400 }}
                     data={filteredPlayers?.players as Player[]}
                     keyExtractor={(item, index) => {
                       return item._id + index;

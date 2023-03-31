@@ -15,6 +15,7 @@ import Spinner from "react-native-loading-spinner-overlay/lib";
 import { colors } from "../../../../infrastructure/theme/colors";
 import { NoData } from "../../../../components/no-data/no-data.component";
 import { FlatList, TouchableOpacity } from "react-native";
+import { Banner } from "../../../../components/banner/banner.component";
 
 export const TournamentsList = () => {
   const [date] = useAtom(selectedDateAtom);
@@ -60,17 +61,15 @@ export const TournamentsList = () => {
 
   return (
     <>
-      {data.tournaments && data.tournaments.length > 0 ? (
-        <FlatList
-          initialNumToRender={8}
-          maxToRenderPerBatch={16}
-          data={data.tournaments}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-        />
-      ) : (
-        <NoData message="No Tournaments" />
-      )}
+      <FlatList
+        initialNumToRender={8}
+        maxToRenderPerBatch={16}
+        data={data.tournaments}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+        ListHeaderComponent={<Banner />}
+        ListEmptyComponent={<NoData message="No Tournaments" />}
+      />
     </>
   );
 };

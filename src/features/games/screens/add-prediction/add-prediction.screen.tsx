@@ -25,9 +25,12 @@ export type PredictionsGameScreenProps = NativeStackScreenProps<
   "AddPrediction"
 >;
 
-const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL, {
-  requestNonPersonalizedAdsOnly: true,
-});
+const interstitial = InterstitialAd.createForAdRequest(
+  "ca-app-pub-5197865720618713/8328502805",
+  {
+    requestNonPersonalizedAdsOnly: true,
+  }
+);
 
 export const AddPredictionScreen: FC<PredictionsGameScreenProps> = ({
   navigation,
@@ -95,6 +98,8 @@ export const AddPredictionScreen: FC<PredictionsGameScreenProps> = ({
   return (
     <FantasyGameScreenContainer>
       <ScrollView showsVerticalScrollIndicator>
+        <Banner />
+
         <Text
           style={{
             textAlign: "center",
@@ -214,8 +219,6 @@ export const AddPredictionScreen: FC<PredictionsGameScreenProps> = ({
             CANCEL
           </Button>
         )}
-
-        <Banner />
       </ScrollView>
     </FantasyGameScreenContainer>
   );

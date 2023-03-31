@@ -35,6 +35,8 @@ export const InvitationsScreen = () => {
 
   return (
     <FantasyGameScreenContainer>
+      <Banner />
+
       <ButtonsContainer>
         <GrowIconButton
           onPress={() => navigation.navigate("Leagues")}
@@ -69,8 +71,6 @@ export const InvitationsScreen = () => {
       <Spacer position="top" size="large">
         <Button title="Send" color={colors.bg.primary} onPress={handleSend} />
       </Spacer>
-
-      <Banner />
     </FantasyGameScreenContainer>
   );
 };

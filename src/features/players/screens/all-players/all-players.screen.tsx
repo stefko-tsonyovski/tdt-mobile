@@ -46,7 +46,6 @@ export const AllPlayers = () => {
 
   return (
     <>
-      <Banner />
       <FlatList
         initialNumToRender={30}
         maxToRenderPerBatch={20}
@@ -55,6 +54,7 @@ export const AllPlayers = () => {
         keyExtractor={keyExtractor}
         ListHeaderComponent={() => (
           <>
+            <Banner />
             <CurrentWeek />
             <HeadingBarContainer>
               <Text variant="body">#</Text>
