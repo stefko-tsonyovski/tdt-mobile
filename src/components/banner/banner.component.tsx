@@ -13,7 +13,7 @@ export const Banner = () => {
       <Spacer position="top" size="large">
         <BannerContainer>
           <BannerAd
-            unitId={TestIds.BANNER}
+            unitId="ca-app-pub-5197865720618713/8994469797"
             size={BannerAdSize.BANNER}
             requestOptions={{
               requestNonPersonalizedAdsOnly: true,

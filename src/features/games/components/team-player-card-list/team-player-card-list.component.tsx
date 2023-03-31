@@ -46,37 +46,29 @@ export const TeamPlayerCardList = () => {
   }
 
   return (
-    <Spacer position="left" size="large">
-      <TeamPlayerCardListContainer>
-        {countOfCards.map((item) => {
-          return Number(playersData?.players.length) >= item.value ? (
-            <Spacer
-              key={playersData?.players[item.value - 1].id}
-              position="right"
-              size="large"
-            >
-              <Spacer position="top" size="large">
-                <View>
-                  <TeamPlayerCard
-                    player={
-                      playersData?.players[item.value - 1] as PlayerInTeam
-                    }
-                    index={item.value}
-                  />
-                </View>
-              </Spacer>
-            </Spacer>
-          ) : (
-            <Spacer key={item.id} position="right" size="large">
-              <Spacer position="top" size="large">
-                <View>
-                  <AddPlayerCard />
-                </View>
-              </Spacer>
-            </Spacer>
-          );
-        })}
-      </TeamPlayerCardListContainer>
-    </Spacer>
+    <TeamPlayerCardListContainer>
+      {countOfCards.map((item) => {
+        return Number(playersData?.players.length) >= item.value ? (
+          <Spacer
+            key={playersData?.players[item.value - 1].id}
+            position="top"
+            size="large"
+          >
+            <View>
+              <TeamPlayerCard
+                player={playersData?.players[item.value - 1] as PlayerInTeam}
+                index={item.value}
+              />
+            </View>
+          </Spacer>
+        ) : (
+          <Spacer key={item.id} position="top" size="large">
+            <View>
+              <AddPlayerCard />
+            </View>
+          </Spacer>
+        );
+      })}
+    </TeamPlayerCardListContainer>
   );
 };

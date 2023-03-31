@@ -27,7 +27,6 @@ export const TournamentsScreen = () => {
         <TournamentsFilter />
       </Spacer>
       <TournamentsList />
-      <Banner />
     </>
   );
 };
